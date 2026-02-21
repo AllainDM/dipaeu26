@@ -6,6 +6,7 @@ const img = document.getElementById("img");
 const start_war_tech = document.getElementById("start-war-tech");
 const start_ekonom_tech = document.getElementById("start-ekonom-tech");
 const rassadka = document.getElementById("rassadka");
+const ekonom_tech = document.getElementById("ekonom-tech");
 
 
 const buildings = document.getElementById("buildings");
@@ -74,6 +75,12 @@ start_ekonom_tech.addEventListener("click",() => {
 
 rassadka.addEventListener("click",() => {
     img.src="tables/Rassadka.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
+
+ekonom_tech.addEventListener("click",() => {
+    img.src="tables/Vse_ekonom_innovatsii.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
