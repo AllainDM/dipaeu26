@@ -1,17 +1,22 @@
 console.log("Скрипт странички с таблицами успешно загружен")
 
 const img = document.getElementById("img");
+
+
+const start_war_tech = document.getElementById("start-war-tech");
+const start_ekonom_tech = document.getElementById("start-ekonom-tech");
+const rassadka = document.getElementById("rassadka");
+
+
 const buildings = document.getElementById("buildings");
 const fpvp = document.getElementById("fpVp");
 const size = document.getElementById("size");
 const hRE = document.getElementById("hRE");
 const fp2 = document.getElementById("fp2");
 const tech = document.getElementById("tech");
-const start_war_tech = document.getElementById("start-war-tech");
 const etnosy = document.getElementById("etnosy");
 const religion = document.getElementById("religion");
 const cult_tradition = document.getElementById("cult_tradition");
-
 const perki_praviteley = document.getElementById("perki_praviteley");
 const unik_postroyki = document.getElementById("unik_postroyki");
 const sovetniki = document.getElementById("sovetniki");
@@ -57,6 +62,18 @@ const strany = document.getElementById("strany");
 
 start_war_tech.addEventListener("click",() => {
     img.src="tables/Nach_voenn_tekh.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
+
+start_ekonom_tech.addEventListener("click",() => {
+    img.src="tables/Nach_ekonom_tekh.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
+
+rassadka.addEventListener("click",() => {
+    img.src="tables/Rassadka.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
