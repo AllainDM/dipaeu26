@@ -78,6 +78,7 @@ rassadka.addEventListener("click",() => {
     img.style.height = "80%"
 });
 
+
 // fp2.addEventListener("click",() => {
 //     img.src="tables/FP2.jpg"
 //     img.style.width = "80%"

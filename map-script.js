@@ -9,6 +9,7 @@ const ethic = document.getElementById("ethic");
 const religion = document.getElementById("religion");
 const climate = document.getElementById("climate");
 const goroda = document.getElementById("goroda");
+const tts = document.getElementById("tts");
 
 img.addEventListener("click",() => {
     if (imgSize == 1) {
@@ -48,6 +49,10 @@ ethic.addEventListener("click",() => {
 climate.addEventListener("click",() => {
     img.src="maps/climate.png"
 })
+
+tts.addEventListener("click",() => {
+    img.src="maps/Karta_TTs.png"
+});
 
 // goroda.addEventListener("click",() => {
 //     img.src="maps/goroda.png"
