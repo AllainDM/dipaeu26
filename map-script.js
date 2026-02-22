@@ -10,6 +10,7 @@ const religion = document.getElementById("religion");
 const climate = document.getElementById("climate");
 const goroda = document.getElementById("goroda");
 const tts = document.getElementById("tts");
+const hre = document.getElementById("hre");
 
 img.addEventListener("click",() => {
     if (imgSize == 1) {
@@ -53,6 +54,11 @@ climate.addEventListener("click",() => {
 tts.addEventListener("click",() => {
     img.src="maps/Karta_TTs.png"
 });
+
+hre.addEventListener("click",() => {
+    img.src="maps/Karta_SRI.png"
+});
+
 
 // goroda.addEventListener("click",() => {
 //     img.src="maps/goroda.png"
