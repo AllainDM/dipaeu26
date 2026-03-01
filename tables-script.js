@@ -10,6 +10,7 @@ const ekonom_tech = document.getElementById("ekonom-tech");
 const cult_tradicii = document.getElementById("cult_tradicii");
 const cult_level = document.getElementById("cult_level");
 const arch_style = document.getElementById("arch_style");
+const religii = document.getElementById("religii");
 
 
 const buildings = document.getElementById("buildings");
@@ -104,6 +105,12 @@ arch_style.addEventListener("click",() => {
     img.src="tables/arch_style.jpg"
     img.style.width = "80%"
     img.style.height = "80%"
+});
+
+religii.addEventListener("click",() => {
+    img.src="tables/religii.png"
+    img.style.width = "100%"
+    img.style.height = "100%"
 });
 
 // fp2.addEventListener("click",() => {
