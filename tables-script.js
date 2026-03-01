@@ -8,6 +8,8 @@ const start_ekonom_tech = document.getElementById("start-ekonom-tech");
 const rassadka = document.getElementById("rassadka");
 const ekonom_tech = document.getElementById("ekonom-tech");
 const cult_tradicii = document.getElementById("cult_tradicii");
+const cult_level = document.getElementById("cult_level");
+const arch_style = document.getElementById("arch_style");
 
 
 const buildings = document.getElementById("buildings");
@@ -88,6 +90,18 @@ ekonom_tech.addEventListener("click",() => {
 
 cult_tradicii.addEventListener("click",() => {
     img.src="tables/Kulturnye_traditsii.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
+
+cult_level.addEventListener("click",() => {
+    img.src="tables/cult_level.jpg"
+    img.style.width = "40%"
+    img.style.height = "40%"
+});
+
+arch_style.addEventListener("click",() => {
+    img.src="tables/arch_style.jpg"
     img.style.width = "80%"
     img.style.height = "80%"
 });
