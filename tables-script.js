@@ -11,6 +11,7 @@ const cult_tradicii = document.getElementById("cult_tradicii");
 const cult_level = document.getElementById("cult_level");
 const arch_style = document.getElementById("arch_style");
 const religii = document.getElementById("religii");
+const eresi = document.getElementById("eresi");
 
 
 const buildings = document.getElementById("buildings");
@@ -109,6 +110,11 @@ arch_style.addEventListener("click",() => {
 
 religii.addEventListener("click",() => {
     img.src="tables/religii.png"
+    img.style.width = "100%"
+    img.style.height = "100%"
+});
+eresi.addEventListener("click",() => {
+    img.src="tables/eresi.png"
     img.style.width = "100%"
     img.style.height = "100%"
 });
