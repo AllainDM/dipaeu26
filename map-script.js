@@ -6,7 +6,7 @@ const igroki = document.getElementById("igroki");
 const polit = document.getElementById("polit");
 const resources = document.getElementById("resources");
 const ethic = document.getElementById("ethic");
-const religion = document.getElementById("religion");
+const religion = document.getElementById("relig");
 const climate = document.getElementById("climate");
 const goroda = document.getElementById("goroda");
 const tts = document.getElementById("tts");
@@ -43,9 +43,9 @@ ethic.addEventListener("click",() => {
     img.src="maps/ethic.png"
 })
 
-// religion.addEventListener("click",() => {
-//     img.src="maps/religion.png"
-// })
+religion.addEventListener("click",() => {
+    img.src="maps/religion.png"
+})
 
 climate.addEventListener("click",() => {
     img.src="maps/climate.png"
