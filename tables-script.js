@@ -34,7 +34,7 @@ const weather = document.getElementById("weather");
 const tovary = document.getElementById("tovary");
 // const mercenaries = document.getElementById("mercenaries");
 const strany = document.getElementById("strany");
-
+const orden = document.getElementById("orden");
 
 // buildings.addEventListener("click",() => {
 //     img.src="tables/buildings.png"
@@ -68,6 +68,12 @@ const strany = document.getElementById("strany");
 
 start_war_tech.addEventListener("click",() => {
     img.src="tables/Nach_voenn_tekh.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
+
+orden.addEventListener("click",() => {
+    img.src="tables/orden.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
