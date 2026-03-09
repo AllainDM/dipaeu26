@@ -125,11 +125,12 @@ eresi.addEventListener("click",() => {
     img.style.height = "100%"
 });
 
-// fp2.addEventListener("click",() => {
-//     img.src="tables/FP2.jpg"
-//     img.style.width = "80%"
-//     img.style.height = "80%"
-// });
+FP.addEventListener("click",() => {
+    img.src="tables/FP.png
+    "
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
 
 // etnosy.addEventListener("click",() => {
 //     img.src="tables/etns.png"
