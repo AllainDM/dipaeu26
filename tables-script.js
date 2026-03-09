@@ -126,8 +126,7 @@ eresi.addEventListener("click",() => {
 });
 
 FP.addEventListener("click",() => {
-    img.src="tables/FP.png
-    "
+    img.src="tables/FP.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
