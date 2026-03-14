@@ -35,6 +35,16 @@ const tovary = document.getElementById("tovary");
 // const mercenaries = document.getElementById("mercenaries");
 const strany = document.getElementById("strany");
 const orden = document.getElementById("orden");
+const vse_tekhnologii = document.getElementById("vse_tekhnologii");
+const prestupnost = document.getElementById("prestupnost");
+const vse_voenn_innovatsii = document.getElementById("vse_voenn_innovatsii");
+const nach_sots_pol_innovatsii = document.getElementById("nach_sots_pol_innovatsii");
+const vse_sots_pol_innovatsii = document.getElementById("vse_sots_pol_innovatsii");
+const perki_praviteli = document.getElementById("perki_praviteli");
+
+// const vse_tekhnologii = document.getElementById("vse_tekhnologii");
+// const vse_tekhnologii = document.getElementById("vse_tekhnologii");
+// const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 
 // buildings.addEventListener("click",() => {
 //     img.src="tables/buildings.png"
@@ -70,6 +80,12 @@ start_war_tech.addEventListener("click",() => {
     img.src="tables/Nach_voenn_tekh.png"
     img.style.width = "80%"
     img.style.height = "80%"
+});
+
+vse_voenn_innovatsii.addEventListener("click",() => {
+    img.src="tables/vse_voenn_innovatsii.png"
+    img.style.width = "60%"
+    img.style.height = "60"
 });
 
 orden.addEventListener("click",() => {
@@ -131,11 +147,35 @@ FP.addEventListener("click",() => {
     img.style.height = "80%"
 });
 
-// etnosy.addEventListener("click",() => {
-//     img.src="tables/etns.png"
-//     img.style.width = "60%"
-//     img.style.height = "60%"
-// });
+vse_tekhnologii.addEventListener("click",() => {
+    img.src="tables/vse_tekhnologii.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
+
+prestupnost.addEventListener("click",() => {
+    img.src="tables/prestupnost.png"
+    img.style.width = "50%"
+    img.style.height = "50"
+});
+
+nach_sots_pol_innovatsii.addEventListener("click",() => {
+    img.src="tables/nach_sots_pol_innovatsii.png"
+    img.style.width = "90%"
+    img.style.height = "90"
+});
+
+vse_sots_pol_innovatsii.addEventListener("click",() => {
+    img.src="tables/vse_sots_pol_innovatsii.png"
+    img.style.width = "90%"
+    img.style.height = "90"
+});
+
+perki_praviteli.addEventListener("click",() => {
+    img.src="tables/perki_praviteli.png"
+    img.style.width = "40%"
+    img.style.height = "40"
+});
 
 // religion.addEventListener("click",() => {
 //     img.src="tables/religion.png"

@@ -11,6 +11,7 @@ const climate = document.getElementById("climate");
 const goroda = document.getElementById("goroda");
 const tts = document.getElementById("tts");
 const hre = document.getElementById("hre");
+const regions = document.getElementById("regions");
 
 img.addEventListener("click",() => {
     if (imgSize == 1) {
@@ -57,6 +58,10 @@ tts.addEventListener("click",() => {
 
 hre.addEventListener("click",() => {
     img.src="maps/Karta_SRI.png"
+});
+
+regions.addEventListener("click",() => {
+    img.src="maps/Karta_regionov.png"
 });
 
 
