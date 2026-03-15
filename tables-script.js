@@ -41,6 +41,7 @@ const vse_voenn_innovatsii = document.getElementById("vse_voenn_innovatsii");
 const nach_sots_pol_innovatsii = document.getElementById("nach_sots_pol_innovatsii");
 const vse_sots_pol_innovatsii = document.getElementById("vse_sots_pol_innovatsii");
 const perki_praviteli = document.getElementById("perki_praviteli");
+const vse_zakony = document.getElementById("vse_zakony");
 
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
@@ -156,25 +157,31 @@ vse_tekhnologii.addEventListener("click",() => {
 prestupnost.addEventListener("click",() => {
     img.src="tables/prestupnost.png"
     img.style.width = "50%"
-    img.style.height = "50"
+    img.style.height = "50%"
 });
 
 nach_sots_pol_innovatsii.addEventListener("click",() => {
     img.src="tables/nach_sots_pol_innovatsii.png"
     img.style.width = "90%"
-    img.style.height = "90"
+    img.style.height = "90%"
 });
 
 vse_sots_pol_innovatsii.addEventListener("click",() => {
     img.src="tables/vse_sots_pol_innovatsii.png"
     img.style.width = "90%"
-    img.style.height = "90"
+    img.style.height = "90%"
 });
 
 perki_praviteli.addEventListener("click",() => {
     img.src="tables/perki_praviteli.png"
     img.style.width = "40%"
-    img.style.height = "40"
+    img.style.height = "40%"
+});
+
+vse_zakony.addEventListener("click",() => {
+    img.src="tables/vse_zakony.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
 });
 
 // religion.addEventListener("click",() => {
