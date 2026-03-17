@@ -43,6 +43,7 @@ const vse_sots_pol_innovatsii = document.getElementById("vse_sots_pol_innovatsii
 const perki_praviteli = document.getElementById("perki_praviteli");
 const vse_zakony = document.getElementById("vse_zakony");
 const vassals = document.getElementById("vassals");
+const razmer_locacii = document.getElementById("razmer_locacii");
 
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
@@ -187,6 +188,12 @@ vse_zakony.addEventListener("click",() => {
 
 vassals.addEventListener("click",() => {
     img.src="tables/vassals.png"
+    img.style.width = "40%"
+    img.style.height = "40%"
+});
+
+razmer_locacii.addEventListener("click",() => {
+    img.src="tables/razmer_locacii.png"
     img.style.width = "40%"
     img.style.height = "40%"
 });
