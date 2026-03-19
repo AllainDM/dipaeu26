@@ -44,6 +44,7 @@ const perki_praviteli = document.getElementById("perki_praviteli");
 const vse_zakony = document.getElementById("vse_zakony");
 const vassals = document.getElementById("vassals");
 const razmer_locacii = document.getElementById("razmer_locacii");
+const vse_postroyki = document.getElementById("vse_postroyki");
 
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
@@ -196,6 +197,11 @@ razmer_locacii.addEventListener("click",() => {
     img.src="tables/razmer_locacii.png"
     img.style.width = "40%"
     img.style.height = "40%"
+});
+vse_postroyki.addEventListener("click",() => {
+    img.src="tables/vse_postroyki.png"
+    img.style.width = "90"
+    img.style.height = "90%"
 });
 
 // religion.addEventListener("click",() => {
