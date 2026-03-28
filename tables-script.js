@@ -47,6 +47,7 @@ const razmer_locacii = document.getElementById("razmer_locacii");
 const vse_postroyki = document.getElementById("vse_postroyki");
 const naim = document.getElementById("naim");
 const stroitelstvo = document.getElementById("stroitelstvo");
+const perki_personazhey = document.getElementById("perki_personazhey");
 
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
@@ -221,6 +222,12 @@ naim.addEventListener("click",() => {
 
 stroitelstvo.addEventListener("click",() => {
     img.src="tables/stroitelstvo.png"
+    img.style.width = "50%"
+    img.style.height = "50%"
+});
+
+perki_personazhey.addEventListener("click",() => {
+    img.src="tables/perki_personazhey.png"
     img.style.width = "50%"
     img.style.height = "50%"
 });
