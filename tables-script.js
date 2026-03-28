@@ -45,6 +45,8 @@ const vse_zakony = document.getElementById("vse_zakony");
 const vassals = document.getElementById("vassals");
 const razmer_locacii = document.getElementById("razmer_locacii");
 const vse_postroyki = document.getElementById("vse_postroyki");
+const naim = document.getElementById("naim");
+const stroitelstvo = document.getElementById("stroitelstvo");
 
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
@@ -198,10 +200,29 @@ razmer_locacii.addEventListener("click",() => {
     img.style.width = "40%"
     img.style.height = "40%"
 });
+
 vse_postroyki.addEventListener("click",() => {
     img.src="tables/vse_postroyki.png"
-    img.style.width = "90"
+    img.style.width = "90%"
     img.style.height = "90%"
+});
+
+unik_postroyki.addEventListener("click",() => {
+    img.src="tables/unik_postroyki.png"
+    img.style.width = "70%"
+    img.style.height = "70%"
+});
+
+naim.addEventListener("click",() => {
+    img.src="tables/naim.png"
+    img.style.width = "60%"
+    img.style.height = "60%"
+});
+
+stroitelstvo.addEventListener("click",() => {
+    img.src="tables/stroitelstvo.png"
+    img.style.width = "50%"
+    img.style.height = "50%"
 });
 
 // religion.addEventListener("click",() => {
