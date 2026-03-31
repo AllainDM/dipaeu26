@@ -48,6 +48,7 @@ const vse_postroyki = document.getElementById("vse_postroyki");
 const naim = document.getElementById("naim");
 const stroitelstvo = document.getElementById("stroitelstvo");
 const perki_personazhey = document.getElementById("perki_personazhey");
+const unit_bonus = document.getElementById("unit_bonus");
 
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
@@ -232,84 +233,8 @@ perki_personazhey.addEventListener("click",() => {
     img.style.height = "50%"
 });
 
-// religion.addEventListener("click",() => {
-//     img.src="tables/religion.png"
-//     img.style.width = "80%"
-//     img.style.height = "80%"
-// });
-
-// cult_tradition.addEventListener("click",() => {
-//     img.src="tables/cult_tradition.png"
-//     img.style.width = "75%"
-//     img.style.height = "75%"
-// });
-
-
-
-
-
-
-// perki_praviteley.addEventListener("click",() => {
-//     img.src="tables/perki_praviteley.png"
-//     img.style.width = "40%"
-//     img.style.height = "40%"
-// });
-
-// unik_postroyki.addEventListener("click",() => {
-//     img.src="tables/unik_postroyki.png"
-//     img.style.width = "40%"
-//     img.style.height = "40%"
-// });
-
-// sovetniki.addEventListener("click",() => {
-//     img.src="tables/sovetniki.png"
-//     img.style.width = "75%"
-//     img.style.height = "75%"
-// });
-
-// prioritety_razvitia.addEventListener("click",() => {
-//     img.src="tables/prioritety_razvitia.png"
-//     img.style.width = "40%"
-//     img.style.height = "40%"
-// });
-
-// holy_places.addEventListener("click",() => {
-//     img.src="tables/holy_places.jpg"
-//     img.style.width = "40%"
-//     img.style.height = "40%"
-// });
-
-// tactics.addEventListener("click",() => {
-//     img.src="tables/tactics.jpg"
-//     img.style.width = "100%"
-//     img.style.height = "100%"
-// });
-
-// bunus_units.addEventListener("click",() => {
-//     img.src="img/bunus_units.png"
-//     img.style.width = "35%"
-//     img.style.height = "35%"
-// });
-
-// weather.addEventListener("click",() => {
-//     img.src="tables/weather.jpg"
-//     img.style.width = "75%"
-//     img.style.height = "75%"
-// });
-
-// tovary.addEventListener("click",() => {
-//     img.src="tables/goods.png"
-//     img.style.width = "55%"
-//     img.style.height = "55%"
-// });
-
-// mercenaries.addEventListener("click",() => {
-//     img.src="tables/mercenaries.jpg"
-//     img.style.width = "20%"
-//     img.style.height = "20%"
-// });
-// strany.addEventListener("click",() => {
-//     img.src="tables/strany.png"
-//     img.style.width = "55%"
-//     img.style.height = "55%"
-// });
+unit_bonus.addEventListener("click",() => {
+    img.src="tables/unit_bonus.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
