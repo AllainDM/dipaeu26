@@ -49,6 +49,7 @@ const naim = document.getElementById("naim");
 const stroitelstvo = document.getElementById("stroitelstvo");
 const perki_personazhey = document.getElementById("perki_personazhey");
 const unit_bonus = document.getElementById("unit_bonus");
+const vp = document.getElementById("vp");
 
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
@@ -235,6 +236,12 @@ perki_personazhey.addEventListener("click",() => {
 
 unit_bonus.addEventListener("click",() => {
     img.src="tables/unit_bonus.png"
+    img.style.width = "80%"
+    img.style.height = "80%"
+});
+
+vp.addEventListener("click",() => {
+    img.src="tables/vp.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
