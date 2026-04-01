@@ -50,6 +50,7 @@ const stroitelstvo = document.getElementById("stroitelstvo");
 const perki_personazhey = document.getElementById("perki_personazhey");
 const unit_bonus = document.getElementById("unit_bonus");
 const vp = document.getElementById("vp");
+// const razmer_locacii = document.getElementById("razmer_locacii");
 
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
 // const vse_tekhnologii = document.getElementById("vse_tekhnologii");
@@ -200,8 +201,8 @@ vassals.addEventListener("click",() => {
 
 razmer_locacii.addEventListener("click",() => {
     img.src="tables/razmer_locacii.png"
-    img.style.width = "40%"
-    img.style.height = "40%"
+    img.style.width = "60%"
+    img.style.height = "60%"
 });
 
 vse_postroyki.addEventListener("click",() => {
@@ -245,3 +246,9 @@ vp.addEventListener("click",() => {
     img.style.width = "80%"
     img.style.height = "80%"
 });
+
+// razmer_locacii.addEventListener("click",() => {
+//     img.src="tables/razmer_locacii.png"
+//     img.style.width = "80%"
+//     img.style.height = "80%"
+// });
