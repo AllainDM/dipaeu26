@@ -595,3 +595,7 @@ function calculateDistance() {
     // Вывод результата (аналог СЦЕПИТЬ в Excel)
     resultDiv.innerText = `Расстояние составляет ${distance} дней пути`;
 }
+
+startSelect.addEventListener('change', calculateDistance);
+endSelect.addEventListener('change', calculateDistance);
+calculateDistance();
