@@ -1,78 +1,124 @@
+/* Общие настройки страницы */
 body {
     background: rgb(225, 230, 223);
-    /* font-family: Arial, sans-serif; */
     font-family: 'Times New Roman', Times, serif;
     font-size: 18px;
-    /* width: 1024px; */
-    width: 75%;
+    width: 95%; /* Чуть расширил для удобства на разных экранах */
+    max-width: 1200px;
     margin: 0 auto;
-    
+    color: #333;
 }
 
-header {
-    /* width: 1024px; */
-    width: 100%;
-    /* width: auto; */
-    margin: 0 auto;
-}
-
-.mainmenu {
-    /* width: 1024px; */
-    width: 100%;
-    margin: 0 auto;
-}
-
+/* Меню (Твоя логика, компактная по высоте) */
 ul.mainmenu {
-	list-style: none;
-	background: #3F4137;
-	height: 60px;
-	margin: 0;
-	padding: 0;
-	color: #fdc073;
-	font-size: 20px;
-	overflow: hidden;
+    list-style: none;
+    background: #3F4137;
+    height: 50px; /* Уменьшил высоту с 60px */
+    margin: 0;
+    padding: 0;
+    color: #fdc073;
+    font-size: 18px; /* Чуть уменьшил */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
 }
+
 ul.mainmenu li {
-	float: left;
-	margin: 18px 0px 0 30px;
+    margin-left: 20px;
 }
-ul.mainmenu li.last {float: right;}
 
 ul.mainmenu li a {
-	color: #fdc073;
-	text-decoration: none;
-}
-ul.mainmenu li a:hover {
-	color: #FDA83D;
+    color: #fdc073;
+    text-decoration: none;
 }
 
-.container{
-    /* width: 1024px; */
-    width: 75%;
-	margin: 0px 20px 0px;
-}
-
-a { 
-    text-decoration: none; /* Отменяем подчеркивание у ссылки */
-	color: #473927;
-   }
-
-.map img{
+/* ТАБЛИЦА (Максимальная компактность) */
+table {
     width: 100%;
-    /* display: block;
-    margin-left: auto;
-    margin-right: auto; */
-    /* margin: 0 auto; */
+    border-collapse: collapse;
+    background: white;
+    margin: 0 auto; /* Убрал отступ сверху */
+    font-size: 14px; /* Уменьшил шрифт, чтобы влезло 30+ строк */
 }
+
+thead {
+    background: #3F4137;
+    color: #fdc073;
+}
+
+/* Высота ячеек — залог вместимости */
+th, td {
+    border: 1px solid #bcbcbc;
+    padding: 4px 2px; 
+    text-align: center;
+    line-height: 1.2;
+}
+/* th, td {
+    min-width: 44px;  
+    height: 44px;    
+    padding: 8px 4px;
+} */
+/* Сделаем ячейки статистики удобными для клика (шире) */
+th[colspan], td:nth-child(n+4) {
+    min-width: 35px; 
+}
+
+.country-col {
+    text-align: left;
+    padding-left: 8px;
+    font-weight: bold;
+    white-space: nowrap; /* Чтобы названия стран не переносились */
+}
+
+.player-link {
+    color: #473927;
+    text-decoration: none;
+}
+
+/* Цветовая индикация (более бледная, чтобы текст читался лучше) */
+.win { background-color: #e2f3e7 !important; color: #155724; font-weight: bold; }
+.loss { background-color: #fce8e9 !important; color: #721c24; }
+.neutral { background-color: #f0f0f0 !important; color: #383d41; }
+
+tbody tr:nth-child(even) { background-color: #f9f9f9; }
+tbody tr:hover { background-color: #f1f1f1; }
+
+/* Итоговая инфа тоже компактнее */
+.summary-info {
+    margin: 5px 0;
+    font-size: 14px;
+}
+.summary-info p { margin: 2px 0; }
 
 .btn {
-    margin-top: 10px;
     background-color: rgb(212, 210, 221);
-    width: 250px;
-    height: 30px;
-    border-radius: 5px;font-size: 20px;
+    color: #473927;
+    border: 1px solid #999;
+    border-radius: 5px;
+    
+    /* Оптимальные размеры */
+    height: 40px;             /* Достаточная высота для пальца */
+    padding: 0 15px;          /* Отступы по бокам, чтобы текст не прилипал */
+    margin: 4px 2px;          /* Расстояние между кнопками */
+    
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;          /* Чуть меньше, чтобы кнопка не казалась огромной */
+    cursor: pointer;
+    width: auto;              /* Кнопка подстраивается под длину текста */
 }
 
-/* table {
-    font-size: 10px;
-} */
+.btn:hover {
+    background-color: #c5c3d1; /* Легкий эффект при наведении */
+}
+
+.btn:active {
+    background-color: #FDA83D;
+    color: #3F4137;
+}
+.sortable {
+    cursor: pointer;
+    user-select: none; /* Чтобы текст не выделялся синим при кликах */
+}
+.sortable:hover {
+    background-color: #34495e; /* Немного подсветим при наведении */
+}

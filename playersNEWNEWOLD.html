@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Статистика Игроков</title>
+    <!-- <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        
+        .mainmenu { list-style: none; padding: 0; display: flex; gap: 15px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .mainmenu a { text-decoration: none; color: #0075B2; font-weight: bold; }
+
+        table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-size: 14px; }
+        
+        thead { background: #2c3e50; color: white; }
+        th, td { border: 1px solid #dee2e6; padding: 12px 8px; text-align: center; }
+        
+        .country-col { text-align: left; font-weight: bold; background: #f8f9fa; }
+        .player-link { color: #0075B2; text-decoration: none; font-weight: 500; }
+        .player-link:hover { text-decoration: underline; color: #CE242B; }
+
+        /* Цветовая разметка для удобства чтения */
+        .win { color: #28a745; font-weight: bold; }
+        .loss { color: #dc3545; }
+        .draw { color: #6c757d; }
+        
+        tbody tr:nth-child(even) { background-color: #fcfcfc; }
+        tbody tr:hover { background-color: #f1f4f9; }
+
+        .summary-info { margin-top: 20px; padding: 15px; background: #fff; border-radius: 8px; }
+    </style> -->
+</head>
+<body>
+
+    <header>
+        <ul class="mainmenu">
+            <li><a href="index.html">Правила</a></li>
+            <li><a href="turns.html">Ходы</a></li>
+            <li><a href="maps.html">Карты</a></li>
+            <li><a href="tables.html">Таблицы</a></li>
+            <li><a href="players.html">Игроки</a></li>
+            <li><a href="links.html">Ссылки</a></li>
+            <li><a href="log.html">Лог</a></li>
+        </ul>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">№</th>
+                <th rowspan="2">Страна</th>
+                <th rowspan="2">Игрок</th>
+                <th colspan="3">Захвачено локаций</th>
+                <th colspan="2">Битвы</th>
+                <th colspan="2">Объявлено войн</th>
+                <th colspan="3">Войны (итог)</th>
+            </tr>
+            <tr>
+                <th>Серые</th>
+                <th>ИИ</th>
+                <th>Игроков</th>
+                <th>Побед</th>
+                <th>Поражений</th>
+                <th>Игрокам</th>
+                <th>ИИ</th>
+                <th>Побед</th>
+                <th>Поражений</th>
+                <th>Белый мир</th>
+            </tr>
+        </thead>
+        <tbody id="player-table-body">
+            <tr><td>1</td><td class="country-col">Владимирское</td><td><a class="player-link" href="https://vk.com/busurinda" target="_blank">Дмитрий Бусурин</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>2</td><td class="country-col">Кастилия и Леон</td><td><a class="player-link" href="https://vk.com/id695796902" target="_blank">Кирилл Кан</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>3</td><td class="country-col">Сирия</td><td><a class="player-link" href="https://vk.com/hawk021" target="_blank">Алексей Хавк</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>4</td><td class="country-col">Альморавиды</td><td><a class="player-link" href="https://vk.com/demidovrv" target="_blank">Роман Демидов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>5</td><td class="country-col">Бавария</td><td><a class="player-link" href="https://vk.com/id583837594" target="_blank">Томас Ванденберг</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>6</td><td class="country-col">Норвегия</td><td><a class="player-link" href="https://vk.com/id104978" target="_blank">Александр Богданов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>7</td><td class="country-col">Венеция</td><td><a class="player-link" href="https://vk.com/dgpopov83" target="_blank">Дмитрий Попов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>8</td><td class="country-col">Генуя</td><td><a class="player-link" href="https://vk.com/a.o.krylov" target="_blank">Алексей Крылов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>9</td><td class="country-col">Иерусалимское</td><td><a class="player-link" href="https://vk.com/id162651189" target="_blank">Артём Чепайкин</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>10</td><td class="country-col">Сицилийское</td><td><a class="player-link" href="https://vk.com/id16160888" target="_blank">Леха Болгарцев</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>11</td><td class="country-col">Арагон</td><td><a class="player-link" href="https://vk.com/id1331087" target="_blank">Михаил Ладошкин</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>12</td><td class="country-col">Венгрия</td><td><a class="player-link" href="https://vk.com/zavorikin" target="_blank">Алексей Заворыкин</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>13</td><td class="country-col">Брабант</td><td><a class="player-link" href="https://vk.com/war2030" target="_blank">Андрей Корякин</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>14</td><td class="country-col">Австрия</td><td><a class="player-link" href="https://vk.com/shexpirov" target="_blank">Ромео</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>15</td><td class="country-col">Ганза</td><td><a class="player-link" href="https://vk.com/id501811382" target="_blank">Иеремия Кай</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>16</td><td class="country-col">Милан</td><td><a class="player-link" href="https://vk.com/mitir" target="_blank">Тимур Михайлов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>17</td><td class="country-col">Смоленское</td><td><a class="player-link" href="https://vk.com/grigj" target="_blank">Григорий Предтеченский</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>18</td><td class="country-col">Византия</td><td><a class="player-link" href="https://vk.com/doomchik" target="_blank">Артём Смирнов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>19</td><td class="country-col">Бургундия</td><td><a class="player-link" href="https://vk.com/a.shilo1999" target="_blank">Андрей Шило</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>20</td><td class="country-col">Кордова</td><td><a class="player-link" href="https://vk.com/serinat" target="_blank">Даниил Ранье</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>21</td><td class="country-col">Аквитания</td><td><a class="player-link" href="https://vk.com/felikco" target="_blank">Никита Козачков</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>22</td><td class="country-col">Сельджуки</td><td><a class="player-link" href="https://vk.com/id58249" target="_blank">Игорь Григоренко</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>23</td><td class="country-col">Дания</td><td><a class="player-link" href="https://vk.com/s.kurilchenko" target="_blank">Сергей Курильченко</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>24</td><td class="country-col">Саксония</td><td><a class="player-link" href="https://vk.com/enrikoyakobson" target="_blank">Генрих Яковенко</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>25</td><td class="country-col">Фатимиды</td><td><a class="player-link" href="https://vk.com/id630185319" target="_blank">Граф</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>26</td><td class="country-col">Польша</td><td><a class="player-link" href="https://vk.com/iesxil" target="_blank">Валентин Федотов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>27</td><td class="country-col">Новгород</td><td><a class="player-link" href="https://vk.com/allain" target="_blank">Сергей Куропятников</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>28</td><td class="country-col">Киев</td><td><a class="player-link" href="https://vk.com/id196514776" target="_blank">Александр Горев</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>29</td><td class="country-col">Половцы</td><td><a class="player-link" href="https://vk.com/limb948" target="_blank">Саша Доронин</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>30</td><td class="country-col">Франция</td><td><a class="player-link" href="https://vk.com/id36314489" target="_blank">Сергей Гейн</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>31</td><td class="country-col">Швеция</td><td><a class="player-link" href="https://vk.com/id79219354" target="_blank">Александр Одинцов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>32</td><td class="country-col">Шотландия</td><td><a class="player-link" href="https://vk.com/id550716962" target="_blank">Отто Шнайдер</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>33</td><td class="country-col">Англия</td><td><a class="player-link" href="https://vk.com/xypxa" target="_blank">Хурха</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>34</td><td class="country-col">Богемия</td><td><a class="player-link" href="https://vk.com/vakakii" target="_blank">Андрей Линейцев</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>35</td><td class="country-col">Литва</td><td><a class="player-link" href="https://vk.com/simply_puffin" target="_blank">Фёдор Демидович</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>36</td><td class="country-col">Рум</td><td><a class="player-link" href="https://vk.com/ertugan91" target="_blank">Ертуган Кенжебаев</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>37</td><td class="country-col">Грузия</td><td><a class="player-link" href="https://vk.com/odintsov85" target="_blank">Артур Одинцов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>38</td><td class="country-col">Тунис</td><td><a class="player-link" href="https://vk.com/madbigmek" target="_blank">Василий Косых</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>39</td><td class="country-col">Хорватия</td><td><a class="player-link" href="https://vk.com/bescherepov" target="_blank">Богдан Бесчерепов</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>40</td><td class="country-col">Сербия</td><td><a class="player-link" href="" target="_blank">...</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        </tbody>
+    </table>
+
+    <div class="summary-info">
+        <p>Стран на старте: <strong>40</strong> | Ливнуло до старта: 1 | Запилено: 0</p>
+    </div>
+
+    <script src="players.js"></script>
+</body>
+</html>
