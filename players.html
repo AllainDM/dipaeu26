@@ -55,6 +55,7 @@
                 <th colspan="2">Объявлено войн</th>
                 <th colspan="3">Войны (итог)</th>
                 <th colspan="2">Действия с ИИ</th>
+                <th rowspan="2" class="sortable" data-sort="score" style="cursor:pointer; background: #27ae60;">Очки</th>
             </tr>
             <tr>
                 <th class="sortable" data-sort="captured.gray" style="cursor:pointer">Серые</th>
@@ -73,6 +74,7 @@
                 
                 <th class="sortable" data-sort="aiActions.vassalized" style="cursor:pointer">Завассалн</th>                
                 <th class="sortable" data-sort="aiActions.annexed" style="cursor:pointer">Анекс</th>
+                
             </tr>
         </thead>
         <tbody id="player-table-body">
@@ -81,7 +83,10 @@
     </table>
 
     <div class="summary-info">
+        <!-- <hr> -->
         <p>Стран на старте: <strong>40</strong> | Ливнуло до старта: 1 | Запилено: 0</p>
+        <hr>
+        <div id="score-legend"></div>
     </div>
 
     <script src="players.js"></script>

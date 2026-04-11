@@ -462,6 +462,7 @@ function renderTable() {
             <td class="draw">${p.warsResult.peace}</td>
             <td>${p.aiActions.vassalized}</td>
             <td>${p.aiActions.annexed}</td>
+            <td style="font-weight:bold; background: #f0fff4;">${getValueByPath(p, 'score')}</td>
         </tr>
     `).join('');
 }
@@ -516,5 +517,60 @@ document.querySelectorAll('.sortable').forEach(header => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', renderTable);
+const weights = {
+    captured: { gray: 3, ai: 4, players: 5 },
+    battles: { win: 4, loss: 1 },
+    warsDeclared: { players: 15, ai: 5 },
+    warsResult: { win: 20, loss: 2, peace: 5 },
+    aiActions: { vassalized: 10, annexed: 10 }
+};
 
+function getValueByPath(obj, path) {
+    if (!path) return 0;
+    
+    if (path === 'score') {
+        return (
+            (Number(obj.captured.gray) * weights.captured.gray) +
+            (Number(obj.captured.ai) * weights.captured.ai) +
+            (Number(obj.captured.players) * weights.captured.players) +
+            (Number(obj.battles.win) * weights.battles.win) +
+            (Number(obj.battles.loss) * weights.battles.loss) +
+            (Number(obj.warsDeclared.players) * weights.warsDeclared.players) +
+            (Number(obj.warsDeclared.ai) * weights.warsDeclared.ai) +
+            (Number(obj.warsResult.win) * weights.warsResult.win) +
+            (Number(obj.warsResult.loss) * weights.warsResult.loss) +
+            (Number(obj.warsResult.peace) * weights.warsResult.peace) +
+            (Number(obj.aiActions.vassalized) * weights.aiActions.vassalized) +
+            (Number(obj.aiActions.annexed) * weights.aiActions.annexed)
+        );
+    }
+    
+    if (path === 'total_cap') {
+        return Number(obj.captured.gray) + Number(obj.captured.ai) + Number(obj.captured.players);
+    }
+    
+    const val = path.split('.').reduce((acc, part) => acc && acc[part], obj);
+    return isNaN(val) ? val : Number(val);
+}
+
+// Функция для отрисовки легенды баллов под таблицей
+function renderLegend() {
+    const legendBox = document.getElementById('score-legend');
+    if (!legendBox) return;
+
+    legendBox.innerHTML = `
+        <p><strong>Текущий баланс очков:</strong></p>
+        <ul style="column-count: 2; font-size: 13px; color: #555; list-style-type: '— ';">
+            <li>Захват: Серая (<b>${weights.captured.gray}</b>), ИИ (<b>${weights.captured.ai}</b>), Игрок (<b>${weights.captured.players}</b>)</li>
+            <li>Битва: Победа (<b>${weights.battles.win}</b>), Поражение (<b>${weights.battles.loss}</b>)</li>
+            <li>Война (объявление): Игроку (<b>${weights.warsDeclared.players}</b>), ИИ (<b>${weights.warsDeclared.ai}</b>)</li>
+            <li>Война (итог): Победа (<b>${weights.warsResult.win}</b>), Поражение (<b>${weights.warsResult.loss}</b>), Белый мир (<b>${weights.warsResult.peace}</b>)</li>
+            <li>ИИ действия: Вассализация (<b>${weights.aiActions.vassalized}</b>), Аннексия (<b>${weights.aiActions.annexed}</b>)</li>
+        </ul>
+    `;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderTable();
+    renderLegend(); 
+});
