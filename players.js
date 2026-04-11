@@ -35,8 +35,8 @@ const playersData = [
     {
         id: 4,
         country: "Альморавиды",
-        name: "Роман Демидов",
-        link: "https://vk.com/demidovrv",
+        name: "Даниил Ранье",
+        link: "https://vk.com/serinat",
         captured: { gray: 0, ai: 0, players: 0 },
         battles: { win: 0, loss: 0 },
         warsDeclared: { players: 0, ai: 0 },
@@ -134,8 +134,8 @@ const playersData = [
     {
         id: 13,
         country: "Брабант",
-        name: "Андрей Корякин",
-        link: "https://vk.com/war2030",
+        name: "Леонид Кукушкин",
+        link: "https://vk.com/leonardoangelo",
         captured: { gray: 0, ai: 0, players: 0 },
         battles: { win: 0, loss: 0 },
         warsDeclared: { players: 0, ai: 0 },
@@ -431,8 +431,8 @@ const playersData = [
     {
         id: 40,
         country: "Сербия",
-        name: "...",
-        link: "",
+        name: "Граф(вторая страна)",
+        link: "https://vk.com/id630185319",
         captured: { gray: 0, ai: 0, players: 0 },
         battles: { win: 0, loss: 0 },
         warsDeclared: { players: 0, ai: 0 },
