@@ -16,7 +16,7 @@ const playersData = [
         name: "Кирилл Кан",
         link: "https://vk.com/id695796902",
         captured: { gray: 0, ai: 0, players: 4 },
-        battles: { win: 4, loss: 0 },
+        battles: { win: 2, loss: 0 },
         warsDeclared: { players: 1, ai: 0 },
         warsResult: { win: 0, loss: 0, peace: 0 },
         aiActions: { vassalized: 0, annexed: 0 }
@@ -303,7 +303,7 @@ const playersData = [
         link: "https://vk.com/id196514776",
         captured: { gray: 0, ai: 2, players: 0 },
         battles: { win: 2, loss: 0 },
-        warsDeclared: { players: 0, ai:20 },
+        warsDeclared: { players: 0, ai:2 },
         warsResult: { win: 0, loss: 0, peace: 0 },
         aiActions: { vassalized: 0, annexed: 0 }
     },
