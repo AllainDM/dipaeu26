@@ -91,30 +91,72 @@ tbody tr:hover { background-color: #f1f1f1; }
 .summary-info p { margin: 2px 0; }
 
 .btn {
+    background-color: #ffffff; /* Белый фон для контраста */
+    color: #2c3e50;            /* Темный, читаемый текст */
+    border: 2px solid #3F4137; /* Темная рамка в цвет вашего меню */
+    border-radius: 8px;        /* Более современные скругления */
+    
+    /* Размеры для мобилок */
+    min-height: 44px;          /* Золотой стандарт для нажатия пальцем */
+    padding: 5px 15px;
+    margin: 0;                 /* Отступы теперь регулируются через gap в контейнере */
+    
+    font-family: Arial, sans-serif; /* Times New Roman плохо читается на кнопках */
+    font-size: 14px;
+    font-weight: 600;          /* Жирный текст лучше видно */
+    text-transform: none;
+    cursor: pointer;
+    
+    /* Эффект объема */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    
+    /* Чтобы текст не переносился криво */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Эффект при наведении (для ПК) */
+.btn:hover {
+    background-color: #fdf2e2;
+    border-color: #FDA83D;
+}
+
+/* Эффект при нажатии (и для активного состояния) */
+.btn:active, .btn.active {
+    background-color: #FDA83D;
+    color: #3F4137;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(1px);
+}
+
+
+/* .btn {
     background-color: rgb(212, 210, 221);
     color: #473927;
     border: 1px solid #999;
     border-radius: 5px;
     
-    /* Оптимальные размеры */
-    height: 40px;             /* Достаточная высота для пальца */
-    padding: 0 15px;          /* Отступы по бокам, чтобы текст не прилипал */
-    margin: 4px 2px;          /* Расстояние между кнопками */
+    height: 40px;             
+    padding: 0 15px;          
+    margin: 4px 2px;          
     
     font-family: 'Times New Roman', Times, serif;
-    font-size: 16px;          /* Чуть меньше, чтобы кнопка не казалась огромной */
+    font-size: 16px;          
     cursor: pointer;
-    width: auto;              /* Кнопка подстраивается под длину текста */
+    width: auto;              
 }
 
 .btn:hover {
-    background-color: #c5c3d1; /* Легкий эффект при наведении */
+    background-color: #c5c3d1; 
 }
 
 .btn:active {
     background-color: #FDA83D;
     color: #3F4137;
-}
+} */
+ 
 .sortable {
     cursor: pointer;
     user-select: none; /* Чтобы текст не выделялся синим при кликах */
