@@ -1,9 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
     <title>Ходы</title>
+    <style>
+        /* Контейнер для кнопок */
+        #turnNavigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px; 
+            padding: 10px;
+            background: #f0f0f0; 
+            border-bottom: 2px solid #ccc;
+            justify-content: flex-start;
+        }
+
+        /* Переопределяем огромные размеры твоего .btn для навигации */
+        #turnNavigation .btn {
+            min-width: auto;   /* Сбрасываем 160px */
+            flex: none;        /* Сбрасываем растягивание */
+            max-width: none;
+            padding: 5px 10px;
+            min-height: 35px;  /* Чуть компактнее по высоте */
+        }
+
+        /* Кнопки с цифрами — делаем их квадратными */
+        .nav-number {
+            width: 40px;
+            justify-content: center;
+        }
+
+        /* Кнопки Вперед/Назад — делаем чуть шире цифр */
+        .nav-wide {
+            padding: 5px 20px !important;
+        }
+
+        .map-wrapper { margin: 15px 0; text-align: left; }
+        #mainMap { max-width: 80%; border: 1px solid #000; }
+    </style>
 </head>
 <body>
     <header>
@@ -15,32 +50,30 @@
             <li><a href="players.html">Игроки</a></li>
             <li><a href="links.html">Ссылки</a></li>
             <li><a href="log.html">Лог</a></li>
-            <!-- <li><a href="feedback.html">Отзыв</a></li> -->
-        </ul>
         </ul>
     </header>
-    <div class="container">
-        <!-- <p>Игра еще не началась, ходы еще не сделаны, можно посмотреть:</p>
-        <p><a href="maps.html">Карты</a></p>
-        <p><a href="tables.html">Таблицы</a></p>
-        <p><a href="players.html">Игроки</a></p>         -->
-        <p><a href="turns/turn00.html">0-й ход (1125 г.)</a></p>
-        <p><a href="turns/turn01.html">1-й ход (1125 г.)</a></p>
-        <p><a href="turns/turn02.html">2-й ход (1130 г.)</a></p>
-        <p><a href="turns/turn03.html">3-й ход (1135 г.)</a></p>
-        <p><a href="turns/turn04.html">4-й ход (1140 г.)</a></p>
-        <p><a href="turns/turn05.html">5-й ход (1145 г.)</a></p>
-        <!-- <p><a href="turns/turn06.html">6-й ход (1150 г.)</a></p> -->
-        <!-- <p><a href="turns/turn07.html">7-й ход (1155 г.)</a></p> -->
-        <!-- <p><a href="turns/turn08.html">8-й ход (1160 г.)</a></p> -->
-        <!-- <p><a href="turns/turn09.html">9-й ход (1165 г.)</a></p> -->
-        <!-- <p><a href="turns/turn10.html">10-й ход (1170 г.)</a></p> -->
-        <!-- <p><a href="turns/turn11.html">11-й ход (1175 г.)</a></p> -->
-        <!-- <p><a href="turns/turn12.html">12-й ход (1180 г.)</a></p> -->
-        <!-- <p><a href="turns/turn13.html">13-й ход (1185 г.)</a></p> -->
-        <!-- <p><a href="turns/turn14.html">14-й ход (1190 г.)</a></p> -->
-        <!-- <p><a href="turns/turn15.html">15-й ход (1195 г.)</a></p> -->
+
+    <div id="turnNavigation"></div>
+
+    <!-- <div class="sub-nav" style="padding: 10px; background: #e1e6df;">
+        <span>События /</span>
+        <a href="#" id="tradeLink" class="player-link">Торговля</a>
+    </div>
+     -->
+    <div class="sub-nav" style="padding: 10px; background: #e1e6df; display: flex; align-items: center; gap: 40px;">
+        <div>
+            <span>События /</span>
+            <a href="#" id="tradeLink" class="player-link">Торговля</a>
+        </div>
+        <div id="turnHeader" style="font-weight: bold; font-family: 'Times New Roman', serif; font-size: 20px; color: #3F4137;"></div>
     </div>
     
+    <div class="map-wrapper">
+        <img id="mainMap" src="" alt="Карта хода">
+    </div>
+
+    <div class="container" id="contentDisplay"></div>
+
+    <script src="turns.js"></script>
 </body>
 </html>
