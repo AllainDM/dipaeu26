@@ -261,7 +261,7 @@ const playersData = [
         battles: { win: 0, loss: 0 },
         warsDeclared: { players: 0, ai: 0 },
         warsResult: { win: 0, loss: 0, peace: 0 },
-        aiActions: { vassalized: 0, annexed: 0 }
+        aiActions: { vassalized: 1, annexed: 0 }
     },
     {
         id: 25,
