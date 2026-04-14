@@ -35,8 +35,8 @@ const playersData = [
     {
         id: 4,
         country: "Альморавиды",
-        name: "-",
-        link: "",
+        name: "(Роман Демидов) - Выбыл",
+        link: "https://vk.com/demidovrv",
         captured: { gray: 0, ai: 0, players: 0 },
         battles: { win: 0, loss: 0 },
         warsDeclared: { players: 0, ai: 0 },
