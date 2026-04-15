@@ -33,7 +33,7 @@ img.addEventListener("click",() => {
 // })
 
 polit.addEventListener("click",() => {
-    img.src="maps/05.png"
+    img.src="maps/06.png"
 })
 
 resources.addEventListener("click",() => {
