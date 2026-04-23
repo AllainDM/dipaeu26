@@ -467,24 +467,32 @@ function renderTable() {
     const tableBody = document.getElementById('player-table-body');
     if (!tableBody) return;
 
+    // tableBody.innerHTML = playersData.map(p => `
+    //     <tr>
+    //         <td>${p.id}</td>
+    //         <td class="country-col">${p.country}</td>
+    //         <td><a class="player-link" href="${p.link || '#'}" target="_blank">${p.name}</a></td>
+    //         <td>${p.captured.gray}</td>
+    //         <td>${p.captured.ai}</td>
+    //         <td>${p.captured.players}</td>
+    //         <td class="win">${p.battles.win}</td>
+    //         <td class="loss">${p.battles.loss}</td>
+    //         <td>${p.warsDeclared.players}</td>
+    //         <td>${p.warsDeclared.ai}</td>
+    //         <td class="win">${p.warsResult.win}</td>
+    //         <td class="loss">${p.warsResult.loss}</td>
+    //         <td class="draw">${p.warsResult.peace}</td>
+    //         <td>${p.aiActions.vassalized}</td>
+    //         <td>${p.aiActions.annexed}</td>
+    //         <td style="font-weight:bold; background: #f0fff4;">${getValueByPath(p, 'score')}</td>
+    //     </tr>
+    // `).join('');
     tableBody.innerHTML = playersData.map(p => `
         <tr>
             <td>${p.id}</td>
             <td class="country-col">${p.country}</td>
             <td><a class="player-link" href="${p.link || '#'}" target="_blank">${p.name}</a></td>
-            <td>${p.captured.gray}</td>
-            <td>${p.captured.ai}</td>
-            <td>${p.captured.players}</td>
-            <td class="win">${p.battles.win}</td>
-            <td class="loss">${p.battles.loss}</td>
-            <td>${p.warsDeclared.players}</td>
-            <td>${p.warsDeclared.ai}</td>
-            <td class="win">${p.warsResult.win}</td>
-            <td class="loss">${p.warsResult.loss}</td>
-            <td class="draw">${p.warsResult.peace}</td>
-            <td>${p.aiActions.vassalized}</td>
-            <td>${p.aiActions.annexed}</td>
-            <td style="font-weight:bold; background: #f0fff4;">${getValueByPath(p, 'score')}</td>
+ 
         </tr>
     `).join('');
 }
@@ -580,16 +588,16 @@ function renderLegend() {
     const legendBox = document.getElementById('score-legend');
     if (!legendBox) return;
 
-    legendBox.innerHTML = `
-        <p><strong>Текущий баланс очков:</strong></p>
-        <ul style="column-count: 2; font-size: 13px; color: #555; list-style-type: '— ';">
-            <li>Захват: Серая (<b>${weights.captured.gray}</b>), ИИ (<b>${weights.captured.ai}</b>), Игрок (<b>${weights.captured.players}</b>)</li>
-            <li>Битва: Победа (<b>${weights.battles.win}</b>), Поражение (<b>${weights.battles.loss}</b>)</li>
-            <li>Война (объявление): Игроку (<b>${weights.warsDeclared.players}</b>), ИИ (<b>${weights.warsDeclared.ai}</b>)</li>
-            <li>Война (итог): Победа (<b>${weights.warsResult.win}</b>), Поражение (<b>${weights.warsResult.loss}</b>), Белый мир (<b>${weights.warsResult.peace}</b>)</li>
-            <li>ИИ действия: Вассализация (<b>${weights.aiActions.vassalized}</b>), Аннексия (<b>${weights.aiActions.annexed}</b>)</li>
-        </ul>
-    `;
+    // legendBox.innerHTML = `
+    //     <p><strong>Текущий баланс очков:</strong></p>
+    //     <ul style="column-count: 2; font-size: 13px; color: #555; list-style-type: '— ';">
+    //         <li>Захват: Серая (<b>${weights.captured.gray}</b>), ИИ (<b>${weights.captured.ai}</b>), Игрок (<b>${weights.captured.players}</b>)</li>
+    //         <li>Битва: Победа (<b>${weights.battles.win}</b>), Поражение (<b>${weights.battles.loss}</b>)</li>
+    //         <li>Война (объявление): Игроку (<b>${weights.warsDeclared.players}</b>), ИИ (<b>${weights.warsDeclared.ai}</b>)</li>
+    //         <li>Война (итог): Победа (<b>${weights.warsResult.win}</b>), Поражение (<b>${weights.warsResult.loss}</b>), Белый мир (<b>${weights.warsResult.peace}</b>)</li>
+    //         <li>ИИ действия: Вассализация (<b>${weights.aiActions.vassalized}</b>), Аннексия (<b>${weights.aiActions.annexed}</b>)</li>
+    //     </ul>
+    // `;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
