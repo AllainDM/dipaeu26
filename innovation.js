@@ -724,5 +724,33 @@ function render() {
         : "<p style='color: #666;'>Ничего не выбрано. Выберите инновации в выпадающих списках выше.</p>";
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Находим все выпадающие списки инноваций
+    const selects = document.querySelectorAll('.inv-select');
+
+    selects.forEach(select => {
+        select.addEventListener('wheel', function(event) {
+            // Блокируем прокрутку самой страницы, когда курсор над селектором
+            event.preventDefault();
+
+            // event.deltaY > 0 — крутим колесико вниз
+            // event.deltaY < 0 — крутим колесико вверх
+            if (event.deltaY > 0) {
+                if (this.selectedIndex < this.options.length - 1) {
+                    this.selectedIndex++;
+                }
+            } else {
+                if (this.selectedIndex > 0) {
+                    this.selectedIndex--;
+                }
+            }
+
+            // Важно: вызываем событие 'change' вручную.
+            // Без этого твоя функция обновления эффектов (в блоке #display-results) не узнает об изменениях.
+            this.dispatchEvent(new Event('change'));
+        }, { passive: false }); // Обязательно для работы preventDefault
+    });
+});
+
 // Запуск при загрузке
 document.addEventListener('DOMContentLoaded', init);
