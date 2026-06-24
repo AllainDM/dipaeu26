@@ -4,14 +4,14 @@ const turnsData = [
     {
         id: 0,
         title: "0-й ход (1125 г.)",
-        map: "maps/00.png",
+        map: "maps/polit/00.png",
         trade: "turn00/trade.html",
         content: `<b>Событий нет. Ход драфта.</b>`
     },
     {
         id: 1,
         title: "1-й ход (1125 г.)",
-        map: "maps/01.png",
+        map: "maps/polit/01.png",
         trade: "turn01/trade.html",
         content: ` 
         <p><b>Вальденсы</b></p>
@@ -38,7 +38,7 @@ const turnsData = [
     {
         id: 2,
         title: "2-й ход (1130 г.)",
-        map: "maps/02.png",
+        map: "maps/polit/02.png",
         trade: "turn02/trade.html",
         content: `
         <p><b>Омар Хайам</b></p>
@@ -79,7 +79,7 @@ const turnsData = [
     ,{
         id: 3,
         title: "3-й ход (1135 г.)",
-        map: "maps/03.png",
+        map: "maps/polit/03.png",
         trade: "turn03/trade.html",
         content: `
         <p><b>Великая схизма 1135 года.</b></p>
@@ -115,7 +115,7 @@ const turnsData = [
     ,{
         id: 4,
         title: "4-й ход (1140 г.)",
-        map: "maps/04.png",
+        map: "maps/polit/04.png",
         trade: "turn04/trade.html",
         content: `
         <p><b>Формирование единого древнерусского этноса</b></p>
@@ -148,7 +148,7 @@ const turnsData = [
     ,{
         id: 5,
         title: "5-й ход (1145 г.)",
-        map: "maps/05.png",
+        map: "maps/polit/05.png",
         trade: "turn05/trade.html",
         content: ` 
         <p><b>Образование Португалии</b></p>
@@ -185,7 +185,7 @@ const turnsData = [
     ,{
         id: 6,
         title: "6-й ход (1150 г.)",
-        map: "maps/06.png",
+        map: "maps/polit/06.png",
         trade: "turn06/trade.html",
         content: `
         <p><b>Священная война</b></p>
@@ -220,7 +220,7 @@ const turnsData = [
     ,{
         id: 7,
         title: "7-й ход (1155 г.)",
-        map: "maps/07.png",
+        map: "maps/polit/07.png",
         trade: "turn07/trade.html",
         content: `
         <p><b>Появление бумаги в Европе</b></p>
@@ -257,7 +257,7 @@ const turnsData = [
     ,{
         id: 8,
         title: "8-й ход (1160 г.)",
-        map: "maps/08.png",
+        map: "maps/polit/08.png",
         trade: "turn08/trade.html",
         content: `
         <p><b>Альбигойцы</b></p>
@@ -298,7 +298,7 @@ const turnsData = [
     ,{
         id: 9,
         title: "9-й ход (1165 г.)",
-        map: "maps/09.png",
+        map: "maps/polit/09.png",
         trade: "turn09/trade.html",
         content: `
         <p><b>Езиды</b></p>
@@ -334,7 +334,7 @@ const turnsData = [
     ,{
         id: 10,
         title: "10-й ход (1170 г.)",
-        map: "maps/10.png",
+        map: "maps/polit/10.png",
         trade: "turn10/trade.html",
         content: `
         <p><b>Убийство Томаса Бекета</b></p>
@@ -368,7 +368,7 @@ const turnsData = [
     ,{
     id: 11,
     title: "11-й ход (1175 г.)",
-    map: "maps/11.png",
+    map: "maps/polit/11.png",
     trade: "turn11/trade.html",
     content: `
     <p><b>Соляные копи Люнебурга</b></p>
@@ -403,7 +403,7 @@ const turnsData = [
 ,{
     id: 12,
     title: "12-й ход (1180 г.)",
-    map: "maps/12.png",
+    map: "maps/polit/12.png",
     trade: "turn12/trade.html",
     content: `
     <p><b>Концепция нуля</b></p>
@@ -440,7 +440,7 @@ const turnsData = [
 ,{
     id: 13,
     title: "13-й ход (1185 г.)",
-    map: "maps/13.png",
+    map: "maps/polit/13.png",
     trade: "turn13/trade.html",
     content: `
     <p><b>Второе Болгарское царство</b></p>
@@ -470,23 +470,84 @@ const turnsData = [
     <p>· Новгородская патриархия присоединяет к своим землям Эстонию.
     <p><b>· Основаны новые города:</b>
     `
-}
-    // ,{
-    //     id: 11,
-    //     title: "11-й ход (1175 г.)",
-    //     map: "maps/11.png",
-    //     trade: "turn11/trade.html",
-    //     content: `
-    //     <p><b>Омар</b></p>
-
-    //     <p><b>
-
-    //     </b></p>
-
-    //     <p>· 
-        // <p><b>·
-    // `
-    // }
+},
+    {
+        id: 14,
+        title: "14-й ход (1190 г.)",
+        map: "maps/polit/14.png",
+        trade: "turn14/trade.html",
+        content: ``
+    },
+    {
+        id: 15,
+        title: "15-й ход (1195 г.)",
+        map: "maps/polit/15.png",
+        trade: "turn15/trade.html",
+        content: ``
+    },
+    {
+        id: 16,
+        title: "16-й ход (1200 г.)",
+        map: "maps/polit/16.png",
+        trade: "turn16/trade.html",
+        content: ``
+    },
+    {
+        id: 17,
+        title: "17-й ход (1205 г.)",
+        map: "maps/polit/17.png",
+        trade: "turn17/trade.html",
+        content: ``
+    },
+    {
+        id: 18,
+        title: "18-й ход (1210 г.)",
+        map: "maps/polit/18.png",
+        trade: "turn18/trade.html",
+        content: ``
+    },
+    {
+        id: 19,
+        title: "19-й ход (1215 г.)",
+        map: "maps/polit/19.png",
+        trade: "turn19/trade.html",
+        content: ``
+    },
+    {
+        id: 20,
+        title: "20-й ход (1220 г.)",
+        map: "maps/polit/20.png",
+        trade: "turn20/trade.html",
+        content: ``
+    },
+    {
+        id: 21,
+        title: "21-й ход (1225 г.)",
+        map: "maps/polit/21.png",
+        trade: "turn21/trade.html",
+        content: ``
+    },
+    {
+        id: 22,
+        title: "22-й ход (1230 г.)",
+        map: "maps/polit/22.png",
+        trade: "turn22/trade.html",
+        content: ``
+    },
+    {
+        id: 23,
+        title: "23-й ход (1235 г.)",
+        map: "maps/polit/23.png",
+        trade: "turn23/trade.html",
+        content: ``
+    },
+    {
+        id: 24,
+        title: "24-й ход (1240 г.)",
+        map: "maps/polit/24.png",
+        trade: "turn24/trade.html",
+        content: ``
+    }
 ];
 
 
