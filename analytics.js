@@ -21,7 +21,7 @@ async function sendAnalytics() {
 
     const payload = {
         session_id: sessionId,
-        url: window.location.href,
+        url: window.location.pathname.split('/').pop() || 'index.html',
         device: getDeviceCategory(),
         browser: getBrowserCategory()
     };
