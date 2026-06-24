@@ -104,41 +104,34 @@ tbody tr:hover { background-color: #f1f1f1; }
 .summary-info p { margin: 2px 0; }
 
 .btn {
-    background-color: #ffffff; /* Белый фон для контраста */
-    color: #2c3e50;            /* Темный, читаемый текст */
-    border: 2px solid #3F4137; /* Темная рамка в цвет вашего меню */
-    border-radius: 8px;        /* Более современные скругления */
+    background-color: #ffffff;
+    color: #2c3e50;
+    border: 2px solid #3F4137;
+    border-radius: 4px;
     
-    /* Размеры для мобилок */
-    min-height: 44px;          /* Золотой стандарт для нажатия пальцем */
-    padding: 5px 15px;
-    margin: 0;                 /* Отступы теперь регулируются через gap в контейнере */
+    min-height: 28px;
+    padding: 3px 6px;
+    margin: 0;
     
-    font-family: Arial, sans-serif; /* Times New Roman плохо читается на кнопках */
-    font-size: 14px;
-    font-weight: 600;          /* Жирный текст лучше видно */
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
     text-transform: none;
     cursor: pointer;
     
-    /* Эффект объема */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
     transition: all 0.2s ease;
     
-    /* Чтобы текст не переносился криво */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     
-    flex: 1 1 200px;    /* Растягиваться (1), сжиматься (1), база 200px */
-    max-width: 250px;   /* Чтобы на огромных мониторах одна кнопка не была на весь экран */
-    min-width: 140px;   /* Минималка, чтобы текст не превращался в столбик */
+    flex: 1 1 100px;
+    max-width: 160px;
+    min-width: 90px;
     
-    text-align: center; /* Центрируем текст внутри */
-    padding: 10px;      /* Немного увеличим внутренний отступ для красоты */
-    
-    /* Если текст всё равно слишком длинный, разрешим перенос, 
-       но сохраним высоту */
-    white-space: normal; 
+    text-align: center;
+    white-space: normal;
     line-height: 1.2;
 }
 
@@ -195,6 +188,43 @@ details[open] summary::before {
     padding: 10px;
     background: #f0f0f0;
     border-radius: 0 0 6px 6px;
+}
+
+.tables-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.table-group {
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.group-title {
+    background: #3F4137;
+    color: #fdc073;
+    padding: 3px 8px;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: default;
+    user-select: none;
+}
+
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    padding: 3px;
+    background: #f0f0f0;
+    border-radius: 0 0 4px 4px;
+}
+
+@media (max-width: 700px) {
+    .tables-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* .btn {
