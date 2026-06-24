@@ -131,7 +131,7 @@ tbody tr:hover { background-color: #f1f1f1; }
     
     flex: 1 1 200px;    /* Растягиваться (1), сжиматься (1), база 200px */
     max-width: 250px;   /* Чтобы на огромных мониторах одна кнопка не была на весь экран */
-    min-width: 160px;   /* Минималка, чтобы текст не превращался в столбик */
+    min-width: 140px;   /* Минималка, чтобы текст не превращался в столбик */
     
     text-align: center; /* Центрируем текст внутри */
     padding: 10px;      /* Немного увеличим внутренний отступ для красоты */
@@ -155,15 +155,46 @@ tbody tr:hover { background-color: #f1f1f1; }
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
     transform: translateY(1px);
 }
-/* Добавьте этот блок, чтобы кнопки распределялись равномерно */
-div:has(.btn) {
+/* Стили аккордеона для таблиц */
+details {
+    margin-bottom: 8px;
+}
+
+summary {
+    background: #3F4137;
+    color: #fdc073;
+    padding: 8px 12px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    list-style: none;
+    user-select: none;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::before {
+    content: '▸ ';
+}
+
+details[open] summary {
+    border-radius: 6px 6px 0 0;
+}
+
+details[open] summary::before {
+    content: '▾ ';
+}
+
+.details-content {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px; 
+    gap: 8px;
     padding: 10px;
-    /* justify-content: center;  */
-    background: #f0f0f0; 
-    border-bottom: 2px solid #ccc;
+    background: #f0f0f0;
+    border-radius: 0 0 6px 6px;
 }
 
 /* .btn {
