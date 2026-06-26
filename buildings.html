@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Постройки — Энциклопедия игры</title>
+    <style>
+        .experimental-badge {
+            border-left: 5px solid #ffd700;
+            padding-left: 12px;
+            margin: 10px 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Фильтры */
+        #filters {
+            margin: 15px 0;
+            padding: 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+        }
+        #category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .cat-btn {
+            padding: 5px 12px;
+            border: 2px solid #3F4137;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14px;
+            user-select: none;
+            transition: all 0.15s;
+        }
+        .cat-btn:hover {
+            background: #fdf2e2;
+            border-color: #FDA83D;
+        }
+        .cat-btn.active {
+            background: #FDA83D;
+            color: #3F4137;
+            border-color: #FDA83D;
+        }
+
+        #search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        #search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 6px 10px;
+            border: 1px solid #bcbcbc;
+            border-radius: 4px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 15px;
+        }
+        #result-count {
+            font-size: 14px;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        /* Обёртка для скролла */
+        #table-wrapper {
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid #bcbcbc;
+            border-radius: 4px;
+        }
+        #buildings-table {
+            min-width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: white;
+        }
+        #buildings-table th {
+            background: #3F4137;
+            color: #fdc073;
+            padding: 6px 4px;
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        #buildings-table th:hover {
+            background: #4a4d42;
+        }
+        #buildings-table th .sort-arrow {
+            margin-left: 3px;
+            font-size: 11px;
+        }
+        #buildings-table td {
+            border: 1px solid #bcbcbc;
+            padding: 3px 5px;
+            vertical-align: top;
+            line-height: 1.3;
+        }
+        .cat-emoji-cell {
+            text-align: center;
+            font-size: 13px;
+            white-space: nowrap;
+            width: 50px;
+            min-width: 50px;
+        }
+        .name-cell {
+            font-weight: bold;
+            text-align: left;
+            white-space: nowrap;
+        }
+        #buildings-table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        #buildings-table tbody tr:hover {
+            background: #fdf2e2;
+        }
+
+        /* Цвета для Цена */
+        .cost-cheap {
+            background-color: #e2f3e7;
+        }
+        .cost-mid {
+            background-color: #fff3cd;
+        }
+        .cost-expensive {
+            background-color: #fce8e9;
+        }
+
+        /* Цвета для Доход */
+        .income-low {
+            background-color: #fff3cd;
+        }
+        .income-mid {
+            background-color: #e2f3e7;
+        }
+        .income-high {
+            background-color: #c8e6c9;
+        }
+
+        .num-nowrap {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 700px) {
+            .cat-btn {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            #buildings-table {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="mainmenu">
+            <!-- <li><a href="index.html">Правила</a></li> -->
+            <li><a href="turns.html">Ходы</a></li>
+            <li><a href="maps.html">Карты</a></li>
+            <li><a href="tables.html">Таблицы</a></li>
+
+            <!-- <li><a href="players.html">Игроки</a></li> -->
+            <li><a href="links.html">Ссылки</a></li>
+            <li><a href="log.html">Лог</a></li>
+            <!-- <li><a href="feedback.html">Отзыв</a></li> -->
+        </ul>
+    </header>
+
+    <div class="experimental-badge">
+        ⚠ Экспериментальная страница. Данные из dev/buildings.xlsx.
+    </div>
+
+    <div id="filters">
+        <div id="category-filters"></div>
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="🔍 Поиск по названию...">
+            <span id="result-count">Загрузка...</span>
+        </div>
+    </div>
+
+    <div id="table-wrapper">
+        <table id="buildings-table">
+            <thead id="buildings-thead"></thead>
+            <tbody id="buildings-tbody"></tbody>
+        </table>
+    </div>
+
+    <script src="buildings.js"></script>
+    <script src="analytics.js"></script>
+</body>
+</html>
