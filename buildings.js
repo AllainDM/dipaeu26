@@ -15,7 +15,8 @@ const BUILDINGS = [
       "display": "17.5"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -34,7 +35,8 @@ const BUILDINGS = [
       "display": "10"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 2.0,
       "display": "1+1 (Овцы)"
     }
   },
@@ -53,7 +55,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 5.0,
+      "base": 5.0,
+      "max": 5.0,
       "display": "5"
     }
   },
@@ -72,7 +75,8 @@ const BUILDINGS = [
       "display": "5"
     },
     "income": {
-      "numeric": 0.0,
+      "base": 0.0,
+      "max": 0.0,
       "display": "0"
     }
   },
@@ -91,7 +95,8 @@ const BUILDINGS = [
       "display": "25"
     },
     "income": {
-      "numeric": 0.0,
+      "base": 0.0,
+      "max": 0.0,
       "display": "0"
     }
   },
@@ -110,7 +115,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -129,7 +135,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 2.0,
       "display": "1+1 (Овощи/Фрукты)"
     }
   },
@@ -148,7 +155,8 @@ const BUILDINGS = [
       "display": "10"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -167,7 +175,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 5.0,
+      "base": 5.0,
+      "max": 6.0,
       "display": "5+1"
     }
   },
@@ -186,7 +195,8 @@ const BUILDINGS = [
       "display": "35"
     },
     "income": {
-      "numeric": 0.0,
+      "base": 0.0,
+      "max": 0.0,
       "display": "0"
     }
   },
@@ -205,7 +215,8 @@ const BUILDINGS = [
       "display": "25"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -224,7 +235,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -243,7 +255,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 3.0,
+      "base": 3.0,
+      "max": 3.0,
       "display": "3"
     }
   },
@@ -262,7 +275,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -275,14 +289,15 @@ const BUILDINGS = [
     "conditions": "Язычество",
     "input": "1 Х/о + 1 Алко",
     "base": "—",
-    "bonuses": "0",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 25.0,
       "display": "25"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -294,14 +309,15 @@ const BUILDINGS = [
     "conditions": "ранг страны >=3, 1 на страну",
     "input": "1 Бумага",
     "base": "-1% к Коррупции, «Кровная месть», «Судебная система», «Прокуратура», «Инквизиция»",
-    "bonuses": "1",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 30.0,
       "display": "30"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 1.0,
+      "display": "1"
     }
   },
   {
@@ -313,14 +329,15 @@ const BUILDINGS = [
     "conditions": "1 на страну",
     "input": "1 Бумага",
     "base": "+10% к сбору налогов, «Чернила», «Гос. служба», «Архивное дело», «Логофеты»",
-    "bonuses": "3",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 35.0,
       "display": "35"
+    },
+    "income": {
+      "base": 3.0,
+      "max": 3.0,
+      "display": "3"
     }
   },
   {
@@ -332,14 +349,15 @@ const BUILDINGS = [
     "conditions": "ранг страны >=2, 1 на страну",
     "input": "1 Железо + 1 Бумага",
     "base": "-1% к Преступности, «Орудия пыток»",
-    "bonuses": "-2",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 50.0,
       "display": "50"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -351,14 +369,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Золото/Серебро/Медь",
     "base": "+5% к таможенному сбору, «Царина», «Монополия на экспорт»",
-    "bonuses": "-1",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 30.0,
       "display": "30"
+    },
+    "income": {
+      "base": -1.0,
+      "max": -1.0,
+      "display": "-1"
     }
   },
   {
@@ -370,14 +389,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Украшения",
     "base": "«Государственная казна»",
-    "bonuses": "0",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 40.0,
       "display": "40"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -389,14 +409,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "2 а/пр; 160 локации",
     "base": "+2% к Лояльности (за каждый Дворец), +1 к лимиту Управления, «Фонтаны»",
-    "bonuses": "-5",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 100.0,
       "display": "100"
+    },
+    "income": {
+      "base": -5.0,
+      "max": -5.0,
+      "display": "-5"
     }
   },
   {
@@ -414,7 +435,8 @@ const BUILDINGS = [
       "display": "5"
     },
     "income": {
-      "numeric": 0.0,
+      "base": 0.0,
+      "max": 2.0,
       "display": "0+2 (тех. Водяное колесо + Река)"
     }
   },
@@ -433,7 +455,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 0.0,
+      "base": 0.0,
+      "max": 0.0,
       "display": "0"
     }
   },
@@ -452,7 +475,8 @@ const BUILDINGS = [
       "display": "10"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -471,7 +495,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 1.5,
+      "base": 1.5,
+      "max": 2.5,
       "display": "1,5+1 (Мрамор)"
     }
   },
@@ -490,7 +515,8 @@ const BUILDINGS = [
       "display": "25"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1+!(Дорога)"
     }
   },
@@ -509,7 +535,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 2.0,
       "display": "1+1(Дорога)"
     }
   },
@@ -528,7 +555,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -547,7 +575,8 @@ const BUILDINGS = [
       "display": "10"
     },
     "income": {
-      "numeric": 0.0,
+      "base": 0.0,
+      "max": 0.0,
       "display": "0"
     }
   },
@@ -566,7 +595,8 @@ const BUILDINGS = [
       "display": "5"
     },
     "income": {
-      "numeric": 0.0,
+      "base": 0.0,
+      "max": 0.0,
       "display": "0"
     }
   },
@@ -585,7 +615,8 @@ const BUILDINGS = [
       "display": "7.5"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 2.0,
       "display": "1+1(Меха)"
     }
   },
@@ -604,7 +635,8 @@ const BUILDINGS = [
       "display": "—"
     },
     "income": {
-      "numeric": null,
+      "base": null,
+      "max": null,
       "display": "—"
     }
   },
@@ -623,7 +655,8 @@ const BUILDINGS = [
       "display": "—"
     },
     "income": {
-      "numeric": null,
+      "base": null,
+      "max": null,
       "display": "—"
     }
   },
@@ -642,7 +675,8 @@ const BUILDINGS = [
       "display": "—"
     },
     "income": {
-      "numeric": null,
+      "base": null,
+      "max": null,
       "display": "—"
     }
   },
@@ -661,7 +695,8 @@ const BUILDINGS = [
       "display": "—"
     },
     "income": {
-      "numeric": null,
+      "base": null,
+      "max": null,
       "display": "—"
     }
   },
@@ -680,7 +715,8 @@ const BUILDINGS = [
       "display": "—"
     },
     "income": {
-      "numeric": null,
+      "base": null,
+      "max": null,
       "display": "—"
     }
   },
@@ -699,7 +735,8 @@ const BUILDINGS = [
       "display": "12.5"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -711,14 +748,15 @@ const BUILDINGS = [
     "climate": "все",
     "conditions": "—",
     "input": "1 Древесина, 1 Сахар",
-    "base": "2 Камень",
-    "bonuses": "0 Краски +2 (Краситель), «Шафран», «Киноварь», «Охра»",
+    "base": "0 Краски +2 (Краситель)",
+    "bonuses": "«Шафран», «Киноварь», «Охра»",
     "cost": {
       "numeric": 15.0,
       "display": "15"
     },
     "income": {
-      "numeric": 3.0,
+      "base": 3.0,
+      "max": 3.0,
       "display": "3"
     }
   },
@@ -737,7 +775,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 3.0,
       "display": "1+2(Сахар)"
     }
   },
@@ -756,7 +795,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 3.0,
       "display": "2+1 (Боч/артель +1 инн Эль + Леса)"
     }
   },
@@ -775,7 +815,8 @@ const BUILDINGS = [
       "display": "35"
     },
     "income": {
-      "numeric": 3.0,
+      "base": 3.0,
+      "max": 3.0,
       "display": "3"
     }
   },
@@ -794,7 +835,8 @@ const BUILDINGS = [
       "display": "10"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -813,7 +855,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 3.0,
+      "base": 3.0,
+      "max": 3.0,
       "display": "3"
     }
   },
@@ -832,7 +875,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -851,7 +895,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 0.0,
+      "base": 0.0,
+      "max": 0.0,
       "display": "0"
     }
   },
@@ -870,7 +915,8 @@ const BUILDINGS = [
       "display": "50"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -889,7 +935,8 @@ const BUILDINGS = [
       "display": "12.5"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -908,7 +955,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -927,7 +975,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -946,7 +995,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 3.0,
+      "base": 3.0,
+      "max": 3.0,
       "display": "3"
     }
   },
@@ -965,7 +1015,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 3.0,
+      "base": 3.0,
+      "max": 3.0,
       "display": "3"
     }
   },
@@ -984,7 +1035,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 5.0,
+      "base": 5.0,
+      "max": 5.0,
       "display": "5"
     }
   },
@@ -1003,7 +1055,8 @@ const BUILDINGS = [
       "display": "17.5"
     },
     "income": {
-      "numeric": 4.0,
+      "base": 4.0,
+      "max": 4.0,
       "display": "4"
     }
   },
@@ -1022,7 +1075,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 4.0,
+      "base": 4.0,
+      "max": 5.0,
       "display": "4+1 (Евреи)"
     }
   },
@@ -1041,7 +1095,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -1060,7 +1115,8 @@ const BUILDINGS = [
       "display": "35"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -1079,7 +1135,8 @@ const BUILDINGS = [
       "display": "25"
     },
     "income": {
-      "numeric": 1.5,
+      "base": 1.5,
+      "max": 1.5,
       "display": "1.5"
     }
   },
@@ -1098,7 +1155,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -1117,7 +1175,8 @@ const BUILDINGS = [
       "display": "20"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -1136,7 +1195,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -1155,7 +1215,8 @@ const BUILDINGS = [
       "display": "45"
     },
     "income": {
-      "numeric": 2.5,
+      "base": 2.5,
+      "max": 2.5,
       "display": "2.5"
     }
   },
@@ -1174,7 +1235,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -1193,7 +1255,8 @@ const BUILDINGS = [
       "display": "27.5"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -1212,7 +1275,8 @@ const BUILDINGS = [
       "display": "15"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 2.0,
       "display": "2"
     }
   },
@@ -1231,7 +1295,8 @@ const BUILDINGS = [
       "display": "50"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 4.0,
       "display": "2+2(Железо)"
     }
   },
@@ -1250,7 +1315,8 @@ const BUILDINGS = [
       "display": "40"
     },
     "income": {
-      "numeric": 2.0,
+      "base": 2.0,
+      "max": 4.0,
       "display": "2+2(Медь)"
     }
   },
@@ -1269,7 +1335,8 @@ const BUILDINGS = [
       "display": "10"
     },
     "income": {
-      "numeric": 1.0,
+      "base": 1.0,
+      "max": 1.0,
       "display": "1"
     }
   },
@@ -1288,7 +1355,8 @@ const BUILDINGS = [
       "display": "30"
     },
     "income": {
-      "numeric": 4.0,
+      "base": 4.0,
+      "max": 4.0,
       "display": "4"
     }
   },
@@ -1301,14 +1369,15 @@ const BUILDINGS = [
     "conditions": "доступно народам Запада и Севера",
     "input": "1 Ткани + 1 Сахар",
     "base": "+10% ЭТ, «Торговая хватка», «Ярмарки», «Скоморохи»",
-    "bonuses": "3(Ткани)+10(Пряности)+5(Благовония)+5(Сахар) х2",
+    "bonuses": "«Торговая хватка», «Ярмарки», «Скоморохи»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": 3.0,
+      "max": 46.0,
+      "display": "3(Ткани)+10(Пряности)+5(Благовония)+5(Сахар) х2"
     }
   },
   {
@@ -1320,14 +1389,15 @@ const BUILDINGS = [
     "conditions": "доступно народам Центра и Юга",
     "input": "+1 Пряности +1 Благовония",
     "base": "+10% ЭТ, «Торговая хватка», «Меркантилизм», «Безистан»",
-    "bonuses": "3(Ткани)+8(Мех)+6(Чай)+6(Табак)",
+    "bonuses": "«Торговая хватка», «Меркантилизм», «Безистан»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 20.0,
       "display": "20"
+    },
+    "income": {
+      "base": 3.0,
+      "max": 23.0,
+      "display": "3(Ткани)+8(Мех)+6(Чай)+6(Табак)"
     }
   },
   {
@@ -1339,14 +1409,15 @@ const BUILDINGS = [
     "conditions": "не больше чем локаций с Верблюдами",
     "input": "1 Ткани + 1 Меха +1 Чай +1 Табак (после 1500)",
     "base": "+7% ЭТ, «Торговые караваны», «Фундуки», «Хан», «Охрана караванов», «Гостеприимство»",
-    "bonuses": "3",
+    "bonuses": "«Торговые караваны», «Фундуки», «Хан», «Охрана караванов», «Гостеприимство»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": 3.0,
+      "max": 3.0,
+      "display": "3"
     }
   },
   {
@@ -1358,14 +1429,15 @@ const BUILDINGS = [
     "conditions": "не доступна странам с ВП Церковь=3",
     "input": "1 Свинец",
     "base": "1 Лекарства, -1% к шансу Эпидемии, +1% к Благочестию, «Табакокурение», «Дёготь», «Ятрохимия», «Токсикология», «Эликсиры», «Парфюмерия»",
-    "bonuses": "1",
+    "bonuses": "«Табакокурение», «Дёготь», «Ятрохимия», «Токсикология», «Эликсиры», «Парфюмерия»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 1.0,
+      "display": "1"
     }
   },
   {
@@ -1377,14 +1449,15 @@ const BUILDINGS = [
     "conditions": "не доступна странам с Исламом",
     "input": "1 Алко",
     "base": "-2% к РВ в локации, +2% к шансу Эпидемии, «Секс-рабство», «Куртизанки», «Проституция»",
-    "bonuses": "5+1(Порт)",
+    "bonuses": "«Секс-рабство», «Куртизанки», «Проституция»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 5.0,
       "display": "5"
+    },
+    "income": {
+      "base": 5.0,
+      "max": 6.0,
+      "display": "5+1(Порт)"
     }
   },
   {
@@ -1396,14 +1469,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Алко",
     "base": "+1 Шпион, «Пьянство», «Гостеприимство», «Трактир», «Водка»",
-    "bonuses": "7*10",
+    "bonuses": "«Пьянство», «Гостеприимство», «Трактир», «Водка»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": 7.0,
+      "max": 8.0,
+      "display": "7 + 1 (Бордель)"
     }
   },
   {
@@ -1415,14 +1489,15 @@ const BUILDINGS = [
     "conditions": "доступно Торг. республикам",
     "input": "1(Бордель)",
     "base": "+5% ЭТ у принимающей страны, «Колониализм»",
-    "bonuses": "3 у принимающей, 1-10 у торг. республики",
+    "bonuses": "«Колониализм»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": 3.0,
+      "max": null,
+      "display": "3 у принимающей, 1-10 у торг. республики"
     }
   },
   {
@@ -1434,14 +1509,15 @@ const BUILDINGS = [
     "conditions": "ВП Свобода <0",
     "input": "1(Тюрьма)",
     "base": "2 Раба +1 (Рабы), -3 тыс.чел. убыль населения, «Ясырь», «Раболепие», «Мухтасибы»",
-    "bonuses": "1+1(Тюрьма)",
+    "bonuses": "«Ясырь», «Раболепие», «Мухтасибы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 10.0,
       "display": "10"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Тюрьма)"
     }
   },
   {
@@ -1453,14 +1529,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Кони",
     "base": "-10% к РВ в локации, «Скачки»",
-    "bonuses": "5+40(Конюшня)",
+    "bonuses": "«Скачки»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 40.0,
       "display": "40"
+    },
+    "income": {
+      "base": 5.0,
+      "max": 6.0,
+      "display": "5+1(Конюшня)"
     }
   },
   {
@@ -1472,14 +1549,15 @@ const BUILDINGS = [
     "conditions": "доступно народам Центра и Юга",
     "input": "1 Чай",
     "base": "+1% «Кальян», «Восточные сладости», «Кофейни»",
-    "bonuses": "4+1(Бани)+1(Караван-сарай)",
+    "bonuses": "«Кальян», «Восточные сладости», «Кофейни»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": 4.0,
+      "max": 6.0,
+      "display": "4+1(Бани)+1(Караван-сарай)"
     }
   },
   {
@@ -1491,14 +1569,15 @@ const BUILDINGS = [
     "conditions": "работает, если есть Книги",
     "input": "1 Книги (если нет Богемы)",
     "base": "+3%, +1 Артист, +1 Музыкант, +1 Поэт, «Романтизм», «Комедия дель Арте», «Опера», «Клавесин»",
-    "bonuses": "3,5+1(Бордель)+1(Знать)",
+    "bonuses": "«Романтизм», «Комедия дель Арте», «Опера», «Клавесин»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 80.0,
       "display": "80"
+    },
+    "income": {
+      "base": 3.5,
+      "max": 5.5,
+      "display": "3,5+1(Бордель)+1(Знать)"
     }
   },
   {
@@ -1510,14 +1589,15 @@ const BUILDINGS = [
     "conditions": "доступно при Католичестве/Православии/Протестантизме и др.",
     "input": "1 Свинец",
     "base": "+1 н/о, +1 Золото (Алхимик), «Метафизика», «Химия»",
-    "bonuses": "-2",
+    "bonuses": "«Метафизика», «Химия»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 33.0,
       "display": "33"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -1529,14 +1609,15 @@ const BUILDINGS = [
     "conditions": "может быть 1 в стране",
     "input": "1 Книги (если нет Учёного)",
     "base": "+1 н/о, «Литература»",
-    "bonuses": "-1",
+    "bonuses": "«Литература»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 65.0,
       "display": "65"
+    },
+    "income": {
+      "base": -1.0,
+      "max": -1.0,
+      "display": "-1"
     }
   },
   {
@@ -1548,14 +1629,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Исламом",
     "input": "1 Стекло",
     "base": "+3 н/о, +1 Юрист, +1 Историк, +1 Философ, +1 Храм, +1 Госпиталь, «Романтизм», «Микроскоп»",
-    "bonuses": "-3",
+    "bonuses": "«Романтизм», «Микроскоп»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 90.0,
       "display": "90"
+    },
+    "income": {
+      "base": -3.0,
+      "max": -3.0,
+      "display": "-3"
     }
   },
   {
@@ -1567,14 +1649,15 @@ const BUILDINGS = [
     "conditions": "работает до изучения «Книгопечатания»",
     "input": "1 Книги (если нет Священника/Учёного)",
     "base": "+2 н/о, +1 Астроном, «Астрономия», «Гороскопы»",
-    "bonuses": "-3",
+    "bonuses": "«Астрономия», «Гороскопы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 100.0,
       "display": "100"
+    },
+    "income": {
+      "base": -3.0,
+      "max": -3.0,
+      "display": "-3"
     }
   },
   {
@@ -1586,14 +1669,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Исламом",
     "input": "1 Бумага",
     "base": "+2 н/о, +1 Медик, +1 Богослов, +1 Философ, +1 Мечеть, «Мюриды», «Улемы», «Микроскоп»",
-    "bonuses": "-2",
+    "bonuses": "«Мюриды», «Улемы», «Микроскоп»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 75.0,
       "display": "75"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -1605,14 +1689,15 @@ const BUILDINGS = [
     "conditions": "доступен странам с «Многоженство»",
     "input": "2 Бумага + 1 Инструмент",
     "base": "1 Книги, «Каллиграфия»",
-    "bonuses": "0",
+    "bonuses": "«Каллиграфия»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 35.0,
       "display": "35"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -1624,14 +1709,15 @@ const BUILDINGS = [
     "conditions": "доступно при ВП Свобода <0 и инн «Коррида»",
     "input": "1 Украшения",
     "base": "2 Книги, «Пресса», «Цензура», «Газета», «Подвижные литеры»",
-    "bonuses": "3+1(Университет)",
+    "bonuses": "«Пресса», «Цензура», «Газета», «Подвижные литеры»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 30.0,
       "display": "30"
+    },
+    "income": {
+      "base": 3.0,
+      "max": 4.0,
+      "display": "3+1(Университет)"
     }
   },
   {
@@ -1643,14 +1729,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Х/о",
     "base": "+1 о/пр, +1 «жена», «Евнухи», «Наложницы»",
-    "bonuses": "-1+(-1 х ранг)",
+    "bonuses": "«Евнухи», «Наложницы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 55.0,
       "display": "55"
+    },
+    "income": {
+      "base": -1.0,
+      "max": null,
+      "display": "-1+(-1 х ранг)"
     }
   },
   {
@@ -1662,14 +1749,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Звери",
     "base": "+7,5% к РВ в локации, «Состязание», «Травля зверей», «Бои животных», «Коррида»",
-    "bonuses": "5+1(Зверинец)",
+    "bonuses": "«Состязание», «Травля зверей», «Бои животных», «Коррида»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 35.0,
       "display": "35"
+    },
+    "income": {
+      "base": 5.0,
+      "max": 6.0,
+      "display": "5+1(Зверинец)"
     }
   },
   {
@@ -1681,14 +1769,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "—",
     "base": "-5% к РВ в локации",
-    "bonuses": "(Дворец)",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": null,
+      "max": null,
+      "display": "(Дворец)"
     }
   },
   {
@@ -1700,14 +1789,15 @@ const BUILDINGS = [
     "conditions": "1 в стране, доступна народам Запада",
     "input": "1-3 Кони",
     "base": "+3% к эфф-сти Управления, +1 к макс. размеру локации, «Ямская служба», «Торговые караваны», «Гонцы»",
-    "bonuses": "0",
+    "bonuses": "«Ямская служба», «Торговые караваны», «Гонцы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -1719,14 +1809,15 @@ const BUILDINGS = [
     "conditions": "используемые тг>=3",
     "input": "2 Рабы",
     "base": "до +20% к эфф-сти Управления, +1 к макс. размеру локации, «Мостовая»",
-    "bonuses": "-1",
+    "bonuses": "«Мостовая»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": -1.0,
+      "max": -1.0,
+      "display": "-1"
     }
   },
   {
@@ -1738,14 +1829,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Лекарство",
     "base": "х2 пр-ва Бахчи, Плантации с Хлопком и Сахаром, +2 к макс. размеру локации, «Нория»",
-    "bonuses": "0",
+    "bonuses": "«Нория»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 100.0,
       "display": "100"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -1757,14 +1849,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Ткани",
     "base": "+2 к макс. размеру локации, +0,5 тыс.чел. прирост населения",
-    "bonuses": "0",
+    "bonuses": "—",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 5.0,
       "display": "5"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -1776,14 +1869,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Золото, 1 Серебро",
     "base": "+2 к макс. размеру локации, +15% к приросту населения",
-    "bonuses": "-2",
+    "bonuses": "—",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 50.0,
       "display": "50"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -1795,14 +1889,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Волокно",
     "base": "+2 к макс. размеру локации, -5% к шансу Эпидемии",
-    "bonuses": "-3",
+    "bonuses": "—",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 35.0,
       "display": "35"
+    },
+    "income": {
+      "base": -3.0,
+      "max": -3.0,
+      "display": "-3"
     }
   },
   {
@@ -1814,14 +1909,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Древесина",
     "base": "+2 к макс. размеру локации, -1% к шансу Эпидемии, «Хамам»",
-    "bonuses": "1,5+1(Мыловарня)",
+    "bonuses": "«Хамам»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 10.0,
       "display": "10"
+    },
+    "income": {
+      "base": 1.5,
+      "max": 2.5,
+      "display": "1,5+1(Мыловарня)"
     }
   },
   {
@@ -1833,14 +1929,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Лекарство",
     "base": "нет ивентов «Трущебы», -3% к шансу Эпидемии, уменьшение боевых потерь, «Хирургия», «Анатомия», «богадельни»",
-    "bonuses": "-2",
+    "bonuses": "«Хирургия», «Анатомия», «богадельни»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 20.0,
       "display": "20"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -1852,14 +1949,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Ткани",
     "base": "-1-2 п/п к потребности Города, +2 к лимиту хранения, «Фортификация», «Нория», «Фундуки»",
-    "bonuses": "1",
+    "bonuses": "«Фортификация», «Нория», «Фундуки»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 1.0,
+      "display": "1"
     }
   },
   {
@@ -1871,14 +1969,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Золото, 1 Серебро",
     "base": "+1,5% х кэш (Серебро) + 3% х кэш (Золото), + к сумме внутр. займа, «депозит», «чеки», «Ломбард»",
-    "bonuses": "% от кэша х2 (Евреи)",
+    "bonuses": "«депозит», «чеки», «Ломбард»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 50.0,
       "display": "50"
+    },
+    "income": {
+      "base": null,
+      "max": null,
+      "display": "% от кэша х2 (Евреи)"
     }
   },
   {
@@ -1890,14 +1989,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Волокно",
     "base": "2 п/п +1(Моржи) +1(Рыба) +1 ТНП",
-    "bonuses": "0+1(Коптильня)",
+    "bonuses": "—",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 10.0,
       "display": "10"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 1.0,
+      "display": "0+1(Коптильня)"
     }
   },
   {
@@ -1909,14 +2009,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Древесина",
     "base": "1 Др/камни, -25% затрат на логистику, до +25% эфф-сть Торговли, «Топчаковые краны»",
-    "bonuses": "1+1(Амбар)",
+    "bonuses": "«Топчаковые краны»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 20.0,
       "display": "20"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Амбар)"
     }
   },
   {
@@ -1928,14 +2029,15 @@ const BUILDINGS = [
     "conditions": "численность Флота >=2",
     "input": "1 Древесина",
     "base": "-30% к затратам на содержание Флота, +0,5 тыс.чел. прирост населения, +10 к лимиту хранения, «Торговые флотилии»",
-    "bonuses": "1 х Размер Города +3 (Маяк)",
+    "bonuses": "«Торговые флотилии»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 50.0,
       "display": "50"
+    },
+    "income": {
+      "base": 1.0,
+      "max": null,
+      "display": "1 х Размер Города +3 (Маяк)"
     }
   },
   {
@@ -1947,14 +2049,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Древесина",
     "base": "+1 к дальности размещения ТОР, «Оптика», «Лоцманы»",
-    "bonuses": "0",
+    "bonuses": "«Оптика», «Лоцманы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 25.0,
       "display": "25"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -1966,14 +2069,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Язычеством",
     "input": "1 Благовония (без 50% эфф-сть)",
     "base": "-3% к РВ в локации, +1 о/в, «Жертвоприношения»",
-    "bonuses": "0",
+    "bonuses": "«Жертвоприношения»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 5.0,
       "display": "5"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -1985,14 +2089,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Католичеством/Православием и др.",
     "input": "1 Благовония (без 50% эфф-сть)",
     "base": "-5% к РВ в локации, +1 о/в, «Простота ритуала», «Богослужение на родном языке», «Сусальное золото», «Запрет латыни»",
-    "bonuses": "-1",
+    "bonuses": "«Простота ритуала», «Богослужение на родном языке», «Сусальное золото», «Запрет латыни»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": -1.0,
+      "max": -1.0,
+      "display": "-1"
     }
   },
   {
@@ -2004,14 +2109,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Католичеством/Православием/Иудаизмом",
     "input": "1 Алко (если нет Священника)",
     "base": "-10% РВ в локации, +3 о/в, «Акустика», «Простота ритуала», «Богослужение на родном языке», «Запрет латыни», «Хоровое пение», «Колокола»",
-    "bonuses": "-2",
+    "bonuses": "«Акустика», «Простота ритуала», «Богослужение на родном языке», «Запрет латыни», «Хоровое пение», «Колокола»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 50.0,
       "display": "50"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -2023,14 +2129,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Католичеством/Православием",
     "input": "1 Благовоние (без 50% эфф-сть)",
     "base": "2 н/о +1 Монах, +1% Благочестие, «Бенефиций», «Богослужение на родном языке»",
-    "bonuses": "-2",
+    "bonuses": "«Бенефиций», «Богослужение на родном языке»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 45.0,
       "display": "45"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -2042,14 +2149,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Исламом и Исмаилитами",
     "input": "1 Алко (если нет Священника)",
     "base": "-7% к РВ в локации, +1,5 о/в, «Богослужение на родном языке», «Арабеска», «чётки», «Имамы»",
-    "bonuses": "-2",
+    "bonuses": "«Богослужение на родном языке», «Арабеска», «чётки», «Имамы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 20.0,
       "display": "20"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -2061,14 +2169,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Иудаизмом и Зороастризмом",
     "input": "1 Благовоние (без 50% эфф-сть)",
     "base": "-5% к РВ в локации, +1,5 о/в, «Богослужение на родном языке»",
-    "bonuses": "-1",
+    "bonuses": "«Богослужение на родном языке»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": -1.0,
+      "max": -1.0,
+      "display": "-1"
     }
   },
   {
@@ -2080,14 +2189,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Суннизмом и Шиизмом",
     "input": "1 Алко (если нет Священника)",
     "base": "5 а/в, «Гробницы»",
-    "bonuses": "0",
+    "bonuses": "«Гробницы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 100.0,
       "display": "100"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -2099,14 +2209,15 @@ const BUILDINGS = [
     "conditions": "доступно странам с Язычеством и Тенгрианством",
     "input": "1 Благовоние (без 50% эфф-сть)",
     "base": "0,5 в/о, «Поминовение усопших»",
-    "bonuses": "0",
+    "bonuses": "«Поминовение усопших»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 10.0,
       "display": "10"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   },
   {
@@ -2117,15 +2228,16 @@ const BUILDINGS = [
     "climate": "все",
     "conditions": "доступно народам Центра и Юга, нужна Гончарная",
     "input": "1 Доспехи",
-    "base": "160 локации, «Засечная черта», «Городища»",
-    "bonuses": "-0.5",
+    "base": "1 БО локации, «Засечная черта», «Городища»",
+    "bonuses": "«Засечная черта», «Городища»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 5.0,
       "display": "5"
+    },
+    "income": {
+      "base": -0.5,
+      "max": -0.5,
+      "display": "-0.5"
     }
   },
   {
@@ -2136,15 +2248,16 @@ const BUILDINGS = [
     "climate": "все",
     "conditions": "доступно народам Запада, скандинавам и литовцам",
     "input": "3 п/п",
-    "base": "3 60 локации, «Фортификация», «Городища»",
-    "bonuses": "-1",
+    "base": "3 БО локации, «Фортификация», «Городища»",
+    "bonuses": "«Фортификация», «Городища»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 15.0,
       "display": "15"
+    },
+    "income": {
+      "base": -1.0,
+      "max": -1.0,
+      "display": "-1"
     }
   },
   {
@@ -2155,15 +2268,16 @@ const BUILDINGS = [
     "climate": "все",
     "conditions": "доступно народам Запада, скандинавам и литовцам",
     "input": "3 п/п",
-    "base": "4,5 60 локации, «Рибат», «Бойницы»",
-    "bonuses": "-1",
+    "base": "4,5 БО локации, «Рибат», «Бойницы»",
+    "bonuses": "«Рибат», «Бойницы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 20.0,
       "display": "20"
+    },
+    "income": {
+      "base": -1.0,
+      "max": -1.0,
+      "display": "-1"
     }
   },
   {
@@ -2174,15 +2288,16 @@ const BUILDINGS = [
     "climate": "все",
     "conditions": "можно строить в условиях войны",
     "input": "2 Алко",
-    "base": "6 60 локации, «Фортификация», «Ров», «Бойницы», «Жидкий огонь», «Бастионы»",
-    "bonuses": "-2",
+    "base": "6 БО локации, «Фортификация», «Ров», «Бойницы», «Жидкий огонь», «Бастионы»",
+    "bonuses": "«Фортификация», «Ров», «Бойницы», «Жидкий огонь», «Бастионы»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 50.0,
       "display": "50"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -2193,15 +2308,16 @@ const BUILDINGS = [
     "climate": "все",
     "conditions": "—",
     "input": "1 Доспехи",
-    "base": "4 60 локации +2 (Остров), «Хранители замков», «Мотт», «Донжон», «Ров»",
-    "bonuses": "-3",
+    "base": "4 БО локации +2 (Остров), «Хранители замков», «Мотт», «Донжон», «Ров»",
+    "bonuses": "«Хранители замков», «Мотт», «Донжон», «Ров»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 40.0,
       "display": "40"
+    },
+    "income": {
+      "base": -3.0,
+      "max": -3.0,
+      "display": "-3"
     }
   },
   {
@@ -2213,14 +2329,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "3 п/п",
     "base": "+0,5 к силе ТК, +0,5 в/о, решение «Провести рыц. турнир»",
-    "bonuses": "-1",
+    "bonuses": "«Провести рыц. турнир»",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 35.0,
       "display": "35"
+    },
+    "income": {
+      "base": -1.0,
+      "max": -1.0,
+      "display": "-1"
     }
   },
   {
@@ -2231,15 +2348,16 @@ const BUILDINGS = [
     "climate": "все",
     "conditions": "—",
     "input": "2 Алко",
-    "base": "2 60 локации, 1 в/о, +3 к снабжению",
-    "bonuses": "-2",
+    "base": "2 БО локации, 1 в/о, +3 к снабжению",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 20.0,
       "display": "20"
+    },
+    "income": {
+      "base": -2.0,
+      "max": -2.0,
+      "display": "-2"
     }
   },
   {
@@ -2251,14 +2369,15 @@ const BUILDINGS = [
     "conditions": "—",
     "input": "1 Доспехи",
     "base": "-100% к снижению затрат на содержание Армии, 2 в/о",
-    "bonuses": "0",
+    "bonuses": "",
     "cost": {
-      "numeric": null,
-      "display": ""
-    },
-    "income": {
       "numeric": 20.0,
       "display": "20"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
     }
   }
 ];
@@ -2309,12 +2428,13 @@ function cellVal(b, key) {
 }
 
 function incomeColor(b) {
-    const n = b.income.numeric;
-    if (n === null) return '';
-    if (n === 0) return '';
-    if (n <= 5) return 'income-low';
-    if (n <= 35) return 'income-mid';
-    return 'income-high';
+    const n = b.income.max ?? b.income.base;
+    if (n === null || n === 0) return '';
+    if (n < 0) return 'income-negative';
+    if (n <= 2) return 'income-low';
+    if (n <= 4) return 'income-mid';
+    if (n <= 7) return 'income-high';
+    return 'income-very-high';
 }
 
 function costColor(b) {
@@ -2336,7 +2456,7 @@ function cellClass(b, key) {
 function getSortVal(b, key) {
     if (key === 'catEmoji') return b.category;
     if (key === 'cost') return b.cost.numeric ?? 0;
-    if (key === 'income') return b.income.numeric ?? 0;
+    if (key === 'income') return b.income.base ?? 0;
     const v = cellVal(b, key);
     return typeof v === 'string' ? v.toLowerCase() : v;
 }

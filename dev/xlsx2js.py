@@ -12,19 +12,38 @@ except ImportError:
     exit(1)
 
 
-def parse_numeric(val: str):
-    """Извлекает первое число из строки. Для '—', '', текста возвращает None."""
+def parse_income(val: str):
+    """Парсит доход: возвращает (base, max).
+    base — первое число в строке (базовый доход).
+    max — сумма всех положительных чисел вне скобок (максимум с бонусами).
+    Для спецформул (%, Размер Города, ранг, у принимающей) max=None."""
     if val is None or val.strip() in ('', '—', '–', '-', '−'):
-        return None
+        return None, None
     s = val.strip().replace(',', '.')
     try:
-        return float(s)
+        v = float(s)
+        return v, v
     except ValueError:
         pass
-    m = re.search(r'-?\d+(?:\.\d+)?', s)
-    if m:
-        return float(m.group())
-    return None
+    if '%' in s:
+        return None, None
+    if any(x in s for x in ['Размер Города', 'у принимающей', 'х ранг']):
+        m = re.search(r'-?\d+(?:\.\d+)?', s)
+        if m:
+            return float(m.group()), None
+        return None, None
+    multiplier = 1
+    mult_m = re.search(r'[хx×](\d+(?:\.\d+)?)\s*$', s)
+    if mult_m:
+        multiplier = float(mult_m.group(1))
+        s = s[:mult_m.start()]
+    s_clean = re.sub(r'\([^)]*\)', '', s)
+    nums = [float(x) for x in re.findall(r'-?\d+(?:\.\d+)?', s_clean)]
+    if not nums:
+        return None, None
+    base = nums[0]
+    max_val = sum(n for n in nums if n >= 0) * multiplier
+    return base, max_val
 
 
 def to_display(val):
@@ -55,8 +74,8 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
         income_raw = raw[9]   # колонка 9 = Доход
         cost_raw = raw[10]    # колонка 10 = Цена
 
-        income_num = parse_numeric(income_raw)
-        cost_num = parse_numeric(cost_raw)
+        income_base, income_max = parse_income(income_raw)
+        cost_num, _ = parse_income(cost_raw)  # у цены не нужно max
 
         obj = {
             'name': name,
@@ -69,7 +88,7 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
             'base': raw[7],
             'bonuses': raw[8],
             'cost': {'numeric': cost_num, 'display': cost_raw},
-            'income': {'numeric': income_num, 'display': income_raw},
+            'income': {'base': income_base, 'max': income_max, 'display': income_raw},
         }
         buildings.append(obj)
 
@@ -133,12 +152,13 @@ function cellVal(b, key) {
 }
 
 function incomeColor(b) {
-    const n = b.income.numeric;
-    if (n === null) return '';
-    if (n === 0) return '';
-    if (n <= 5) return 'income-low';
-    if (n <= 35) return 'income-mid';
-    return 'income-high';
+    const n = b.income.max ?? b.income.base;
+    if (n === null || n === 0) return '';
+    if (n < 0) return 'income-negative';
+    if (n <= 2) return 'income-low';
+    if (n <= 4) return 'income-mid';
+    if (n <= 7) return 'income-high';
+    return 'income-very-high';
 }
 
 function costColor(b) {
@@ -160,7 +180,7 @@ function cellClass(b, key) {
 function getSortVal(b, key) {
     if (key === 'catEmoji') return b.category;
     if (key === 'cost') return b.cost.numeric ?? 0;
-    if (key === 'income') return b.income.numeric ?? 0;
+    if (key === 'income') return b.income.base ?? 0;
     const v = cellVal(b, key);
     return typeof v === 'string' ? v.toLowerCase() : v;
 }
