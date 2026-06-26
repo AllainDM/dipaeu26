@@ -59,36 +59,81 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
     rows = list(ws.iter_rows(min_row=2, values_only=True))
 
     buildings = []
+    first_of_group = {}
+
     for row in rows:
         raw = [to_display(c) for c in row]
-        if len(raw) < 11:
+        if len(raw) < 12:
             continue
         if all(v == '' for v in raw):
             continue
 
-        cat = raw[0]
-        name = raw[1]
+        group = raw[0]          # колонка 0 = Группа
+        cat = raw[1]            # колонка 1 = Категория
+        name = raw[2]           # колонка 2 = Постройка
         if not name:
             continue
 
-        income_raw = raw[9]   # колонка 9 = Доход
-        cost_raw = raw[10]    # колонка 10 = Цена
+        income_raw = raw[10]    # колонка 10 = Доход
+        cost_raw = raw[11]      # колонка 11 = Цена
 
         income_base, income_max = parse_income(income_raw)
-        cost_num, _ = parse_income(cost_raw)  # у цены не нужно max
+        cost_num, _ = parse_income(cost_raw)
+
+        # Наследование общих полей от первой строки группы
+        if group:
+            if group not in first_of_group:
+                first_of_group[group] = {
+                    'location': raw[3],
+                    'input': raw[7],
+                    'income': {'base': income_base, 'max': income_max, 'display': income_raw},
+                    'cost': {'numeric': cost_num, 'display': cost_raw},
+                }
+                # Первая строка — полные данные
+                inherit_from = None
+            else:
+                inherit_from = first_of_group[group]
+        else:
+            inherit_from = None
+
+        def pick(val, inherited):
+            if val and val != '—':
+                return val
+            return inherited if inherited else val
+
+        def pick_income(current, inherited):
+            if current['display'] and current['display'] not in ('', '—'):
+                return current
+            return inherited if inherited else current
+
+        def pick_cost(current, inherited):
+            if current['display'] and current['display'] not in ('', '—'):
+                return current
+            return inherited if inherited else current
+
+        final_income = income_raw
+        if inherit_from and (not income_raw or income_raw in ('', '—')):
+            final_income = inherit_from['income']['display']
+            income_base, income_max = inherit_from['income']['base'], inherit_from['income']['max']
+
+        final_cost = cost_raw
+        if inherit_from and (not cost_raw or cost_raw in ('', '—')):
+            final_cost = inherit_from['cost']['display']
+            cost_num = inherit_from['cost']['numeric']
 
         obj = {
             'name': name,
             'category': cat,
-            'location': raw[2],
-            'resource': raw[3],
-            'climate': raw[4],
-            'conditions': raw[5],
-            'input': raw[6],
-            'base': raw[7],
-            'bonuses': raw[8],
-            'cost': {'numeric': cost_num, 'display': cost_raw},
-            'income': {'base': income_base, 'max': income_max, 'display': income_raw},
+            'group': group,
+            'location': raw[3] if raw[3] else (inherit_from['location'] if inherit_from else ''),
+            'resource': raw[4],
+            'climate': raw[5],
+            'conditions': raw[6],
+            'input': raw[7] if raw[7] else (inherit_from['input'] if inherit_from else ''),
+            'base': raw[8],
+            'bonuses': raw[9],
+            'cost': {'numeric': cost_num, 'display': final_cost},
+            'income': {'base': income_base, 'max': income_max, 'display': final_income},
         }
         buildings.append(obj)
 
@@ -189,7 +234,23 @@ function filteredData() {
     let list = BUILDINGS.filter(b => activeCategories.has(b.category));
     if (searchQuery) {
         const q = searchQuery.toLowerCase();
-        list = list.filter(b => b.name.toLowerCase().includes(q));
+        const matched = new Array(list.length).fill(false);
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].name.toLowerCase().includes(q)) {
+                matched[i] = true;
+            }
+        }
+        // Показываем всю группу, если найден хотя бы один её член
+        for (let i = 0; i < list.length; i++) {
+            if (matched[i] && list[i].group) {
+                for (let j = 0; j < list.length; j++) {
+                    if (list[j].group === list[i].group) {
+                        matched[j] = true;
+                    }
+                }
+            }
+        }
+        list = list.filter((_, i) => matched[i]);
     }
     if (sortKey) {
         list.sort((a, b) => {
@@ -207,7 +268,10 @@ function filteredData() {
     return list;
 }
 
-// ── render ──
+// ── Группировка для рендеринга ──
+
+// Колонки, которые отображаются с rowspan для первой строки группы
+const COMMON_COLS = new Set(['catEmoji', 'location', 'input', 'income', 'cost']);
 
 function render() {
     const data = filteredData();
@@ -223,15 +287,43 @@ function render() {
     hRow += '</tr>';
     thead.innerHTML = hRow;
 
-    let rows = '';
+    // Группируем последовательные строки с одинаковым group
+    const groups = [];
+    let cur = null;
     for (const b of data) {
-        rows += '<tr>';
-        for (const col of COLUMNS) {
-            const val = cellVal(b, col.key);
-            const cls = cellClass(b, col.key);
-            rows += `<td class="${cls}">${val}</td>`;
+        if (b.group && cur && cur[0].group === b.group) {
+            cur.push(b);
+        } else {
+            if (cur) groups.push(cur);
+            cur = [b];
         }
-        rows += '</tr>';
+    }
+    if (cur) groups.push(cur);
+
+    let rows = '';
+    for (const grp of groups) {
+        const size = grp.length;
+        const isGrp = size > 1 && grp[0].group;
+
+        for (let i = 0; i < size; i++) {
+            const b = grp[i];
+            rows += '<tr>';
+            for (const col of COLUMNS) {
+                if (isGrp && COMMON_COLS.has(col.key)) {
+                    if (i === 0) {
+                        const val = cellVal(b, col.key);
+                        const cls = cellClass(b, col.key);
+                        rows += `<td class="${cls}" rowspan="${size}">${val}</td>`;
+                    }
+                    // остальные строки — пропускаем ячейку
+                } else {
+                    const val = cellVal(b, col.key);
+                    const cls = cellClass(b, col.key);
+                    rows += `<td class="${cls}">${val}</td>`;
+                }
+            }
+            rows += '</tr>';
+        }
     }
     tbody.innerHTML = rows;
 

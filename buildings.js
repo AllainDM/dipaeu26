@@ -3,13 +3,35 @@ const BUILDINGS = [
   {
     "name": "Поле",
     "category": "с/х",
+    "group": "Поле",
     "location": "Провинция",
-    "resource": "все",
-    "climate": "все (кроме Степи и Пустыни)",
-    "conditions": "—",
+    "resource": "",
+    "climate": "",
+    "conditions": "",
     "input": "1 Инструмент",
-    "base": "3 п/п",
-    "bonuses": "+1 Тёплый/Умеренный, +2 «Пойменное земледелие», «Тяжёлый плуг», +1 Равнина, -1 Холодный/Экватор, -1 Леса, +5 «Трёхполье», «Подсечное земледелие»",
+    "base": "3 п/п +1(Тёплый/Умеренный) +2(Зерно) +1(Равнина) -1(Холодный/Экватор) -1(Леса) +5(Месопотамия)",
+    "bonuses": "«Подсека», «Тяжёлый плуг», «Трёхполье», «Посдевое земледелие», «Оброк», «Феллахи», «Хомут», «Коса»",
+    "cost": {
+      "numeric": 17.5,
+      "display": "17.5"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 1.0,
+      "display": "1"
+    }
+  },
+  {
+    "name": "Лён",
+    "category": "с/х",
+    "group": "Поле",
+    "location": "Провинция",
+    "resource": "Лён",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Инструмент",
+    "base": "1 Волокно +1(Леса)",
+    "bonuses": "«Трёхполье», «Лён-долгунец», «Аренда земли», «Комгут», «Феллахи», «Коса»",
     "cost": {
       "numeric": 17.5,
       "display": "17.5"
@@ -23,13 +45,14 @@ const BUILDINGS = [
   {
     "name": "Пастбище",
     "category": "с/х",
+    "group": "Пастбище",
     "location": "Провинция",
-    "resource": "все",
-    "climate": "все (кроме Арктики)",
-    "conditions": "—",
+    "resource": "",
+    "climate": "",
+    "conditions": "нет пр-ва при традиции «Вегетарианство»",
     "input": "1 Рабы",
-    "base": "1 п/п",
-    "bonuses": "+1 Овцы, +2 Олени, +3 Скот, +1 Степь/Холмы, -1 Джунгли/Леса, «Пастыри», «Селекция», «Отгонное скотоводство»",
+    "base": "1 п/п +1(Овцы) +2(Лесные) +3(Скот) +1(Степь/Холмы) -1(Джунгли/Леса)",
+    "bonuses": "дом Пастыри, Селенция, Аренда земли, Отгонное скотоводство",
     "cost": {
       "numeric": 10.0,
       "display": "10"
@@ -37,12 +60,55 @@ const BUILDINGS = [
     "income": {
       "base": 1.0,
       "max": 2.0,
-      "display": "1+1 (Овцы)"
+      "display": "1+1(Овцы/Меринос)"
+    }
+  },
+  {
+    "name": "Кони",
+    "category": "с/х",
+    "group": "Пастбище",
+    "location": "Провинция",
+    "resource": "Кони",
+    "climate": "",
+    "conditions": "",
+    "input": "1 Рабы",
+    "base": "1 Кони +1(Степь)",
+    "bonuses": "дом Пастыри, Селенция, Аренда земли, Коневодство",
+    "cost": {
+      "numeric": 10.0,
+      "display": "10"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Овцы/Меринос)"
+    }
+  },
+  {
+    "name": "Овцы",
+    "category": "с/х",
+    "group": "Пастбище",
+    "location": "Провинция",
+    "resource": "Овцы",
+    "climate": "",
+    "conditions": "",
+    "input": "1 Рабы",
+    "base": "1 Волокно +1(Степь/Холмы) -1(Джунгли/Леса)",
+    "bonuses": "дом Пастыри, Селенция, Меринос, Огораживание, Аренда земли, Трёхполье, Стойловое содержание",
+    "cost": {
+      "numeric": 10.0,
+      "display": "10"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Овцы/Меринос)"
     }
   },
   {
     "name": "Ферма",
     "category": "с/х",
+    "group": "",
     "location": "Провинция/Город",
     "resource": "все",
     "climate": "все (кроме Арктики)",
@@ -63,6 +129,7 @@ const BUILDINGS = [
   {
     "name": "Огород",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -83,6 +150,7 @@ const BUILDINGS = [
   {
     "name": "Свинарник",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -103,6 +171,7 @@ const BUILDINGS = [
   {
     "name": "Сад",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -123,6 +192,7 @@ const BUILDINGS = [
   {
     "name": "Бахча",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -143,6 +213,7 @@ const BUILDINGS = [
   {
     "name": "Пасека",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -163,6 +234,7 @@ const BUILDINGS = [
   {
     "name": "Виноградник",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "Тёплый/Жаркий/Знойный/Экватор (кроме Холодного/Прохладного/Степи/Пустыни/Холмов)",
@@ -181,28 +253,9 @@ const BUILDINGS = [
     }
   },
   {
-    "name": "Плантация",
-    "category": "с/х",
-    "location": "Провинция",
-    "resource": "Фрукты/Оливки",
-    "climate": "Тёплый/Жаркий/Знойный",
-    "conditions": "—",
-    "input": "1 Алко",
-    "base": "4 п/п",
-    "bonuses": "+1 Холмы, «Террасное земледелие»",
-    "cost": {
-      "numeric": 35.0,
-      "display": "35"
-    },
-    "income": {
-      "base": 0.0,
-      "max": 0.0,
-      "display": "0"
-    }
-  },
-  {
     "name": "Мельница",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "Зерно",
     "climate": "все",
@@ -221,28 +274,9 @@ const BUILDINGS = [
     }
   },
   {
-    "name": "Прядильня",
-    "category": "с/х",
-    "location": "Провинция",
-    "resource": "Лён/Оливки/Скот + инн «Сливочное масло»",
-    "climate": "все",
-    "conditions": "—",
-    "input": "2 Шёлк",
-    "base": "2 Волокно",
-    "bonuses": "—",
-    "cost": {
-      "numeric": 20.0,
-      "display": "20"
-    },
-    "income": {
-      "base": 1.0,
-      "max": 1.0,
-      "display": "1"
-    }
-  },
-  {
     "name": "Маслобойня",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -263,6 +297,7 @@ const BUILDINGS = [
   {
     "name": "Конюшня",
     "category": "с/х",
+    "group": "",
     "location": "Провинция",
     "resource": "Кони",
     "climate": "все",
@@ -281,8 +316,198 @@ const BUILDINGS = [
     }
   },
   {
+    "name": "Плантация",
+    "category": "с/х",
+    "group": "Плантация",
+    "location": "Провинция",
+    "resource": "",
+    "climate": "",
+    "conditions": "",
+    "input": "1 Рабы",
+    "base": "",
+    "bonuses": "",
+    "cost": {
+      "numeric": 35.0,
+      "display": "35"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
+    }
+  },
+  {
+    "name": "Благовония",
+    "category": "с/х",
+    "group": "Плантация",
+    "location": "Провинция",
+    "resource": "Благовония",
+    "climate": "Тёплый/Жаркий/Знойный/Экватор + Степь/Пустыня/Холмы",
+    "conditions": "",
+    "input": "1 Рабы",
+    "base": "3 Благовония +1(Холмы + «Террасное земледелие»)",
+    "bonuses": "",
+    "cost": {
+      "numeric": 35.0,
+      "display": "35"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
+    }
+  },
+  {
+    "name": "Пряности",
+    "category": "с/х",
+    "group": "Плантация",
+    "location": "Провинция",
+    "resource": "Пряности",
+    "climate": "Жаркий/Знойный/Экватор + Холмы/Пустыня/Джунгли(x3)",
+    "conditions": "",
+    "input": "1 Рабы",
+    "base": "1 Пряности +1(Холмы + «Террасное земледелие») +1(Прованс)",
+    "bonuses": "«Террасное земледелие»",
+    "cost": {
+      "numeric": 35.0,
+      "display": "35"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
+    }
+  },
+  {
+    "name": "Фрукты",
+    "category": "с/х",
+    "group": "Плантация",
+    "location": "Провинция",
+    "resource": "Фрукты",
+    "climate": "Экватор/Жаркий/Знойный + Равнина/Джунгли/Болото(50%)",
+    "conditions": "",
+    "input": "1 Рабы",
+    "base": "4 п/п(Холмы + «Террасное земледелие»)",
+    "bonuses": "",
+    "cost": {
+      "numeric": 35.0,
+      "display": "35"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
+    }
+  },
+  {
+    "name": "Сахар",
+    "category": "с/х",
+    "group": "Плантация",
+    "location": "Провинция",
+    "resource": "Сахар",
+    "climate": "Жаркий/Знойный/Экватор + Джунгли/Холмы/Болото",
+    "conditions": "",
+    "input": "1 Рабы",
+    "base": "2 Сахар +1(Холмы + «Террасное земледелие»). Наличие Ирригации даёт х2 к пр-ву",
+    "bonuses": "«Сахарная мельница», «Террасное земледелие»",
+    "cost": {
+      "numeric": 35.0,
+      "display": "35"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
+    }
+  },
+  {
+    "name": "Хлопок",
+    "category": "с/х",
+    "group": "Плантация",
+    "location": "Провинция",
+    "resource": "Хлопок",
+    "climate": "Жаркий/Знойный + Пустыня/Равнина",
+    "conditions": "",
+    "input": "1 Рабы",
+    "base": "4 Волокно. Наличие Ирригации даёт х2 к пр-ву",
+    "bonuses": "«Парала»",
+    "cost": {
+      "numeric": 35.0,
+      "display": "35"
+    },
+    "income": {
+      "base": 0.0,
+      "max": 0.0,
+      "display": "0"
+    }
+  },
+  {
+    "name": "Прядильня",
+    "category": "с/х",
+    "group": "Прядильня",
+    "location": "Провинция",
+    "resource": "",
+    "climate": "",
+    "conditions": "",
+    "input": "",
+    "base": "",
+    "bonuses": "",
+    "cost": {
+      "numeric": 26.0,
+      "display": "26"
+    },
+    "income": {
+      "base": null,
+      "max": null,
+      "display": ""
+    }
+  },
+  {
+    "name": "Шёлк",
+    "category": "с/х",
+    "group": "Прядильня",
+    "location": "Провинция",
+    "resource": "Шёлк",
+    "climate": "Жаркий + Леса",
+    "conditions": "",
+    "input": "1 Краски",
+    "base": "2 Шёлк",
+    "bonuses": "",
+    "cost": {
+      "numeric": 26.0,
+      "display": "26"
+    },
+    "income": {
+      "base": null,
+      "max": null,
+      "display": ""
+    }
+  },
+  {
+    "name": "Конопля",
+    "category": "с/х",
+    "group": "Прядильня",
+    "location": "Провинция",
+    "resource": "Конопля",
+    "climate": "все",
+    "conditions": "инн «Пенька»",
+    "input": "",
+    "base": "2 Волокно",
+    "bonuses": "",
+    "cost": {
+      "numeric": 26.0,
+      "display": "26"
+    },
+    "income": {
+      "base": null,
+      "max": null,
+      "display": ""
+    }
+  },
+  {
     "name": "Чертог",
     "category": "админ",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -303,6 +528,7 @@ const BUILDINGS = [
   {
     "name": "Суд",
     "category": "админ",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -323,6 +549,7 @@ const BUILDINGS = [
   {
     "name": "Канцелярия",
     "category": "админ",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -343,6 +570,7 @@ const BUILDINGS = [
   {
     "name": "Тюрьма",
     "category": "админ",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -363,6 +591,7 @@ const BUILDINGS = [
   {
     "name": "Таможня",
     "category": "админ",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -383,6 +612,7 @@ const BUILDINGS = [
   {
     "name": "Монетный двор",
     "category": "админ",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -403,6 +633,7 @@ const BUILDINGS = [
   {
     "name": "Дворец",
     "category": "админ",
+    "group": "",
     "location": "Столица",
     "resource": "все",
     "climate": "все",
@@ -421,8 +652,240 @@ const BUILDINGS = [
     }
   },
   {
+    "name": "Рудник",
+    "category": "добыча",
+    "group": "Рудник",
+    "location": "Провинция",
+    "resource": "",
+    "climate": "",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "",
+    "bonuses": "",
+    "cost": {
+      "numeric": 25.0,
+      "display": "25"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Золото",
+    "category": "добыча",
+    "group": "Рудник",
+    "location": "Провинция",
+    "resource": "Золото",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Инструмент",
+    "base": "2 Золото",
+    "bonuses": "«Маркшейдеры», «Амальгамация»",
+    "cost": {
+      "numeric": 25.0,
+      "display": "25"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Серебро",
+    "category": "добыча",
+    "group": "Рудник",
+    "location": "Провинция",
+    "resource": "Серебро",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "2 Серебро",
+    "bonuses": "",
+    "cost": {
+      "numeric": 25.0,
+      "display": "25"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Железо",
+    "category": "добыча",
+    "group": "Рудник",
+    "location": "Провинция",
+    "resource": "Железо",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "4 Жел/руда +1(Железо) -2(Болото)",
+    "bonuses": "",
+    "cost": {
+      "numeric": 25.0,
+      "display": "25"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Медь",
+    "category": "добыча",
+    "group": "Рудник",
+    "location": "Провинция",
+    "resource": "Медь",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "3 Мед/руда",
+    "bonuses": "",
+    "cost": {
+      "numeric": 25.0,
+      "display": "25"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Др/камни",
+    "category": "добыча",
+    "group": "Рудник",
+    "location": "Провинция",
+    "resource": "Др/камни",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "1 Др/камни",
+    "bonuses": "",
+    "cost": {
+      "numeric": 25.0,
+      "display": "25"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Свинец",
+    "category": "добыча",
+    "group": "Рудник",
+    "location": "Провинция",
+    "resource": "Свинец",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "2 Свинец",
+    "bonuses": "",
+    "cost": {
+      "numeric": 25.0,
+      "display": "25"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Шахта",
+    "category": "добыча",
+    "group": "Шахта",
+    "location": "Провинция",
+    "resource": "",
+    "climate": "",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "",
+    "bonuses": "",
+    "cost": {
+      "numeric": 30.0,
+      "display": "30"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Соль",
+    "category": "добыча",
+    "group": "Шахта",
+    "location": "Провинция",
+    "resource": "Соль",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "3 Соль",
+    "bonuses": "",
+    "cost": {
+      "numeric": 30.0,
+      "display": "30"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Селитра",
+    "category": "добыча",
+    "group": "Шахта",
+    "location": "Провинция",
+    "resource": "Селитра",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "3 Селитра",
+    "bonuses": "",
+    "cost": {
+      "numeric": 30.0,
+      "display": "30"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
+    "name": "Уголь",
+    "category": "добыча",
+    "group": "Шахта",
+    "location": "Провинция",
+    "resource": "Уголь",
+    "climate": "все",
+    "conditions": "",
+    "input": "1 Рабы/1 Инструмент",
+    "base": "4,5 Уголь",
+    "bonuses": "",
+    "cost": {
+      "numeric": 30.0,
+      "display": "30"
+    },
+    "income": {
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1+1(Дорога)"
+    }
+  },
+  {
     "name": "Лесорубка",
     "category": "добыча",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -443,6 +906,7 @@ const BUILDINGS = [
   {
     "name": "Углежогня",
     "category": "добыча",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "Леса/Джунгли",
@@ -463,6 +927,7 @@ const BUILDINGS = [
   {
     "name": "Смолокурня",
     "category": "добыча",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "Леса/Джунгли",
@@ -483,6 +948,7 @@ const BUILDINGS = [
   {
     "name": "Каменоломня",
     "category": "добыча",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -501,54 +967,15 @@ const BUILDINGS = [
     }
   },
   {
-    "name": "Рудник (Мрамор)",
+    "name": "Солеварня",
     "category": "добыча",
+    "group": "",
     "location": "Провинция",
-    "resource": "Мрамор",
+    "resource": "Соль",
     "climate": "все",
     "conditions": "—",
-    "input": "1 Рабы",
-    "base": "2 Мрамор",
-    "bonuses": "«Горное дело»",
-    "cost": {
-      "numeric": 25.0,
-      "display": "25"
-    },
-    "income": {
-      "base": 1.0,
-      "max": 1.0,
-      "display": "1+!(Дорога)"
-    }
-  },
-  {
-    "name": "Рудник (Золото)",
-    "category": "добыча",
-    "location": "Провинция",
-    "resource": "Золото",
-    "climate": "все",
-    "conditions": "—",
-    "input": "1 Инструмент",
-    "base": "2 Золото",
-    "bonuses": "«Маркшейдеры», «Амальгамация»",
-    "cost": {
-      "numeric": 30.0,
-      "display": "30"
-    },
-    "income": {
-      "base": 1.0,
-      "max": 2.0,
-      "display": "1+1(Дорога)"
-    }
-  },
-  {
-    "name": "Рудник (Серебро)",
-    "category": "добыча",
-    "location": "Провинция",
-    "resource": "Серебро",
-    "climate": "все",
-    "conditions": "—",
-    "input": "2 Древесина",
-    "base": "2 Серебро",
+    "input": "—",
+    "base": "3 Соль",
     "bonuses": "—",
     "cost": {
       "numeric": 20.0,
@@ -561,15 +988,16 @@ const BUILDINGS = [
     }
   },
   {
-    "name": "Шахта (Железо)",
+    "name": "Селитряница",
     "category": "добыча",
+    "group": "",
     "location": "Провинция",
-    "resource": "Железо",
-    "climate": "все (в т.ч. Болото)",
+    "resource": "Селитра",
+    "climate": "все",
     "conditions": "—",
-    "input": "1 Рабы",
-    "base": "4 Жел/руда",
-    "bonuses": "+1 Железо, -2 Болото, «Маркшейдеры», «Горное дело»",
+    "input": "—",
+    "base": "3 Селитра",
+    "bonuses": "«Маркшейдеры», «Штольня», «Горное дело», «Чугун», «Водяные насосы», «Копи»",
     "cost": {
       "numeric": 10.0,
       "display": "10"
@@ -581,15 +1009,16 @@ const BUILDINGS = [
     }
   },
   {
-    "name": "Шахта (Медь)",
+    "name": "Бивак",
     "category": "добыча",
+    "group": "",
     "location": "Провинция",
-    "resource": "Медь",
+    "resource": "Море",
     "climate": "все",
-    "conditions": "—",
-    "input": "1 Инструмент",
-    "base": "3 Мед/руда",
-    "bonuses": "—",
+    "conditions": "нужна Скот/Свинарник/Канализация",
+    "input": "1 Звери + !ТНП (Слоны)",
+    "base": "1 Соль + 1 Селитра",
+    "bonuses": "«Порох»",
     "cost": {
       "numeric": 5.0,
       "display": "5"
@@ -601,118 +1030,19 @@ const BUILDINGS = [
     }
   },
   {
-    "name": "Шахта (Др/камни)",
-    "category": "добыча",
-    "location": "Провинция",
-    "resource": "Др/камни",
-    "climate": "все",
-    "conditions": "—",
-    "input": "—",
-    "base": "1 Др/камни",
-    "bonuses": "—",
-    "cost": {
-      "numeric": 7.5,
-      "display": "7.5"
-    },
-    "income": {
-      "base": 1.0,
-      "max": 2.0,
-      "display": "1+1(Меха)"
-    }
-  },
-  {
-    "name": "Шахта (Свинец)",
-    "category": "добыча",
-    "location": "Провинция",
-    "resource": "Свинец",
-    "climate": "все",
-    "conditions": "—",
-    "input": "—",
-    "base": "2 Свинец",
-    "bonuses": "—",
-    "cost": {
-      "numeric": null,
-      "display": "—"
-    },
-    "income": {
-      "base": null,
-      "max": null,
-      "display": "—"
-    }
-  },
-  {
-    "name": "Солеварня",
-    "category": "добыча",
-    "location": "Провинция",
-    "resource": "Соль",
-    "climate": "все",
-    "conditions": "—",
-    "input": "—",
-    "base": "3 Соль",
-    "bonuses": "—",
-    "cost": {
-      "numeric": null,
-      "display": "—"
-    },
-    "income": {
-      "base": null,
-      "max": null,
-      "display": "—"
-    }
-  },
-  {
-    "name": "Селитряница",
-    "category": "добыча",
-    "location": "Провинция",
-    "resource": "Селитра",
-    "climate": "все",
-    "conditions": "—",
-    "input": "—",
-    "base": "3 Селитра",
-    "bonuses": "«Маркшейдеры», «Штольня», «Горное дело», «Чугун», «Водяные насосы», «Копи»",
-    "cost": {
-      "numeric": null,
-      "display": "—"
-    },
-    "income": {
-      "base": null,
-      "max": null,
-      "display": "—"
-    }
-  },
-  {
-    "name": "Бивак",
-    "category": "добыча",
-    "location": "Провинция",
-    "resource": "Море",
-    "climate": "все",
-    "conditions": "нужна Скот/Свинарник/Канализация",
-    "input": "1 Звери + !ТНП (Слоны)",
-    "base": "1 Соль + 1 Селитра",
-    "bonuses": "«Порох»",
-    "cost": {
-      "numeric": null,
-      "display": "—"
-    },
-    "income": {
-      "base": null,
-      "max": null,
-      "display": "—"
-    }
-  },
-  {
     "name": "Угодье",
     "category": "добыча",
+    "group": "",
     "location": "Провинция/Город",
     "resource": "Скот/Свинарник/Канализация",
     "climate": "все",
     "conditions": "нет при «Вегетарианство»",
     "input": "1 Кони, 1 Волокно",
-    "base": "1 Звери + !ТНП (Слоны)",
+    "base": "1 Звери + 1 ТНП (Слоны)",
     "bonuses": "«Травля зверей»",
     "cost": {
-      "numeric": null,
-      "display": "—"
+      "numeric": 7.5,
+      "display": "7.5"
     },
     "income": {
       "base": null,
@@ -723,6 +1053,7 @@ const BUILDINGS = [
   {
     "name": "Гончарная",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "Река/Озеро",
@@ -743,6 +1074,7 @@ const BUILDINGS = [
   {
     "name": "Красильня",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -763,6 +1095,7 @@ const BUILDINGS = [
   {
     "name": "Пекарня",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -783,6 +1116,7 @@ const BUILDINGS = [
   {
     "name": "Пивоварня",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "Зерно/Овощи/Фрукты",
     "climate": "все",
@@ -803,6 +1137,7 @@ const BUILDINGS = [
   {
     "name": "Винокурня",
     "category": "ремесло",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -823,6 +1158,7 @@ const BUILDINGS = [
   {
     "name": "Свечной двор",
     "category": "ремесло",
+    "group": "",
     "location": "Провинция",
     "resource": "Воск",
     "climate": "все",
@@ -843,6 +1179,7 @@ const BUILDINGS = [
   {
     "name": "Бумажная артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -863,6 +1200,7 @@ const BUILDINGS = [
   {
     "name": "Пергаментная артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -883,6 +1221,7 @@ const BUILDINGS = [
   {
     "name": "Дубильня",
     "category": "ремесло",
+    "group": "",
     "location": "Провинция/Город",
     "resource": "Скот/Меха/Звери/Свинарник",
     "climate": "все",
@@ -903,6 +1242,7 @@ const BUILDINGS = [
   {
     "name": "Верфь",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -923,6 +1263,7 @@ const BUILDINGS = [
   {
     "name": "Ткацкая артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -943,6 +1284,7 @@ const BUILDINGS = [
   {
     "name": "Мануфактура",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -963,6 +1305,7 @@ const BUILDINGS = [
   {
     "name": "Сукновальня",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -983,6 +1326,7 @@ const BUILDINGS = [
   {
     "name": "Ковровый двор",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1003,6 +1347,7 @@ const BUILDINGS = [
   {
     "name": "Коптильня",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1023,6 +1368,7 @@ const BUILDINGS = [
   {
     "name": "Колбасный цех",
     "category": "ремесло",
+    "group": "",
     "location": "Провинция/Город",
     "resource": "все",
     "climate": "все",
@@ -1043,6 +1389,7 @@ const BUILDINGS = [
   {
     "name": "Сыроварня",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1063,6 +1410,7 @@ const BUILDINGS = [
   {
     "name": "Ювелирная артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1083,6 +1431,7 @@ const BUILDINGS = [
   {
     "name": "Шорная артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1103,6 +1452,7 @@ const BUILDINGS = [
   {
     "name": "Стеклянная артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1123,6 +1473,7 @@ const BUILDINGS = [
   {
     "name": "Мыловарня",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1143,6 +1494,7 @@ const BUILDINGS = [
   {
     "name": "Обувная артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1163,6 +1515,7 @@ const BUILDINGS = [
   {
     "name": "Швейная артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1183,6 +1536,7 @@ const BUILDINGS = [
   {
     "name": "Бондарная артель",
     "category": "ремесло",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -1203,6 +1557,7 @@ const BUILDINGS = [
   {
     "name": "Пушной двор",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "Пустыня",
     "climate": "все",
@@ -1223,6 +1578,7 @@ const BUILDINGS = [
   {
     "name": "Пороховая артель",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1243,6 +1599,7 @@ const BUILDINGS = [
   {
     "name": "Мастерская",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1263,6 +1620,7 @@ const BUILDINGS = [
   {
     "name": "Кузница",
     "category": "ремесло",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -1283,6 +1641,7 @@ const BUILDINGS = [
   {
     "name": "Плавильня",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1303,6 +1662,7 @@ const BUILDINGS = [
   {
     "name": "Литейная",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1323,6 +1683,7 @@ const BUILDINGS = [
   {
     "name": "Лавка",
     "category": "ремесло",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1343,6 +1704,7 @@ const BUILDINGS = [
   {
     "name": "Оружейная",
     "category": "ремесло",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1363,6 +1725,7 @@ const BUILDINGS = [
   {
     "name": "Рынок",
     "category": "торговля",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1383,6 +1746,7 @@ const BUILDINGS = [
   {
     "name": "Базар",
     "category": "торговля",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1403,6 +1767,7 @@ const BUILDINGS = [
   {
     "name": "Караван-сарай",
     "category": "торговля",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "Пряности/Верблюды",
     "climate": "все",
@@ -1423,6 +1788,7 @@ const BUILDINGS = [
   {
     "name": "Аптека",
     "category": "торговля",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1443,6 +1809,7 @@ const BUILDINGS = [
   {
     "name": "Бордель",
     "category": "торговля",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1463,6 +1830,7 @@ const BUILDINGS = [
   {
     "name": "Таверна",
     "category": "торговля",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1483,6 +1851,7 @@ const BUILDINGS = [
   {
     "name": "Фактория",
     "category": "торговля",
+    "group": "",
     "location": "Город",
     "resource": "Море",
     "climate": "все",
@@ -1503,6 +1872,7 @@ const BUILDINGS = [
   {
     "name": "Невольничий рынок",
     "category": "торговля",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1523,6 +1893,7 @@ const BUILDINGS = [
   {
     "name": "Ипподром",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1543,6 +1914,7 @@ const BUILDINGS = [
   {
     "name": "Чайхана",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1563,6 +1935,7 @@ const BUILDINGS = [
   {
     "name": "Театр",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1583,6 +1956,7 @@ const BUILDINGS = [
   {
     "name": "Лаборатория",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1603,6 +1977,7 @@ const BUILDINGS = [
   {
     "name": "Библиотека",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1623,6 +1998,7 @@ const BUILDINGS = [
   {
     "name": "Университет",
     "category": "культура и наука",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "Холмы",
@@ -1643,6 +2019,7 @@ const BUILDINGS = [
   {
     "name": "Обсерватория",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1663,6 +2040,7 @@ const BUILDINGS = [
   {
     "name": "Медресе",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1683,6 +2061,7 @@ const BUILDINGS = [
   {
     "name": "Скрипторий",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1703,6 +2082,7 @@ const BUILDINGS = [
   {
     "name": "Типография",
     "category": "культура и наука",
+    "group": "",
     "location": "Столица",
     "resource": "все",
     "climate": "все",
@@ -1723,6 +2103,7 @@ const BUILDINGS = [
   {
     "name": "Гарем",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1743,6 +2124,7 @@ const BUILDINGS = [
   {
     "name": "Арена",
     "category": "культура и наука",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1763,6 +2145,7 @@ const BUILDINGS = [
   {
     "name": "Зверинец",
     "category": "культура и наука",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1783,6 +2166,7 @@ const BUILDINGS = [
   {
     "name": "Дорога",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1803,6 +2187,7 @@ const BUILDINGS = [
   {
     "name": "Мощёная дорога",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1823,6 +2208,7 @@ const BUILDINGS = [
   {
     "name": "Ирригация",
     "category": "инфраструктура",
+    "group": "",
     "location": "Провинция",
     "resource": "Жаркий/Знойный",
     "climate": "все",
@@ -1843,6 +2229,7 @@ const BUILDINGS = [
   {
     "name": "Колодец",
     "category": "инфраструктура",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -1863,6 +2250,7 @@ const BUILDINGS = [
   {
     "name": "Водопровод",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1883,6 +2271,7 @@ const BUILDINGS = [
   {
     "name": "Канализация",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1903,6 +2292,7 @@ const BUILDINGS = [
   {
     "name": "Бани",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1923,6 +2313,7 @@ const BUILDINGS = [
   {
     "name": "Госпиталь",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1943,6 +2334,7 @@ const BUILDINGS = [
   {
     "name": "Амбар",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -1963,6 +2355,7 @@ const BUILDINGS = [
   {
     "name": "Банк",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -1983,6 +2376,7 @@ const BUILDINGS = [
   {
     "name": "Пристань",
     "category": "инфраструктура",
+    "group": "",
     "location": "Река/Море/Озеро",
     "resource": "все",
     "climate": "все",
@@ -2003,6 +2397,7 @@ const BUILDINGS = [
   {
     "name": "Гавань",
     "category": "инфраструктура",
+    "group": "",
     "location": "Море",
     "resource": "Жемчуг/Янтарь",
     "climate": "все",
@@ -2023,6 +2418,7 @@ const BUILDINGS = [
   {
     "name": "Порт",
     "category": "инфраструктура",
+    "group": "",
     "location": "Город",
     "resource": "Море",
     "climate": "все",
@@ -2043,6 +2439,7 @@ const BUILDINGS = [
   {
     "name": "Маяк",
     "category": "инфраструктура",
+    "group": "",
     "location": "Провинция/Город",
     "resource": "Море",
     "climate": "все",
@@ -2063,6 +2460,7 @@ const BUILDINGS = [
   {
     "name": "Капище",
     "category": "религия",
+    "group": "",
     "location": "Провинция/Город",
     "resource": "все",
     "climate": "все",
@@ -2083,6 +2481,7 @@ const BUILDINGS = [
   {
     "name": "Церковь",
     "category": "религия",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -2103,6 +2502,7 @@ const BUILDINGS = [
   {
     "name": "Храм",
     "category": "религия",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -2123,6 +2523,7 @@ const BUILDINGS = [
   {
     "name": "Монастырь",
     "category": "религия",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -2143,6 +2544,7 @@ const BUILDINGS = [
   {
     "name": "Мечеть",
     "category": "религия",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -2163,6 +2565,7 @@ const BUILDINGS = [
   {
     "name": "Святилище",
     "category": "религия",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -2183,6 +2586,7 @@ const BUILDINGS = [
   {
     "name": "Мавзолей",
     "category": "религия",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -2203,6 +2607,7 @@ const BUILDINGS = [
   {
     "name": "Курган",
     "category": "религия",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -2223,6 +2628,7 @@ const BUILDINGS = [
   {
     "name": "Частокол",
     "category": "военные",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -2243,6 +2649,7 @@ const BUILDINGS = [
   {
     "name": "Деревянная стена",
     "category": "военные",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -2263,6 +2670,7 @@ const BUILDINGS = [
   {
     "name": "Глиняная стена",
     "category": "военные",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -2283,6 +2691,7 @@ const BUILDINGS = [
   {
     "name": "Каменная стена",
     "category": "военные",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -2303,6 +2712,7 @@ const BUILDINGS = [
   {
     "name": "Замок",
     "category": "военные",
+    "group": "",
     "location": "Город/Провинция",
     "resource": "все",
     "climate": "все",
@@ -2323,6 +2733,7 @@ const BUILDINGS = [
   {
     "name": "Ристалище",
     "category": "военные",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -2343,6 +2754,7 @@ const BUILDINGS = [
   {
     "name": "Лагерь",
     "category": "военные",
+    "group": "",
     "location": "Провинция",
     "resource": "все",
     "climate": "все",
@@ -2363,6 +2775,7 @@ const BUILDINGS = [
   {
     "name": "Казарма",
     "category": "военные",
+    "group": "",
     "location": "Город",
     "resource": "все",
     "climate": "все",
@@ -2453,20 +2866,10 @@ function cellClass(b, key) {
     return '';
 }
 
-function incomeColorRank(b) {
-    const n = b.income.max ?? b.income.base;
-    if (n === null || n === 0) return 1;
-    if (n < 0) return 0;
-    if (n <= 2) return 2;
-    if (n <= 4) return 3;
-    if (n <= 7) return 4;
-    return 5;
-}
-
 function getSortVal(b, key) {
     if (key === 'catEmoji') return b.category;
     if (key === 'cost') return b.cost.numeric ?? 0;
-    if (key === 'income') return incomeColorRank(b);
+    if (key === 'income') return b.income.base ?? 0;
     const v = cellVal(b, key);
     return typeof v === 'string' ? v.toLowerCase() : v;
 }
@@ -2475,7 +2878,23 @@ function filteredData() {
     let list = BUILDINGS.filter(b => activeCategories.has(b.category));
     if (searchQuery) {
         const q = searchQuery.toLowerCase();
-        list = list.filter(b => b.name.toLowerCase().includes(q));
+        const matched = new Array(list.length).fill(false);
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].name.toLowerCase().includes(q)) {
+                matched[i] = true;
+            }
+        }
+        // Показываем всю группу, если найден хотя бы один её член
+        for (let i = 0; i < list.length; i++) {
+            if (matched[i] && list[i].group) {
+                for (let j = 0; j < list.length; j++) {
+                    if (list[j].group === list[i].group) {
+                        matched[j] = true;
+                    }
+                }
+            }
+        }
+        list = list.filter((_, i) => matched[i]);
     }
     if (sortKey) {
         list.sort((a, b) => {
@@ -2493,7 +2912,10 @@ function filteredData() {
     return list;
 }
 
-// ── render ──
+// ── Группировка для рендеринга ──
+
+// Колонки, которые отображаются с rowspan для первой строки группы
+const COMMON_COLS = new Set(['catEmoji', 'location', 'input', 'income', 'cost']);
 
 function render() {
     const data = filteredData();
@@ -2509,15 +2931,43 @@ function render() {
     hRow += '</tr>';
     thead.innerHTML = hRow;
 
-    let rows = '';
+    // Группируем последовательные строки с одинаковым group
+    const groups = [];
+    let cur = null;
     for (const b of data) {
-        rows += '<tr>';
-        for (const col of COLUMNS) {
-            const val = cellVal(b, col.key);
-            const cls = cellClass(b, col.key);
-            rows += `<td class="${cls}">${val}</td>`;
+        if (b.group && cur && cur[0].group === b.group) {
+            cur.push(b);
+        } else {
+            if (cur) groups.push(cur);
+            cur = [b];
         }
-        rows += '</tr>';
+    }
+    if (cur) groups.push(cur);
+
+    let rows = '';
+    for (const grp of groups) {
+        const size = grp.length;
+        const isGrp = size > 1 && grp[0].group;
+
+        for (let i = 0; i < size; i++) {
+            const b = grp[i];
+            rows += '<tr>';
+            for (const col of COLUMNS) {
+                if (isGrp && COMMON_COLS.has(col.key)) {
+                    if (i === 0) {
+                        const val = cellVal(b, col.key);
+                        const cls = cellClass(b, col.key);
+                        rows += `<td class="${cls}" rowspan="${size}">${val}</td>`;
+                    }
+                    // остальные строки — пропускаем ячейку
+                } else {
+                    const val = cellVal(b, col.key);
+                    const cls = cellClass(b, col.key);
+                    rows += `<td class="${cls}">${val}</td>`;
+                }
+            }
+            rows += '</tr>';
+        }
     }
     tbody.innerHTML = rows;
 
