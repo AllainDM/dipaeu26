@@ -2453,10 +2453,20 @@ function cellClass(b, key) {
     return '';
 }
 
+function incomeColorRank(b) {
+    const n = b.income.max ?? b.income.base;
+    if (n === null || n === 0) return 1;
+    if (n < 0) return 0;
+    if (n <= 2) return 2;
+    if (n <= 4) return 3;
+    if (n <= 7) return 4;
+    return 5;
+}
+
 function getSortVal(b, key) {
     if (key === 'catEmoji') return b.category;
     if (key === 'cost') return b.cost.numeric ?? 0;
-    if (key === 'income') return b.income.base ?? 0;
+    if (key === 'income') return incomeColorRank(b);
     const v = cellVal(b, key);
     return typeof v === 'string' ? v.toLowerCase() : v;
 }
