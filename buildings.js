@@ -2862,7 +2862,7 @@ function cellClass(b, key) {
     if (key === 'catEmoji') return 'cat-emoji-cell';
     if (key === 'name') return 'name-cell';
     if (key === 'cost') return 'num-nowrap ' + costColor(b);
-    if (key === 'income') return 'num-nowrap ' + incomeColor(b);
+    if (key === 'income') return 'num-nowrap income-cell ' + incomeColor(b);
     return '';
 }
 
