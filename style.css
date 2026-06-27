@@ -259,3 +259,87 @@ details[open] summary::before {
 .sortable:hover {
     background-color: #34495e; /* Немного подсветим при наведении */
 }
+
+/* Rules navigation */
+.rules-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0;
+    padding: 8px 12px;
+    background: #f0f0f0;
+    border-radius: 6px;
+    font-size: 15px;
+    gap: 8px;
+}
+.rules-nav a {
+    color: #2c3e50;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.rules-nav a:hover {
+    text-decoration: underline;
+    color: #1a5fb4;
+}
+
+/* Section table of contents */
+.section-toc {
+    background: #f5f5f0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin: 12px 0 20px 0;
+    font-size: 15px;
+}
+.section-toc strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #3F4137;
+}
+.section-toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+}
+.section-toc li {
+    margin: 2px 0;
+}
+.section-toc a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+.section-toc a:hover {
+    text-decoration: underline;
+    color: #1a5fb4;
+}
+
+/* Important block (red left border) */
+.important {
+    background: #fff5f5;
+    border-left: 4px solid #d32f2f;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin: 12px 0;
+    font-size: 16px;
+}
+
+/* Example block (blue left border) */
+.example {
+    background: #f0f7ff;
+    border-left: 4px solid #1a5fb4;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin: 12px 0;
+    font-size: 16px;
+}
+
+/* Emph block (gray background) */
+.emph {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 15px;
+    font-style: italic;
+}
