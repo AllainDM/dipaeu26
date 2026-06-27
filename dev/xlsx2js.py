@@ -225,7 +225,7 @@ function cellClass(b, key) {
 function getSortVal(b, key) {
     if (key === 'catEmoji') return b.category;
     if (key === 'cost') return b.cost.numeric ?? 0;
-    if (key === 'income') return b.income.base ?? 0;
+    if (key === 'income') return b.income.max ?? b.income.base ?? 0;
     const v = cellVal(b, key);
     return typeof v === 'string' ? v.toLowerCase() : v;
 }
