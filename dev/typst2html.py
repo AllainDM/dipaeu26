@@ -639,6 +639,25 @@ def generate_nav(current_idx):
     return f'<div class="rules-nav">{"".join(parts)}</div>'
 
 
+def generate_changelog_html():
+    """Generate changelog page from changelog.typ."""
+    changelog_path = TYPST_DIR / "changelog.typ"
+    if not changelog_path.exists():
+        print(f"WARNING: {changelog_path} not found", file=sys.stderr)
+        return None
+    
+    content = changelog_path.read_text(encoding="utf-8")
+    body_html = typst_to_html(content)
+    
+    nav = '<div class="rules-nav"><span></span><span></span><a href="contents.html">📋 Оглавление</a></div>'
+    
+    return HEADER_HTML.format(
+        title="История изменений правил",
+        nav=nav,
+        content=body_html.strip()
+    )
+
+
 def generate_contents_html():
     """Generate contents page with intro and table of contents."""
     # Read intro
@@ -653,8 +672,11 @@ def generate_contents_html():
     toc_html = '\n'.join(toc_items)
     
     content = f'''
+    <p style="margin: 8px 0;"><a href="pdf.html">PDF-версия правил</a></p>
     <h1>Правила Гегемонии Мельхиора</h1>
     <p>Партия «Лавразия 2026»</p>
+    <p>Редакция 2.1</p>
+    <p><a href="changelog.html">История изменений правил</a></p>
     
     {intro_html}
     
@@ -728,6 +750,12 @@ def main():
     (OUTPUT_DIR / "contents.html").write_text(contents_html, encoding="utf-8")
     print("✓ rules/contents.html")
     
+    # Generate changelog page
+    changelog_html = generate_changelog_html()
+    if changelog_html:
+        (OUTPUT_DIR / "changelog.html").write_text(changelog_html, encoding="utf-8")
+        print("✓ rules/changelog.html")
+    
     # Generate each section
     for idx, (typst_name, html_name, title) in enumerate(SECTIONS):
         html = generate_section_html(typst_name, html_name, title, idx)
@@ -735,7 +763,7 @@ def main():
             (OUTPUT_DIR / f"{html_name}.html").write_text(html, encoding="utf-8")
             print(f"✓ rules/{html_name}.html")
     
-    print("\nDone! Generated", len(SECTIONS) + 1, "pages in", OUTPUT_DIR)
+    print("\nDone! Generated", len(SECTIONS) + 2, "pages in", OUTPUT_DIR)
 
 
 if __name__ == "__main__":
