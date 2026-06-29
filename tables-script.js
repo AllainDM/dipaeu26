@@ -87,95 +87,111 @@ const vp = document.getElementById("vp");
 // });
 
 start_war_tech.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/Nach_voenn_tekh.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 vse_voenn_innovatsii.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/vse_voenn_innovatsii.png"
     img.style.width = "60%"
     img.style.height = "60"
 });
 
 orden.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/orden.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 start_ekonom_tech.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/Nach_ekonom_tekh.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 rassadka.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/Rassadka.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 ekonom_tech.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/Vse_ekonom_innovatsii.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 cult_tradicii.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/Kulturnye_traditsii.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 cult_level.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/cult_level.jpg"
     img.style.width = "40%"
     img.style.height = "40%"
 });
 
 arch_style.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/arch_style.jpg"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 religii.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/religii.png"
     img.style.width = "100%"
     img.style.height = "100%"
 });
 eresi.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/eresi.png"
     img.style.width = "100%"
     img.style.height = "100%"
 });
 
 FP.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/FP.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 vse_tekhnologii.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/vse_tekhnologii.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 prestupnost.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/prestupnost.png"
     img.style.width = "50%"
     img.style.height = "50%"
 });
 
 nach_sots_pol_innovatsii.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/nach_sots_pol_innovatsii.png"
     img.style.width = "90%"
     img.style.height = "90%"
 });
 
 vse_sots_pol_innovatsii.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/vse_sots_pol_innovatsii.png"
     img.style.width = "90%"
     img.style.height = "90%"
@@ -222,12 +238,14 @@ perki_praviteli.addEventListener("click",() => {
 });
 
 vse_zakony.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/vse_zakony.png"
     img.style.width = "80%"
     img.style.height = "80%"
 });
 
 vassals.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/vassals.png"
     img.style.width = "40%"
     img.style.height = "40%"
@@ -293,32 +311,35 @@ razmer_locacii.addEventListener("click",() => {
 });
 
 vse_postroyki.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/vse_postroyki.png"
     img.style.width = "90%"
     img.style.height = "90%"
 });
 
 unik_postroyki.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/unik_postroyki.png"
     img.style.width = "70%"
     img.style.height = "70%"
 });
 
 naim.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/naim.png"
     img.style.width = "60%"
     img.style.height = "60%"
 });
 
 stroitelstvo.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/stroitelstvo.png"
     img.style.width = "50%"
     img.style.height = "50%"
 });
 
 perki_personazhey.addEventListener("click",() => {
-    const el = document.getElementById("perks-table-content")
-    if (el) el.remove()
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/perki_personazhey.png"
     img.style.width = "50%"
     img.style.height = "50%"
@@ -383,6 +404,7 @@ unit_bonus.addEventListener("click",() => {
 });
 
 vp.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/vp.png"
     img.style.width = "80%"
     img.style.height = "80%"
