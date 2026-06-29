@@ -342,6 +342,15 @@ def find_paren_block_end(lines, start):
     return start + consumed.count('\n') + 1, paren_content, body
 
 
+def extract_column_count(paren_content):
+    """Extract number of columns from #table arguments."""
+    m = re.search(r'columns:\s*\(([^)]+)\)', paren_content)
+    if m:
+        items = [x.strip() for x in m.group(1).split(',') if x.strip()]
+        return len(items)
+    return None
+
+
 def parse_table_cells(text):
     """Parse table cells from the argument list content.
     Cells look like: [cell1], [cell2], ..."""
@@ -441,9 +450,10 @@ def typst_to_html(content, collect_toc=False):
         if stripped.startswith('#table('):
             end_line, paren_content, body = find_paren_block_end(lines, i)
             cells = parse_table_cells(paren_content)
+            num_cols = extract_column_count(paren_content) or 2
             
             if cells:
-                html_parts.append(parse_table_to_html(cells))
+                html_parts.append(parse_table_to_html(cells, num_cols))
             
             i = end_line
             continue
@@ -569,20 +579,18 @@ def render_nested_list(items):
     return html
 
 
-def parse_table_to_html(cells):
+def parse_table_to_html(cells, cols=2):
     """Convert table cells from typst #table to HTML table."""
     if not cells:
         return ''
     
     # Check if first row has bold markers (headers)
     header_count = 0
-    for cell in cells[:4]:  # Check first few cells
+    for cell in cells[:cols * 2]:  # Check first two rows
         if cell.startswith('*') and cell.endswith('*'):
             header_count += 1
     
-    is_header = header_count >= 1
-    
-    cols = 2  # Default for this table
+    is_header = header_count >= cols - 1
     
     rows = []
     for i in range(0, len(cells), cols):
