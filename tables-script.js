@@ -2,6 +2,20 @@ console.log("Скрипт странички с таблицами успешн�
 
 const img = document.getElementById("img");
 
+function containerAbove() {
+    const map = document.querySelector(".map")
+    const container = document.querySelector(".container")
+    if (container.nextElementSibling === map) return
+    map.parentNode.insertBefore(container, map)
+}
+
+function containerBelow() {
+    const map = document.querySelector(".map")
+    const container = document.querySelector(".container")
+    if (map.nextElementSibling === container) return
+    map.parentNode.insertBefore(container, map.nextSibling)
+}
+
 
 const start_war_tech = document.getElementById("start-war-tech");
 const start_ekonom_tech = document.getElementById("start-ekonom-tech");
@@ -88,7 +102,7 @@ const vp = document.getElementById("vp");
 
 start_war_tech.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/Nach_voenn_tekh.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -96,7 +110,7 @@ start_war_tech.addEventListener("click",() => {
 
 vse_voenn_innovatsii.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/vse_voenn_innovatsii.png"
     img.style.width = "60%"
     img.style.height = "60"
@@ -104,7 +118,7 @@ vse_voenn_innovatsii.addEventListener("click",() => {
 
 orden.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/orden.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -112,7 +126,7 @@ orden.addEventListener("click",() => {
 
 start_ekonom_tech.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/Nach_ekonom_tekh.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -120,7 +134,7 @@ start_ekonom_tech.addEventListener("click",() => {
 
 rassadka.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/Rassadka.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -128,7 +142,7 @@ rassadka.addEventListener("click",() => {
 
 ekonom_tech.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/Vse_ekonom_innovatsii.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -136,7 +150,7 @@ ekonom_tech.addEventListener("click",() => {
 
 cult_tradicii.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/Kulturnye_traditsii.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -144,7 +158,7 @@ cult_tradicii.addEventListener("click",() => {
 
 cult_level.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/cult_level.jpg"
     img.style.width = "40%"
     img.style.height = "40%"
@@ -152,7 +166,7 @@ cult_level.addEventListener("click",() => {
 
 arch_style.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/arch_style.jpg"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -160,14 +174,14 @@ arch_style.addEventListener("click",() => {
 
 religii.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/religii.png"
     img.style.width = "100%"
     img.style.height = "100%"
 });
 eresi.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/eresi.png"
     img.style.width = "100%"
     img.style.height = "100%"
@@ -175,7 +189,7 @@ eresi.addEventListener("click",() => {
 
 FP.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/FP.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -183,7 +197,7 @@ FP.addEventListener("click",() => {
 
 vse_tekhnologii.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/vse_tekhnologii.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -191,7 +205,7 @@ vse_tekhnologii.addEventListener("click",() => {
 
 prestupnost.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/prestupnost.png"
     img.style.width = "50%"
     img.style.height = "50%"
@@ -199,7 +213,7 @@ prestupnost.addEventListener("click",() => {
 
 nach_sots_pol_innovatsii.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/nach_sots_pol_innovatsii.png"
     img.style.width = "90%"
     img.style.height = "90%"
@@ -207,7 +221,7 @@ nach_sots_pol_innovatsii.addEventListener("click",() => {
 
 vse_sots_pol_innovatsii.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/vse_sots_pol_innovatsii.png"
     img.style.width = "90%"
     img.style.height = "90%"
@@ -248,7 +262,7 @@ perki_praviteli.addEventListener("click",() => {
                 <tr><td>26</td><td><strong>Эгоист</strong> (Я)</td><td>×2 расходы на содержание двора</td></tr>
             </tbody>
         </table></div>`
-    document.querySelector(".container").style.order = "-1"
+    containerAbove()
     img.src="tables/perki_praviteli.png"
     img.style.width = "40%"
     img.style.height = "40%"
@@ -256,7 +270,7 @@ perki_praviteli.addEventListener("click",() => {
 
 vse_zakony.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/vse_zakony.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -264,7 +278,7 @@ vse_zakony.addEventListener("click",() => {
 
 vassals.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/vassals.png"
     img.style.width = "40%"
     img.style.height = "40%"
@@ -324,7 +338,7 @@ razmer_locacii.addEventListener("click",() => {
             <li>Провинции в прохладном или холодном климате с инновацией «Длинный дом»: +1</li>
             <li>Церковь/Мечеть/Святилище в провинции: +3</li>
         </ul>`
-    document.querySelector(".container").style.order = "-1"
+    containerAbove()
     img.src="tables/razmer_locacii.png"
     img.style.width = "60%"
     img.style.height = "60%"
@@ -332,7 +346,7 @@ razmer_locacii.addEventListener("click",() => {
 
 vse_postroyki.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/vse_postroyki.png"
     img.style.width = "90%"
     img.style.height = "90%"
@@ -340,7 +354,7 @@ vse_postroyki.addEventListener("click",() => {
 
 unik_postroyki.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/unik_postroyki.png"
     img.style.width = "70%"
     img.style.height = "70%"
@@ -348,7 +362,7 @@ unik_postroyki.addEventListener("click",() => {
 
 naim.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/naim.png"
     img.style.width = "60%"
     img.style.height = "60%"
@@ -356,7 +370,7 @@ naim.addEventListener("click",() => {
 
 stroitelstvo.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/stroitelstvo.png"
     img.style.width = "50%"
     img.style.height = "50%"
@@ -364,7 +378,7 @@ stroitelstvo.addEventListener("click",() => {
 
 perki_personazhey.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/perki_personazhey.png"
     img.style.width = "50%"
     img.style.height = "50%"
@@ -414,6 +428,7 @@ unit_bonus.addEventListener("click",() => {
                 <tr><td>ММ</td><td>0</td><td>0</td><td>+0,5</td><td>-0,5</td><td>-1</td><td>-1</td><td>-0,5</td><td>0</td><td>0</td><td>0</td></tr>
             </tbody>
         </table>`;
+    containerBelow()
     img.src="tables/unit_bonus.png"
     img.style.width = "80%"
     img.style.height = "80%"
@@ -430,7 +445,7 @@ unit_bonus.addEventListener("click",() => {
 
 vp.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = ""
-    document.querySelector(".container").style.order = ""
+    containerBelow()
     img.src="tables/vp.png"
     img.style.width = "80%"
     img.style.height = "80%"

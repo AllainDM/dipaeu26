@@ -333,11 +333,6 @@ details[open] summary::before {
     font-size: 16px;
 }
 
-.content-wrap {
-    display: flex;
-    flex-direction: column;
-}
-
 /* Цветовые классы для числовых значений в таблицах */
 .val-pos { color: #1b7a3d; font-weight: bold; }
 .val-zero { color: #aaa; }
