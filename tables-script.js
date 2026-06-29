@@ -324,9 +324,61 @@ perki_personazhey.addEventListener("click",() => {
 });
 
 unit_bonus.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = `
+        <p><strong>Атака</strong></p>
+        <table>
+            <thead>
+                <tr><th></th><th>Равнина</th><th>Степь</th><th>Холмы</th><th>Тундра</th><th>Леса</th><th>Джунгли</th><th>Болото</th><th>Пустыня</th><th>Море</th><th>Город</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Стр</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-0,5</td><td>-0,5</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>Др</td><td>+0,5</td><td>+0,5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>Луч</td><td>+0,5</td><td>+0,5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>+0,5</td></tr>
+                <tr><td>ЛВ</td><td>0</td><td>0</td><td>0</td><td>0</td><td>+0,5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>+0,5</td></tr>
+                <tr><td>СВ</td><td>+0,5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>+0,5</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>ТВ</td><td>0</td><td>0</td><td>+0,5</td><td>0</td><td>0</td><td>0</td><td>-1</td><td>0</td><td>0</td><td>-0,5</td></tr>
+                <tr><td>ВБ</td><td>0</td><td>+0,5</td><td>0</td><td>-2</td><td>-0,5</td><td>-0,5</td><td>-0,5</td><td>+1</td><td>0</td><td>-0,5</td></tr>
+                <tr><td>Клуч</td><td>+0,5</td><td>+0,5</td><td>0</td><td>-1</td><td>-0,5</td><td>-0,5</td><td>-1</td><td>0</td><td>0</td><td>-0,5</td></tr>
+                <tr><td>КВ</td><td>+0,5</td><td>+1</td><td>0</td><td>-1</td><td>-0,5</td><td>-0,5</td><td>-1</td><td>0</td><td>0</td><td>-1</td></tr>
+                <tr><td>ТК</td><td>+1</td><td>+1</td><td>0</td><td>-1</td><td>-0,5</td><td>-0,5</td><td>-1</td><td>0</td><td>0</td><td>-1</td></tr>
+                <tr><td>Арб</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-0,5</td><td>-0,5</td><td>0</td><td>0</td><td>0</td><td>+0,5</td></tr>
+                <tr><td>Пуш</td><td>+0,5</td><td>+0,5</td><td>0</td><td>0</td><td>-1</td><td>-1</td><td>0</td><td>0</td><td>0</td><td>+1</td></tr>
+                <tr><td>ММ</td><td>0</td><td>0</td><td>+0,5</td><td>-0,5</td><td>-1</td><td>-1</td><td>0</td><td>0</td><td>0</td><td>+1</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Оборона</strong></p>
+        <table>
+            <thead>
+                <tr><th></th><th>Равнина</th><th>Степь</th><th>Холмы</th><th>Тундра</th><th>Леса</th><th>Джунгли</th><th>Болото</th><th>Пустыня</th><th>Море</th><th>Город</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Стр</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-0,5</td><td>-0,5</td><td>0</td><td>0</td><td>0</td><td>+0,5</td></tr>
+                <tr><td>Др</td><td>+0,5</td><td>+0,5</td><td>0</td><td>0</td><td>+0,5</td><td>+0,5</td><td>+0,5</td><td>0</td><td>0</td><td>+0,5</td></tr>
+                <tr><td>Луч</td><td>+0,5</td><td>0</td><td>+0,5</td><td>0</td><td>0</td><td>+0,5</td><td>0</td><td>0</td><td>0</td><td>+1</td></tr>
+                <tr><td>ЛВ</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-0,5</td></tr>
+                <tr><td>СВ</td><td>+1</td><td>0</td><td>+0,5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>+0,5</td></tr>
+                <tr><td>ТВ</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-1</td><td>0</td><td>0</td><td>+0,5</td></tr>
+                <tr><td>ВБ</td><td>0</td><td>+0,5</td><td>0</td><td>-2</td><td>-0,5</td><td>-0,5</td><td>-0,5</td><td>+1</td><td>0</td><td>-0,5</td></tr>
+                <tr><td>Клуч</td><td>+0,5</td><td>+0,5</td><td>0</td><td>-1</td><td>-1</td><td>-1</td><td>-1</td><td>0</td><td>0</td><td>-1</td></tr>
+                <tr><td>КВ</td><td>-0,5</td><td>-0,5</td><td>0</td><td>-1</td><td>-1</td><td>-1</td><td>-1</td><td>-0,5</td><td>0</td><td>-1,5</td></tr>
+                <tr><td>ТК</td><td>-0,5</td><td>-0,5</td><td>0</td><td>-1</td><td>-1</td><td>-1</td><td>-1</td><td>-0,5</td><td>0</td><td>-1,5</td></tr>
+                <tr><td>Арб</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-0,5</td><td>-0,5</td><td>0</td><td>0</td><td>0</td><td>+0,5</td></tr>
+                <tr><td>Пуш</td><td>+0,5</td><td>+0,5</td><td>0</td><td>0</td><td>-1</td><td>-1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>ММ</td><td>0</td><td>0</td><td>+0,5</td><td>-0,5</td><td>-1</td><td>-1</td><td>-0,5</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+        </table>`;
     img.src="tables/unit_bonus.png"
     img.style.width = "80%"
     img.style.height = "80%"
+    document.querySelectorAll(".container td").forEach(td => {
+        const text = td.textContent.trim().replace(",", ".");
+        const val = parseFloat(text);
+        if (!isNaN(val)) {
+            if (val > 0) td.classList.add("val-pos");
+            else if (val < 0) td.classList.add("val-neg");
+            else td.classList.add("val-zero");
+        }
+    });
 });
 
 vp.addEventListener("click",() => {

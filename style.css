@@ -333,6 +333,12 @@ details[open] summary::before {
     font-size: 16px;
 }
 
+/* Цветовые классы для числовых значений в таблицах */
+.val-pos { color: #1b7a3d; font-weight: bold; }
+.val-zero { color: #aaa; }
+.val-neg { color: #c0392b; font-weight: bold; }
+.container td:first-child { font-weight: bold; text-align: left; padding-left: 8px; white-space: nowrap; }
+
 /* Emph block (gray background) */
 .emph {
     background: #f9f9f9;
