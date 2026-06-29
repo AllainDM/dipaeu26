@@ -317,6 +317,7 @@ stroitelstvo.addEventListener("click",() => {
 });
 
 perki_personazhey.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = ""
     img.src="tables/perki_personazhey.png"
     img.style.width = "50%"
     img.style.height = "50%"
