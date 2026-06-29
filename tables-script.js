@@ -183,7 +183,7 @@ vse_sots_pol_innovatsii.addEventListener("click",() => {
 
 perki_praviteli.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = `
-        <table>
+        <div id="perks-table-content"><table>
             <thead>
                 <tr><th>№</th><th>Название</th><th>Эффект</th></tr>
             </thead>
@@ -215,7 +215,7 @@ perki_praviteli.addEventListener("click",() => {
                 <tr><td>25</td><td><strong>Бастард</strong> (Ъ)</td><td>-1% к Лояльности в ход</td></tr>
                 <tr><td>26</td><td><strong>Эгоист</strong> (Я)</td><td>×2 расходы на содержание двора</td></tr>
             </tbody>
-        </table>`
+        </table></div>`
     img.src="tables/perki_praviteli.png"
     img.style.width = "40%"
     img.style.height = "40%"
@@ -317,7 +317,8 @@ stroitelstvo.addEventListener("click",() => {
 });
 
 perki_personazhey.addEventListener("click",() => {
-    document.querySelector(".container").innerHTML = ""
+    const el = document.getElementById("perks-table-content")
+    if (el) el.remove()
     img.src="tables/perki_personazhey.png"
     img.style.width = "50%"
     img.style.height = "50%"
