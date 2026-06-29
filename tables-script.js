@@ -182,6 +182,40 @@ vse_sots_pol_innovatsii.addEventListener("click",() => {
 });
 
 perki_praviteli.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = `
+        <table>
+            <thead>
+                <tr><th>№</th><th>Название</th><th>Эффект</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td><strong>Альтруист</strong> (А)</td><td>+25% к социальным расходам</td></tr>
+                <tr><td>2</td><td><strong>Болезненный</strong> (Б)</td><td>-10 лет к сроку жизни, -50% к шансу иметь детей</td></tr>
+                <tr><td>3</td><td><strong>Воинственный</strong> (В)</td><td>+1 к лимиту армий</td></tr>
+                <tr><td>4</td><td><strong>Глупый</strong> (Г)</td><td>-1 н/о в ход</td></tr>
+                <tr><td>5</td><td><strong>Деспот</strong> (Д)</td><td>+10% к РВ, доступны репрессии</td></tr>
+                <tr><td>6</td><td><strong>Извращенец</strong> (И)</td><td>-1 кт/о в ход</td></tr>
+                <tr><td>7</td><td><strong>Здоровяк</strong> (З)</td><td>+5 лет к сроку жизни</td></tr>
+                <tr><td>8</td><td><strong>Корыстолюбец</strong> (К)</td><td>-50% к расходам на советников</td></tr>
+                <tr><td>9</td><td><strong>Лжец</strong> (Л)</td><td>-1 к лимиту союзов и посольств</td></tr>
+                <tr><td>10</td><td><strong>Миролюбивый</strong> (М)</td><td>+10% к сбору налогов в мирное время</td></tr>
+                <tr><td>11</td><td><strong>Набожный</strong> (Н)</td><td>+1 о/в в ход</td></tr>
+                <tr><td>12</td><td><strong>Оптимист</strong> (О)</td><td>-10% к цене стабильности</td></tr>
+                <tr><td>13</td><td><strong>Пессимист</strong> (П)</td><td>+10% к цене стабильности</td></tr>
+                <tr><td>14</td><td><strong>Распутный</strong> (Р)</td><td>+25% к рождению детей, -1% к Благочестию в ход</td></tr>
+                <tr><td>15</td><td><strong>Смелый</strong> (С)</td><td>+5% к орг-ции Армии, +1 к б/духу</td></tr>
+                <tr><td>16</td><td><strong>Трус</strong> (Т)</td><td>не может быть полководцем, -1 к б/духу</td></tr>
+                <tr><td>17</td><td><strong>Умный</strong> (У)</td><td>+1 н/о в ход</td></tr>
+                <tr><td>18</td><td><strong>Фантазёр</strong> (Ф)</td><td>-5% к цене инноваций</td></tr>
+                <tr><td>19</td><td><strong>Хитрый</strong> (Х)</td><td>-50% к расходам на шпионаж</td></tr>
+                <tr><td>20</td><td><strong>Циник</strong> (Ц)</td><td>-1 о/в в ход</td></tr>
+                <tr><td>21</td><td><strong>Честный</strong> (Ч)</td><td>×2 штраф за разрыв союза, +1% к Лояльности в ход</td></tr>
+                <tr><td>22</td><td><strong>Шантажист</strong> (Ш)</td><td>+1 к лимиту шпионов</td></tr>
+                <tr><td>23</td><td><strong>Щедрый</strong> (Щ)</td><td>+50% к расходам на советников</td></tr>
+                <tr><td>24</td><td><strong>Эстет</strong> (Э)</td><td>+1 кт/о в ход</td></tr>
+                <tr><td>25</td><td><strong>Бастард</strong> (Ъ)</td><td>-1% к Лояльности в ход</td></tr>
+                <tr><td>26</td><td><strong>Эгоист</strong> (Я)</td><td>×2 расходы на содержание двора</td></tr>
+            </tbody>
+        </table>`
     img.src="tables/perki_praviteli.png"
     img.style.width = "40%"
     img.style.height = "40%"
@@ -200,6 +234,59 @@ vassals.addEventListener("click",() => {
 });
 
 razmer_locacii.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = `
+        <p><strong>Базовый максимальный размер</strong> локации определяется численностью населения:</p>
+        <table>
+            <thead>
+                <tr><th>Население</th><th>Макс. размер</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>0</td><td>1</td></tr>
+                <tr><td>2</td><td>2</td></tr>
+                <tr><td>4</td><td>3</td></tr>
+                <tr><td>8</td><td>4</td></tr>
+                <tr><td>15</td><td>5</td></tr>
+                <tr><td>30</td><td>6</td></tr>
+                <tr><td>60</td><td>7</td></tr>
+                <tr><td>125</td><td>8</td></tr>
+                <tr><td>250</td><td>9</td></tr>
+                <tr><td>500</td><td>10</td></tr>
+                <tr><td>1000</td><td>11</td></tr>
+                <tr><td>2000</td><td>12</td></tr>
+            </tbody>
+        </table>
+        <p>Базовый максимальный размер равен 12 (лимит). К базовому размеру применяются модификаторы.</p>
+        <p><strong>1) Ландшафт/география:</strong></p>
+        <ul>
+            <li>Тундра: +2</li>
+            <li>Джунгли: +3</li>
+            <li>Болото: +4</li>
+            <li>Пустыня/Степь: +5</li>
+            <li>Леса: +6</li>
+            <li>Холмы: +7</li>
+            <li>Равнина: +8</li>
+            <li>Остров/острова: -3</li>
+            <li>Город: +3</li>
+            <li>Столица: +1</li>
+        </ul>
+        <p><strong>2) Водные объекты, санитарные постройки:</strong></p>
+        <ul>
+            <li>Река/Колодец в провинции/Ирригация в провинции: +2</li>
+            <li>Город без Реки + Водопровод: +2</li>
+            <li>Город с Баней/Канализацией: +2</li>
+            <li>Озеро: +1</li>
+        </ul>
+        <p><strong>3) Технологии, инновации и иные постройки:</strong></p>
+        <ul>
+            <li>Дорога/Мощёная дорога: +1</li>
+            <li>Каменная стена: +2</li>
+            <li>Города с инновацией «Черепица»: +1</li>
+            <li>Провинции с инновацией «Огораживание»: -1</li>
+            <li>Города с инновацией «Огораживание»: +1</li>
+            <li>Города с технологией «Городское право»: +1</li>
+            <li>Провинции в прохладном или холодном климате с инновацией «Длинный дом»: +1</li>
+            <li>Церковь/Мечеть/Святилище в провинции: +3</li>
+        </ul>`
     img.src="tables/razmer_locacii.png"
     img.style.width = "60%"
     img.style.height = "60%"
