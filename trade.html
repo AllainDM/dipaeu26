@@ -32,6 +32,18 @@
             padding: 40px;
             text-align: center;
         }
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px 16px;
+            margin: 12px 0;
+            font-size: 15px;
+        }
+        .missing-line {
+            font-size: 14px;
+            margin: 2px 0;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -46,6 +58,10 @@
             <li><a href="log.html">Лог</a></li>
         </ul>
     </header>
+
+    <p class="disclaimer">⚠ Проверка данных в процессе, возможны ошибки.</p>
+
+    <div id="missingInfo"></div>
 
     <div id="turnNav" style="padding: 10px; display: flex; flex-wrap: wrap; gap: 5px;"></div>
 
@@ -114,6 +130,15 @@
                 countImg.style.display = "none";
             }
         }
+
+        function computeMissing() {
+            const missingCost = turns.filter(t => !t.cost).map(t => t.num);
+            const missingCount = turns.filter(t => !t.count).map(t => t.num);
+            document.getElementById("missingInfo").innerHTML =
+                '<p class="missing-line">Отсутствуют файлы цен в ходах: ' + missingCost.join(", ") + '</p>' +
+                '<p class="missing-line">Отсутствуют файлы товаров в ходах: ' + missingCount.join(", ") + '</p>';
+        }
+        computeMissing();
 
         showTurn(turns[0]);
     </script>
