@@ -132,8 +132,15 @@
         }
 
         function computeMissing() {
-            const missingCost = turns.filter(t => !t.cost).map(t => t.num);
-            const missingCount = turns.filter(t => !t.count).map(t => t.num);
+            const lookup = {};
+            turns.forEach(t => lookup[t.num] = t);
+            const maxTurn = Math.max(...turns.map(t => t.num));
+            const missingCost = [];
+            const missingCount = [];
+            for (let i = 0; i <= maxTurn; i++) {
+                if (!lookup[i] || !lookup[i].cost) missingCost.push(i);
+                if (!lookup[i] || !lookup[i].count) missingCount.push(i);
+            }
             document.getElementById("missingInfo").innerHTML =
                 '<p class="missing-line">Отсутствуют файлы цен в ходах: ' + missingCost.join(", ") + '</p>' +
                 '<p class="missing-line">Отсутствуют файлы товаров в ходах: ' + missingCount.join(", ") + '</p>';
