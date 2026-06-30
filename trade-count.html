@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>График предложения товара</title>
+    <style>
+        .chart-controls {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .chart-controls label {
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .chart-controls select {
+            padding: 4px 8px;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
+            border: 1px solid #bcbcbc;
+            border-radius: 4px;
+            background: white;
+            min-width: 140px;
+        }
+        canvas {
+            border: 1px solid #bcbcbc;
+            background: #fff;
+            max-width: 100%;
+            height: auto;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3F4137;
+            margin: 10px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="mainmenu">
+            <li><a href="rules/contents.html">Правила</a></li>
+            <li><a href="turns.html">Ходы</a></li>
+            <li><a href="maps.html">Карты</a></li>
+            <li><a href="tables.html">Таблицы</a></li>
+            <li><a href="trade.html">Торговля</a></li>
+            <li><a href="links.html">Ссылки</a></li>
+            <li><a href="log.html">Лог</a></li>
+        </ul>
+    </header>
+
+    <p style="background:#fff3cd;border-left:4px solid #ffc107;padding:10px 16px;margin:12px 0;font-size:15px;">⚠ График является экспериментальным, рисуется на непроверенных данных и может содержать ошибки.</p>
+
+    <a href="trade.html" class="back-link">← Назад к торговле</a>
+    <h2>График предложения товара</h2>
+
+    <div class="chart-controls">
+        <label>ТЦ: <select id="marketSelect"></select></label>
+        <label>Товар: <select id="goodSelect"></select></label>
+    </div>
+
+    <div id="chartTitle" class="chart-title"></div>
+    <canvas id="chart" width="900" height="500"></canvas>
+
+    <script src="trade-data.js"></script>
+    <script>
+        const canvas = document.getElementById('chart');
+        const ctx = canvas.getContext('2d');
+        const marketSelect = document.getElementById('marketSelect');
+        const goodSelect = document.getElementById('goodSelect');
+        const chartTitle = document.getElementById('chartTitle');
+
+        const firstCountTurn = Object.keys(countData).map(Number).sort((a, b) => a - b)[0];
+        const markets = countData[firstCountTurn].markets;
+        const goods = countData[firstCountTurn].goods.map(g => g[0]);
+        const countTurns = Object.keys(countData).map(Number).sort((a, b) => a - b);
+
+        markets.forEach((m, i) => {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = m;
+            marketSelect.appendChild(opt);
+        });
+
+        goods.forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g;
+            opt.textContent = g;
+            goodSelect.appendChild(opt);
+        });
+        goodSelect.value = 'П/п';
+
+        function getDataPoints() {
+            const mi = parseInt(marketSelect.value);
+            const good = goodSelect.value;
+            const points = [];
+            countTurns.forEach(turn => {
+                const data = countData[turn];
+                if (!data) return;
+                const row = data.goods.find(r => r[0] === good);
+                if (!row) return;
+                const val = row[mi + 1];
+                if (val !== undefined && val !== null) {
+                    points.push({ turn, val });
+                }
+            });
+            return points;
+        }
+
+        function drawChart() {
+            const mi = parseInt(marketSelect.value);
+            const market = markets[mi];
+            const good = goodSelect.value;
+            chartTitle.textContent = good + ' — ' + market;
+
+            const points = getDataPoints();
+            if (points.length === 0) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = '18px Times New Roman';
+                ctx.fillStyle = '#999';
+                ctx.textAlign = 'center';
+                ctx.fillText('Нет данных для выбранных параметров', canvas.width / 2, canvas.height / 2);
+                return;
+            }
+
+            const pad = { top: 30, right: 30, bottom: 45, left: 55 };
+            const w = canvas.width - pad.left - pad.right;
+            const h = canvas.height - pad.top - pad.bottom;
+
+            const minTurn = points[0].turn;
+            const maxTurn = points[points.length - 1].turn;
+            const values = points.map(p => p.val);
+            const minVal = Math.min(...values);
+            const maxVal = Math.max(...values);
+            const valRange = maxVal - minVal || 1;
+
+            function xPos(turn) {
+                return pad.left + (turn - minTurn) / (maxTurn - minTurn) * w;
+            }
+            function yPos(val) {
+                return pad.top + h - (val - minVal) / valRange * h;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // grid lines
+            ctx.strokeStyle = '#eee';
+            ctx.lineWidth = 1;
+            const gridLines = 5;
+            for (let i = 0; i <= gridLines; i++) {
+                const y = pad.top + h * i / gridLines;
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(pad.left + w, y);
+                ctx.stroke();
+            }
+
+            // axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(pad.left, pad.top);
+            ctx.lineTo(pad.left, pad.top + h);
+            ctx.lineTo(pad.left + w, pad.top + h);
+            ctx.stroke();
+
+            // X labels
+            ctx.fillStyle = '#333';
+            ctx.font = '13px Times New Roman';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            const xStep = Math.max(1, Math.floor((maxTurn - minTurn) / 10));
+            for (let t = minTurn; t <= maxTurn; t += xStep) {
+                const x = xPos(t);
+                ctx.fillText(String(t), x, pad.top + h + 5);
+            }
+
+            // Y labels
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            for (let i = 0; i <= gridLines; i++) {
+                const val = minVal + valRange * (1 - i / gridLines);
+                const y = pad.top + h * i / gridLines;
+                ctx.fillText(val % 1 === 0 ? String(val) : val.toFixed(1), pad.left - 8, y);
+            }
+
+            // line
+            ctx.strokeStyle = '#3F4137';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            points.forEach((p, i) => {
+                const x = xPos(p.turn);
+                const y = yPos(p.val);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // points
+            points.forEach(p => {
+                const x = xPos(p.turn);
+                const y = yPos(p.val);
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = '#FDA83D';
+                ctx.fill();
+                ctx.strokeStyle = '#3F4137';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            });
+        }
+
+        marketSelect.addEventListener('change', drawChart);
+        goodSelect.addEventListener('change', drawChart);
+        drawChart();
+    </script>
+    <script src="analytics.js"></script>
+</body>
+</html>

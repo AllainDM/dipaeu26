@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Комбинированный график</title>
+    <style>
+        .chart-controls {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .chart-controls label {
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .chart-controls select {
+            padding: 4px 8px;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
+            border: 1px solid #bcbcbc;
+            border-radius: 4px;
+            background: white;
+            min-width: 140px;
+        }
+        canvas {
+            border: 1px solid #bcbcbc;
+            background: #fff;
+            max-width: 100%;
+            height: auto;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3F4137;
+            margin: 10px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="mainmenu">
+            <li><a href="rules/contents.html">Правила</a></li>
+            <li><a href="turns.html">Ходы</a></li>
+            <li><a href="maps.html">Карты</a></li>
+            <li><a href="tables.html">Таблицы</a></li>
+            <li><a href="trade.html">Торговля</a></li>
+            <li><a href="links.html">Ссылки</a></li>
+            <li><a href="log.html">Лог</a></li>
+        </ul>
+    </header>
+
+    <p style="background:#fff3cd;border-left:4px solid #ffc107;padding:10px 16px;margin:12px 0;font-size:15px;">⚠ График является экспериментальным, рисуется на непроверенных данных и может содержать ошибки.</p>
+
+    <a href="trade.html" class="back-link">← Назад к торговле</a>
+    <h2>Комбинированный график (цена + количество)</h2>
+
+    <div class="chart-controls">
+        <label>ТЦ: <select id="marketSelect"></select></label>
+        <label>Товар: <select id="goodSelect"></select></label>
+    </div>
+
+    <div id="chartTitle" class="chart-title"></div>
+    <div class="legend">
+        <span class="legend-item"><span class="legend-color" style="background:#d32f2f;"></span> Цена</span>
+        <span class="legend-item"><span class="legend-color" style="background:#1565c0;"></span> Количество</span>
+    </div>
+    <canvas id="chart" width="950" height="500"></canvas>
+
+    <script src="trade-data.js"></script>
+    <script>
+        const canvas = document.getElementById('chart');
+        const ctx = canvas.getContext('2d');
+        const marketSelect = document.getElementById('marketSelect');
+        const goodSelect = document.getElementById('goodSelect');
+        const chartTitle = document.getElementById('chartTitle');
+
+        const markets = costData[9].markets;
+        const goods = costData[9].goods.map(g => g[0]);
+
+        markets.forEach((m, i) => {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = m;
+            marketSelect.appendChild(opt);
+        });
+
+        goods.forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g;
+            opt.textContent = g;
+            goodSelect.appendChild(opt);
+        });
+        goodSelect.value = 'П/п';
+
+        const costTurns = Object.keys(costData).map(Number).sort((a, b) => a - b);
+        const countTurns = Object.keys(countData).map(Number).sort((a, b) => a - b);
+
+        function getPoints(dataObj, turnList) {
+            const mi = parseInt(marketSelect.value);
+            const good = goodSelect.value;
+            const points = [];
+            turnList.forEach(turn => {
+                const data = dataObj[turn];
+                if (!data) return;
+                const row = data.goods.find(r => r[0] === good);
+                if (!row) return;
+                const val = row[mi + 1];
+                if (val !== undefined && val !== null) {
+                    points.push({ turn, val });
+                }
+            });
+            return points;
+        }
+
+        function drawChart() {
+            const mi = parseInt(marketSelect.value);
+            const market = markets[mi];
+            const good = goodSelect.value;
+            chartTitle.textContent = good + ' — ' + market;
+
+            const costPoints = getPoints(costData, costTurns);
+            const countPoints = getPoints(countData, countTurns);
+
+            if (costPoints.length === 0 && countPoints.length === 0) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = '18px Times New Roman';
+                ctx.fillStyle = '#999';
+                ctx.textAlign = 'center';
+                ctx.fillText('Нет данных для выбранных параметров', canvas.width / 2, canvas.height / 2);
+                return;
+            }
+
+            const pad = { top: 35, right: 55, bottom: 45, left: 55 };
+            const w = canvas.width - pad.left - pad.right;
+            const h = canvas.height - pad.top - pad.bottom;
+
+            const allTurns = [
+                ...costPoints.map(p => p.turn),
+                ...countPoints.map(p => p.turn)
+            ];
+            const minTurn = Math.min(...allTurns);
+            const maxTurn = Math.max(...allTurns);
+
+            const costVals = costPoints.map(p => p.val);
+            const countVals = countPoints.map(p => p.val);
+            const minCost = Math.min(...costVals);
+            const maxCost = Math.max(...costVals);
+            const minCount = Math.min(...countVals);
+            const maxCount = Math.max(...countVals);
+            const costRange = maxCost - minCost || 1;
+            const countRange = maxCount - minCount || 1;
+
+            function xPos(turn) {
+                return pad.left + (turn - minTurn) / (maxTurn - minTurn) * w;
+            }
+
+            function yPosCost(val) {
+                return pad.top + h - (val - minCost) / costRange * h;
+            }
+
+            function yPosCount(val) {
+                return pad.top + h - (val - minCount) / countRange * h;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // grid lines
+            ctx.strokeStyle = '#eee';
+            ctx.lineWidth = 1;
+            const gridLines = 5;
+            for (let i = 0; i <= gridLines; i++) {
+                const y = pad.top + h * i / gridLines;
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(pad.left + w, y);
+                ctx.stroke();
+            }
+
+            // axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1.5;
+
+            // left axis (price)
+            ctx.beginPath();
+            ctx.moveTo(pad.left, pad.top);
+            ctx.lineTo(pad.left, pad.top + h);
+            ctx.stroke();
+
+            // right axis (count)
+            ctx.beginPath();
+            ctx.moveTo(pad.left + w, pad.top);
+            ctx.lineTo(pad.left + w, pad.top + h);
+            ctx.stroke();
+
+            // bottom axis
+            ctx.beginPath();
+            ctx.moveTo(pad.left, pad.top + h);
+            ctx.lineTo(pad.left + w, pad.top + h);
+            ctx.stroke();
+
+            // X labels
+            ctx.fillStyle = '#333';
+            ctx.font = '13px Times New Roman';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            const xStep = Math.max(1, Math.floor((maxTurn - minTurn) / 12));
+            for (let t = minTurn; t <= maxTurn; t += xStep) {
+                const x = xPos(t);
+                ctx.fillText(String(t), x, pad.top + h + 5);
+            }
+
+            // Left Y labels (price)
+            ctx.fillStyle = '#d32f2f';
+            ctx.font = '12px Times New Roman';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            for (let i = 0; i <= gridLines; i++) {
+                const val = minCost + costRange * (1 - i / gridLines);
+                const y = pad.top + h * i / gridLines;
+                ctx.fillText(val.toFixed(1), pad.left - 8, y);
+            }
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText('Цена', pad.left, pad.top - 4);
+
+            // Right Y labels (count)
+            ctx.fillStyle = '#1565c0';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            for (let i = 0; i <= gridLines; i++) {
+                const val = minCount + countRange * (1 - i / gridLines);
+                const y = pad.top + h * i / gridLines;
+                const label = val % 1 === 0 ? String(val) : val.toFixed(1);
+                ctx.fillText(label, pad.left + w + 8, y);
+            }
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText('Кол-во', pad.left + w, pad.top - 4);
+
+            // draw cost line
+            ctx.strokeStyle = '#d32f2f';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            costPoints.forEach((p, i) => {
+                const x = xPos(p.turn);
+                const y = yPosCost(p.val);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // cost points
+            costPoints.forEach(p => {
+                const x = xPos(p.turn);
+                const y = yPosCost(p.val);
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = '#d32f2f';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            });
+
+            // draw count line
+            ctx.strokeStyle = '#1565c0';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            countPoints.forEach((p, i) => {
+                const x = xPos(p.turn);
+                const y = yPosCount(p.val);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // count points
+            countPoints.forEach(p => {
+                const x = xPos(p.turn);
+                const y = yPosCount(p.val);
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = '#1565c0';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            });
+        }
+
+        marketSelect.addEventListener('change', drawChart);
+        goodSelect.addEventListener('change', drawChart);
+        drawChart();
+    </script>
+    <script src="analytics.js"></script>
+</body>
+</html>
