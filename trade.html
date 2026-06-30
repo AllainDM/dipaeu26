@@ -137,7 +137,7 @@
             const maxTurn = Math.max(...turns.map(t => t.num));
             const missingCost = [];
             const missingCount = [];
-            for (let i = 0; i <= maxTurn; i++) {
+            for (let i = 1; i <= maxTurn; i++) {
                 if (!lookup[i] || !lookup[i].cost) missingCost.push(i);
                 if (!lookup[i] || !lookup[i].count) missingCount.push(i);
             }
