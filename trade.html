@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Торговля</title>
+    <style>
+        .trade-images {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .trade-image-block {
+            flex: 1;
+            min-width: 300px;
+        }
+        .trade-image-block h3 {
+            background: #3F4137;
+            color: #fdc073;
+            padding: 5px 10px;
+            margin: 0 0 10px 0;
+            font-size: 15px;
+        }
+        .trade-image-block img {
+            width: 100%;
+            border: 1px solid #bcbcbc;
+        }
+        .no-data {
+            color: #999;
+            font-style: italic;
+            padding: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="mainmenu">
+            <li><a href="rules/contents.html">Правила</a></li>
+            <li><a href="turns.html">Ходы</a></li>
+            <li><a href="maps.html">Карты</a></li>
+            <li><a href="tables.html">Таблицы</a></li>
+            <li><a href="trade.html">Торговля</a></li>
+            <li><a href="links.html">Ссылки</a></li>
+            <li><a href="log.html">Лог</a></li>
+        </ul>
+    </header>
+
+    <div id="turnNav" style="padding: 10px; display: flex; flex-wrap: wrap; gap: 5px;"></div>
+
+    <div class="trade-images">
+        <div class="trade-image-block">
+            <h3>Стоимость (цена)</h3>
+            <div id="costContainer"><img id="costImg" src="" alt="Стоимость"></div>
+        </div>
+        <div class="trade-image-block">
+            <h3>Количество товаров</h3>
+            <div id="countContainer"><img id="countImg" src="" alt="Количество товаров"></div>
+        </div>
+    </div>
+
+    <script>
+        const turns = [
+            {num: 6, cost: false, count: true},
+            {num: 7, cost: false, count: true},
+            {num: 8, cost: true, count: true},
+            {num: 9, cost: true, count: false},
+            {num: 10, cost: false, count: true},
+            {num: 11, cost: true, count: true},
+            {num: 12, cost: true, count: true},
+            {num: 13, cost: true, count: true},
+            {num: 14, cost: true, count: true},
+            {num: 15, cost: true, count: true},
+            {num: 16, cost: false, count: true},
+            {num: 17, cost: true, count: true},
+            {num: 18, cost: true, count: true},
+            {num: 19, cost: true, count: true},
+            {num: 20, cost: true, count: false},
+            {num: 22, cost: true, count: true},
+            {num: 23, cost: true, count: true},
+            {num: 24, cost: true, count: true},
+            {num: 25, cost: true, count: true},
+            {num: 26, cost: false, count: true}
+        ];
+
+        const nav = document.getElementById("turnNav");
+        const costImg = document.getElementById("costImg");
+        const countImg = document.getElementById("countImg");
+        const costContainer = document.getElementById("costContainer");
+        const countContainer = document.getElementById("countContainer");
+
+        turns.forEach(t => {
+            const btn = document.createElement("button");
+            btn.className = "btn";
+            btn.textContent = String(t.num).padStart(2, "0");
+            btn.addEventListener("click", () => showTurn(t));
+            nav.appendChild(btn);
+        });
+
+        function showTurn(t) {
+            const n = String(t.num);
+            if (t.cost) {
+                costImg.src = "img/trade/cost/" + n + "cost.jpg";
+                costImg.style.display = "block";
+            } else {
+                costImg.style.display = "none";
+            }
+            if (t.count) {
+                countImg.src = "img/trade/count/" + n + "count.png";
+                countImg.style.display = "block";
+            } else {
+                countImg.style.display = "none";
+            }
+        }
+
+        showTurn(turns[0]);
+    </script>
+<script src="analytics.js"></script>
+</body>
+</html>
