@@ -135,6 +135,21 @@ tbody tr:hover { background-color: #f1f1f1; }
     line-height: 1.2;
 }
 
+/* Разделитель групп кнопок (карты, таблицы) */
+.btn-group {
+    margin-left: 12px;
+    position: relative;
+}
+.btn-group::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: #ccc;
+}
+
 /* Эффект при наведении (для ПК) */
 .btn:hover {
     background-color: #fdf2e2;

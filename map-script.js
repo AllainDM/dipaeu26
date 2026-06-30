@@ -5,13 +5,13 @@ let imgSize = 1;
 const igroki = document.getElementById("igroki");
 const polit = document.getElementById("polit");
 const resources = document.getElementById("resources");
+const climate = document.getElementById("climate");
+const regions = document.getElementById("regions");
 const ethic = document.getElementById("ethic");
 const religion = document.getElementById("relig");
-const climate = document.getElementById("climate");
-const goroda = document.getElementById("goroda");
 const tts = document.getElementById("tts");
 const hre = document.getElementById("hre");
-const regions = document.getElementById("regions");
+const goroda = document.getElementById("goroda");
 
 img.addEventListener("click",() => {
     if (imgSize == 1) {
@@ -40,6 +40,14 @@ resources.addEventListener("click",() => {
     img.src="maps/resources.png"
 })
 
+climate.addEventListener("click",() => {
+    img.src="maps/climate.png"
+})
+
+regions.addEventListener("click",() => {
+    img.src="maps/Karta_regionov.png"
+})
+
 ethic.addEventListener("click",() => {
     img.src="maps/ethic.png"
 })
@@ -48,20 +56,12 @@ religion.addEventListener("click",() => {
     img.src="maps/religion.png"
 })
 
-climate.addEventListener("click",() => {
-    img.src="maps/climate.png"
-})
-
 tts.addEventListener("click",() => {
     img.src="maps/Karta_TTs.png"
 });
 
 hre.addEventListener("click",() => {
     img.src="maps/Karta_SRI.png"
-});
-
-regions.addEventListener("click",() => {
-    img.src="maps/Karta_regionov.png"
 });
 
 
