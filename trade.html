@@ -98,6 +98,8 @@
 
     <div id="turnNav" style="padding: 10px; display: flex; flex-wrap: wrap; gap: 5px;"></div>
 
+    <h2 id="turnTitle" style="font-size:18px; font-weight:bold; margin:4px 10px; color:#000;"></h2>
+
     <div class="trade-images">
         <div class="trade-image-block">
             <h3>Цены</h3>
@@ -289,8 +291,11 @@
             return html;
         }
 
+        const turnTitle = document.getElementById("turnTitle");
+
         function showTurn(t) {
             const n = String(t.num);
+            turnTitle.textContent = "Ход " + n;
             if (t.cost) {
                 costImg.src = "img/trade/cost/" + n + "cost.jpg";
                 costImg.style.display = "block";
@@ -336,7 +341,7 @@
         }
         computeMissing();
 
-        const defaultTurn = turns.find(t => t.num === 10) || turns[0];
+        const defaultTurn = turns[turns.length - 1];
         showTurn(defaultTurn);
     </script>
 <script src="analytics.js"></script>
