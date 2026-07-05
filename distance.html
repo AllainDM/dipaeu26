@@ -8,6 +8,10 @@
         .container { max-width: 400px; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
         select, button { width: 100%; padding: 10px; margin-top: 10px; cursor: pointer; }
         #result { margin-top: 20px; font-weight: bold; color: #2c3e50; }
+        .tc-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .tc-table th, .tc-table td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+        .tc-table th { background: #f5f5f5; font-weight: bold; }
+        .tc-table td:nth-child(3) { text-align: center; }
     </style>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -50,10 +54,7 @@
     <label for="startLocation">Локация:</label>
     <select id="startLocation"></select>
 
-    <label for="tradeCenter">ТЦ:</label>
-    <select id="tradeCenter"></select>
-
-    <div id="resultTc">Расстояние будет рассчитано автоматически</div>
+    <div id="resultTc"></div>
 </div>
 
 <script src="distance.js"></script>

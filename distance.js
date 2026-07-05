@@ -572,14 +572,14 @@ const locations = [
 
 // Торговые центры (ТЦ) и соответствующие им города
 const tradeCenters = [
-    { name: "Новгород (г. Новгород)", cityName: "г.Новгород", x: 41, y: 11.5 },
-    { name: "Крым (г. Кафа)", cityName: "г.Кафа", x: 44.5, y: 28.5 },
-    { name: "Ганза (г. Любек)", cityName: "г.Любек", x: 25, y: 18 },
-    { name: "Фландрия (г. Брюгге)", cityName: "г.Брюгге", x: 19, y: 21.5 },
-    { name: "Севилья (г. Севилья)", cityName: "г.Севилья", x: 11, y: 37 },
-    { name: "Египет (г. Каир)", cityName: "г.Каир", x: 41, y: 46.5 },
-    { name: "Ормуз (г. Ормуз)", cityName: "г.Ормуз", x: 61, y: 49 },
-    { name: "Венеция (г. Венеция)", cityName: "г.Венеция", x: 26.5, y: 28 }
+    { name: "Новгород", cityName: "г. Новгород", x: 41, y: 11.5 },
+    { name: "Крым", cityName: "г. Кафа", x: 44.5, y: 28.5 },
+    { name: "Ганза", cityName: "г. Любек", x: 25, y: 18 },
+    { name: "Фландрия", cityName: "г. Брюгге", x: 19, y: 21.5 },
+    { name: "Севилья", cityName: "г. Севилья", x: 11, y: 37 },
+    { name: "Египет", cityName: "г. Каир", x: 41, y: 46.5 },
+    { name: "Ормуз", cityName: "г. Ормуз", x: 61, y: 49 },
+    { name: "Венеция", cityName: "г. Венеция", x: 26.5, y: 28 }
 ];
 
 // ---- Первая считалка: точка А → точка Б ----
@@ -603,26 +603,25 @@ startSelect.addEventListener('change', calculateDistance);
 endSelect.addEventListener('change', calculateDistance);
 calculateDistance();
 
-// ---- Вторая считалка: локация → ТЦ ----
+// ---- Вторая считалка: локация → все ТЦ ----
 const startLocationSelect = document.getElementById('startLocation');
-const tradeCenterSelect = document.getElementById('tradeCenter');
 const resultTcDiv = document.getElementById('resultTc');
 
 locations.forEach((loc, index) => {
     startLocationSelect.add(new Option(loc.name, index));
 });
 
-tradeCenters.forEach((tc, index) => {
-    tradeCenterSelect.add(new Option(tc.name, index));
-});
-
 function calculateDistanceToTc() {
     const loc = locations[startLocationSelect.value];
-    const tc = tradeCenters[tradeCenterSelect.value];
-    const distance = Math.abs(loc.x - tc.x) + Math.abs(loc.y - tc.y);
-    resultTcDiv.innerText = `Расстояние составляет ${distance} дней пути`;
+    let html = '<table class="tc-table">';
+    html += '<tr><th>ТЦ</th><th>Город</th><th>Расстояние</th></tr>';
+    tradeCenters.forEach(tc => {
+        const dist = Math.abs(loc.x - tc.x) + Math.abs(loc.y - tc.y);
+        html += `<tr><td>${tc.name}</td><td>${tc.cityName}</td><td>${dist} дн.</td></tr>`;
+    });
+    html += '</table>';
+    resultTcDiv.innerHTML = html;
 }
 
 startLocationSelect.addEventListener('change', calculateDistanceToTc);
-tradeCenterSelect.addEventListener('change', calculateDistanceToTc);
 calculateDistanceToTc();
