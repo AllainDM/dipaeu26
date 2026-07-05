@@ -570,32 +570,59 @@ const locations = [
     { name: "Яик", x: 55.5, y: 20.5 }
 ];
 
-// Находим элементы в HTML
+// Торговые центры (ТЦ) и соответствующие им города
+const tradeCenters = [
+    { name: "Новгород (г. Новгород)", cityName: "г.Новгород", x: 41, y: 11.5 },
+    { name: "Крым (г. Кафа)", cityName: "г.Кафа", x: 44.5, y: 28.5 },
+    { name: "Ганза (г. Любек)", cityName: "г.Любек", x: 25, y: 18 },
+    { name: "Фландрия (г. Брюгге)", cityName: "г.Брюгге", x: 19, y: 21.5 },
+    { name: "Севилья (г. Севилья)", cityName: "г.Севилья", x: 11, y: 37 },
+    { name: "Египет (г. Каир)", cityName: "г.Каир", x: 41, y: 46.5 },
+    { name: "Ормуз (г. Ормуз)", cityName: "г.Ормуз", x: 61, y: 49 },
+    { name: "Венеция (г. Венеция)", cityName: "г.Венеция", x: 26.5, y: 28 }
+];
+
+// ---- Первая считалка: точка А → точка Б ----
 const startSelect = document.getElementById('startPoint');
 const endSelect = document.getElementById('endPoint');
 const resultDiv = document.getElementById('result');
 
-// Заполняем списки выбора при загрузке страницы
 locations.forEach((loc, index) => {
-    let option1 = new Option(loc.name, index);
-    let option2 = new Option(loc.name, index);
-    startSelect.add(option1);
-    endSelect.add(option2);
+    startSelect.add(new Option(loc.name, index));
+    endSelect.add(new Option(loc.name, index));
 });
 
-// Основная функция расчета
 function calculateDistance() {
-    // Получаем выбранные объекты по их индексу
     const loc1 = locations[startSelect.value];
     const loc2 = locations[endSelect.value];
-
-    // Формула: ABS(x1-x2) + ABS(y1-y2)
     const distance = Math.abs(loc1.x - loc2.x) + Math.abs(loc1.y - loc2.y);
-
-    // Вывод результата (аналог СЦЕПИТЬ в Excel)
     resultDiv.innerText = `Расстояние составляет ${distance} дней пути`;
 }
 
 startSelect.addEventListener('change', calculateDistance);
 endSelect.addEventListener('change', calculateDistance);
 calculateDistance();
+
+// ---- Вторая считалка: локация → ТЦ ----
+const startLocationSelect = document.getElementById('startLocation');
+const tradeCenterSelect = document.getElementById('tradeCenter');
+const resultTcDiv = document.getElementById('resultTc');
+
+locations.forEach((loc, index) => {
+    startLocationSelect.add(new Option(loc.name, index));
+});
+
+tradeCenters.forEach((tc, index) => {
+    tradeCenterSelect.add(new Option(tc.name, index));
+});
+
+function calculateDistanceToTc() {
+    const loc = locations[startLocationSelect.value];
+    const tc = tradeCenters[tradeCenterSelect.value];
+    const distance = Math.abs(loc.x - tc.x) + Math.abs(loc.y - tc.y);
+    resultTcDiv.innerText = `Расстояние составляет ${distance} дней пути`;
+}
+
+startLocationSelect.addEventListener('change', calculateDistanceToTc);
+tradeCenterSelect.addEventListener('change', calculateDistanceToTc);
+calculateDistanceToTc();
