@@ -131,7 +131,9 @@
             {num: 23, cost: true, count: true},
             {num: 24, cost: true, count: true},
             {num: 25, cost: true, count: true},
-            {num: 26, cost: true, count: true}
+            {num: 26, cost: true, count: true},
+            {num: 27, cost: true, count: true},
+            {num: 28, cost: true, count: true}
         ];
 
         const nav = document.getElementById("turnNav");
@@ -149,6 +151,17 @@
         });
 
         // costData and countData now loaded from trade-data.js
+
+        // <!-- trade-viewer -->
+        // <!-- depends-on file="trade-data.js" -->
+        // <!-- image-set name="cost" path="img/trade/cost/<turn>cost.jpg" format="jpg" -->
+        // <!-- image-set name="count" path="img/trade/count/<turn>count.png" format="png" -->
+        // <!-- element id="turnNav" type="div" description="Кнопки выбора хода" -->
+        // <!-- element id="costImg" type="img" description="Изображение цен для выбранного хода" -->
+        // <!-- element id="countImg" type="img" description="Изображение количества товаров" -->
+        // <!-- element id="costContainer" type="div" description="Таблица цен" -->
+        // <!-- element id="countContainer" type="div" description="Таблица количества товаров" -->
+        // <!-- /trade-viewer -->
 
         function computeCostStats(num) {
             const data = costData[num];
