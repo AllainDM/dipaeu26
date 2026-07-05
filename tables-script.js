@@ -62,6 +62,7 @@ const vse_postroyki = document.getElementById("vse_postroyki");
 const naim = document.getElementById("naim");
 const stroitelstvo = document.getElementById("stroitelstvo");
 const perki_personazhey = document.getElementById("perki_personazhey");
+const hidden_perks = document.getElementById("hidden_perks");
 const unit_bonus = document.getElementById("unit_bonus");
 const vp = document.getElementById("vp");
 // const razmer_locacii = document.getElementById("razmer_locacii");
@@ -382,6 +383,47 @@ perki_personazhey.addEventListener("click",() => {
     img.src="tables/perki_personazhey.png"
     img.style.width = "50%"
     img.style.height = "50%"
+});
+
+hidden_perks.addEventListener("click",() => {
+    document.querySelector(".container").innerHTML = `
+        <p><em>Перки, выделенные красным, взяты из прошлой партии и могут быть устаревшими.<br>Таблица может содержать не все скрытые перки. По обнаружении нового, если посчитаете нужным, сообщите о нём в игровой чат.</em></p>
+        <div id="perks-table-content"><table>
+            <thead>
+                <tr><th>Комбо</th><th>Название перка</th><th>Эффект</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Б+К</td><td><strong>Алчный</strong></td><td>+5% к сбору налогов, -5% к ПНД</td></tr>
+                <tr><td>В+Н</td><td><strong>Святой воин</strong></td><td>+10% к силе армии в бою с иноверцами</td></tr>
+                <tr><td>У+Ч</td><td><strong>Авторитет</strong></td><td>+1 о/пр</td></tr>
+                <tr><td>Я+С</td><td><strong>н/д</strong></td><td>+1 к рангу страны</td></tr>
+                <tr><td>Г+Л</td><td><strong>Изгой</strong></td><td>-1 о/пр в ход</td></tr>
+                <tr class="prev-game"><td>У+В</td><td><strong>Новатор</strong></td><td>+1в/о</td></tr>
+                <tr class="prev-game"><td>К+Ч</td><td><strong>Счетовод</strong></td><td>-1 инфляции в ход</td></tr>
+                <tr class="prev-game"><td>К+В</td><td><strong>Налетчик</strong></td><td>+15% к размеру грабежа, доступен налет</td></tr>
+                <tr class="prev-game"><td>З+Г</td><td><strong>Ленивый</strong></td><td>+10% к цене стройки, -5% к ЭУ</td></tr>
+                <tr class="prev-game"><td>И+Н</td><td><strong>Грешник</strong></td><td>-2 о/в</td></tr>
+                <tr class="prev-game"><td>Ч+З</td><td><strong>Голубая кровь</strong></td><td>50% что дети унаследуют 1 из перков родителя</td></tr>
+                <tr class="prev-game"><td>З+З</td><td><strong>Чистоплотный</strong></td><td>доступны бани</td></tr>
+                <tr class="prev-game"><td>Ч+Н</td><td><strong>Праведник</strong></td><td>+2 о/в, +1% к благочестию</td></tr>
+                <tr class="prev-game"><td>Ч+Ш</td><td><strong>Благотворитель</strong></td><td>-5% к налогам, иммунитет к инвенту «Бунт!»</td></tr>
+                <tr class="prev-game"><td>Б+Д</td><td><strong>Вандал</strong></td><td>возможно разрушение зд.в городе</td></tr>
+                <tr class="prev-game"><td>Г+П</td><td><strong>Зануда</strong></td><td>+10% к цене личных решений</td></tr>
+                <tr class="prev-game"><td>О+У</td><td><strong>Реформатор</strong></td><td>-10% к цене инноваций</td></tr>
+                <tr class="prev-game"><td>О+А</td><td><strong>Благодетель</strong></td><td>+10к к лимиту переводов</td></tr>
+                <tr class="prev-game"><td>З+И</td><td><strong>Обжора</strong></td><td>-1п/п</td></tr>
+                <tr class="prev-game"><td>М+С</td><td><strong>Охотник</strong></td><td>-50% к цене «Организация охоты»</td></tr>
+                <tr class="prev-game"><td>О+К</td><td><strong>Игрок</strong></td><td>+1% к коррупции</td></tr>
+                <tr class="prev-game"><td>У+К</td><td><strong>Трудоголик</strong></td><td>+1 к лимиту строительства</td></tr>
+                <tr class="prev-game"><td>И+П</td><td><strong>Ретроград</strong></td><td>-2кт/о</td></tr>
+                <tr class="prev-game"><td>Б+С</td><td><strong>Завоеватель</strong></td><td>3 провинции вместо 2 при аннексии</td></tr>
+                <tr class="prev-game"><td>Х+К</td><td><strong>Скряга</strong></td><td>+10% к таможенным сборам</td></tr>
+            </tbody>
+        </table></div>`
+    containerAbove()
+    img.src="img/hidden_perks.png"
+    img.style.width = "40%"
+    img.style.height = "40%"
 });
 
 unit_bonus.addEventListener("click",() => {
