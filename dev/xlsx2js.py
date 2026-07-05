@@ -58,12 +58,26 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
 
     rows = list(ws.iter_rows(min_row=2, values_only=True))
 
+    # Столбцы xlsx:
+    # 0: Группа, 1: Категория, 2: Постройка, 3: Локация, 4: Ресурс локации,
+    # 5: Климат, 6: Рельеф/Геогр. условия, 7: Доп. условия, 8: Входные ресурсы,
+    # 9: База пр-ва, 10: Бонусы, 11: Доход, 12: Цена
+
     buildings = []
     first_of_group = {}
 
+    COL_CLIMATE = 5
+    COL_TERRAIN = 6
+    COL_CONDITIONS = 7
+    COL_INPUT = 8
+    COL_BASE = 9
+    COL_BONUSES = 10
+    COL_INCOME = 11
+    COL_COST = 12
+
     for row in rows:
         raw = [to_display(c) for c in row]
-        if len(raw) < 12:
+        if len(raw) < 13:
             continue
         if all(v == '' for v in raw):
             continue
@@ -74,8 +88,8 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
         if not name:
             continue
 
-        income_raw = raw[10]    # колонка 10 = Доход
-        cost_raw = raw[11]      # колонка 11 = Цена
+        income_raw = raw[COL_INCOME]
+        cost_raw = raw[COL_COST]
 
         income_base, income_max = parse_income(income_raw)
         cost_num, _ = parse_income(cost_raw)
@@ -85,11 +99,11 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
             if group not in first_of_group:
                 first_of_group[group] = {
                     'location': raw[3],
-                    'input': raw[7],
+                    'input': raw[COL_INPUT],
+                    'bonuses': raw[COL_BONUSES],
                     'income': {'base': income_base, 'max': income_max, 'display': income_raw},
                     'cost': {'numeric': cost_num, 'display': cost_raw},
                 }
-                # Первая строка — полные данные
                 inherit_from = None
             else:
                 inherit_from = first_of_group[group]
@@ -121,17 +135,22 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
             final_cost = inherit_from['cost']['display']
             cost_num = inherit_from['cost']['numeric']
 
+        final_bonuses = pick(raw[COL_BONUSES], inherit_from['bonuses'] if inherit_from else None)
+        final_location = pick(raw[3], inherit_from['location'] if inherit_from else None)
+        final_input = pick(raw[COL_INPUT], inherit_from['input'] if inherit_from else None)
+
         obj = {
             'name': name,
             'category': cat,
             'group': group,
-            'location': raw[3] if raw[3] else (inherit_from['location'] if inherit_from else ''),
+            'location': final_location,
             'resource': raw[4],
-            'climate': raw[5],
-            'conditions': raw[6],
-            'input': raw[7] if raw[7] else (inherit_from['input'] if inherit_from else ''),
-            'base': raw[8],
-            'bonuses': raw[9],
+            'climate': raw[COL_CLIMATE],
+            'terrain': raw[COL_TERRAIN],
+            'conditions': raw[COL_CONDITIONS],
+            'input': final_input,
+            'base': raw[COL_BASE],
+            'bonuses': final_bonuses,
             'cost': {'numeric': cost_num, 'display': final_cost},
             'income': {'base': income_base, 'max': income_max, 'display': final_income},
         }
@@ -169,13 +188,14 @@ const COLUMNS = [
     { key: 'name',      label: 'Постройка', sortable: true },
     { key: 'cost',      label: '💰 Цена',   sortable: true },
     { key: 'income',    label: '📈 Доход',  sortable: true },
-    { key: 'location',  label: 'Локация',   sortable: true },
     { key: 'resource',  label: 'Ресурс',    sortable: true },
-    { key: 'climate',   label: 'Климат/рельеф', sortable: true },
-    { key: 'input',     label: 'Входные',   sortable: true },
-    { key: 'base',      label: 'База пр-ва',  sortable: true },
-    { key: 'conditions',label: 'Доп. условия', sortable: true },
-    { key: 'bonuses',   label: 'Бонусы',     sortable: true },
+    { key: 'location',  label: 'Локация',   sortable: true },
+    { key: 'climate',   label: 'Климат',    sortable: true },
+    { key: 'terrain',   label: 'Рельеф',    sortable: true },
+    { key: 'conditions',label: 'Условия',   sortable: true },
+    { key: 'input',     label: 'Усл. работы', sortable: true },
+    { key: 'base',      label: 'База',      sortable: true },
+    { key: 'bonuses',   label: 'Инновации/традиции', sortable: true },
 ];
 
 let activeCategories = new Set(Object.keys(CATEGORIES));
@@ -194,6 +214,10 @@ function cellVal(b, key) {
         return d || '—';
     }
     return b[key] || '—';
+}
+
+function htmlAttr(s) {
+    return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&/g, '&amp;');
 }
 
 function incomeColor(b) {
@@ -217,8 +241,11 @@ function costColor(b) {
 function cellClass(b, key) {
     if (key === 'catEmoji') return 'cat-emoji-cell';
     if (key === 'name') return 'name-cell';
-    if (key === 'cost') return 'num-nowrap ' + costColor(b);
-    if (key === 'income') return 'num-nowrap ' + incomeColor(b);
+    if (key === 'cost') return 'num-nowrap cell-cost ' + costColor(b);
+    if (key === 'income') return 'num-nowrap cell-income ' + incomeColor(b);
+    if (key === 'resource') return 'cell-resource';
+    if (key === 'conditions') return 'cell-conditions';
+    if (key === 'bonuses') return 'cell-bonuses';
     return '';
 }
 
@@ -271,7 +298,7 @@ function filteredData() {
 // ── Группировка для рендеринга ──
 
 // Колонки, которые отображаются с rowspan для первой строки группы
-const COMMON_COLS = new Set(['catEmoji', 'location', 'input', 'income', 'cost']);
+const COMMON_COLS = new Set(['catEmoji', 'name', 'location', 'input', 'income', 'cost']);
 
 function render() {
     const data = filteredData();
@@ -313,13 +340,13 @@ function render() {
                     if (i === 0) {
                         const val = cellVal(b, col.key);
                         const cls = cellClass(b, col.key);
-                        rows += `<td class="${cls}" rowspan="${size}">${val}</td>`;
+                        rows += `<td class="${cls}" rowspan="${size}" title="${htmlAttr(val)}">${val}</td>`;
                     }
                     // остальные строки — пропускаем ячейку
                 } else {
                     const val = cellVal(b, col.key);
                     const cls = cellClass(b, col.key);
-                    rows += `<td class="${cls}">${val}</td>`;
+                    rows += `<td class="${cls}" title="${htmlAttr(val)}">${val}</td>`;
                 }
             }
             rows += '</tr>';
@@ -380,10 +407,20 @@ function setupSort() {
     });
 }
 
+function setupCellClick() {
+    document.getElementById('buildings-tbody').addEventListener('click', e => {
+        const td = e.target.closest('td.num-nowrap');
+        if (td) {
+            td.classList.toggle('expanded');
+        }
+    });
+}
+
 function init() {
     setupCategoryFilters();
     setupSearch();
     setupSort();
+    setupCellClick();
     render();
     console.log(`Постройки: загружено ${BUILDINGS.length}`);
 }
