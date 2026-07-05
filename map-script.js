@@ -1,6 +1,9 @@
+const LATEST_POLIT_MAP = 27
+
 console.log("Скрипт странички с картами успешно загружен")
 
 const img = document.getElementById("map1");
+img.src = "maps/polit/" + LATEST_POLIT_MAP + ".png"
 let imgSize = 1;
 const igroki = document.getElementById("igroki");
 const polit = document.getElementById("polit");
@@ -33,7 +36,7 @@ img.addEventListener("click",() => {
 // })
 
 polit.addEventListener("click",() => {
-    img.src="maps/polit/24.png"
+    img.src="maps/polit/" + LATEST_POLIT_MAP + ".png"
 })
 
 resources.addEventListener("click",() => {
