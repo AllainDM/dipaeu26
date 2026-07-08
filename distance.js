@@ -586,11 +586,21 @@ const tradeCenters = [
 const startSelect = document.getElementById('startPoint');
 const endSelect = document.getElementById('endPoint');
 const resultDiv = document.getElementById('result');
+const searchBox = document.getElementById('searchBox');
 
-locations.forEach((loc, index) => {
-    startSelect.add(new Option(loc.name, index));
-    endSelect.add(new Option(loc.name, index));
-});
+function populateSelects(filteredIndexes) {
+    // clear
+    startSelect.options.length = 0;
+    endSelect.options.length = 0;
+    filteredIndexes.forEach(i => {
+        const loc = locations[i];
+        startSelect.add(new Option(loc.name, i));
+        endSelect.add(new Option(loc.name, i));
+    });
+}
+
+// initial population with all
+populateSelects(locations.map((_, i) => i));
 
 function calculateDistance() {
     const loc1 = locations[startSelect.value];
@@ -601,15 +611,36 @@ function calculateDistance() {
 
 startSelect.addEventListener('change', calculateDistance);
 endSelect.addEventListener('change', calculateDistance);
+
+searchBox.addEventListener('input', () => {
+    const q = searchBox.value.trim().toLowerCase();
+    const filtered = locations
+        .map((loc, idx) => ({ loc, idx }))
+        .filter(o => o.loc.name.toLowerCase().includes(q))
+        .map(o => o.idx);
+    // if nothing matches, keep all to avoid empty selects
+    populateSelects(filtered.length ? filtered : locations.map((_, i) => i));
+    populateStartLocation(filtered.length ? filtered : locations.map((_, i) => i));
+    // recalc after changing options
+    calculateDistance();
+});
+
 calculateDistance();
 
 // ---- Вторая считалка: локация → все ТЦ ----
 const startLocationSelect = document.getElementById('startLocation');
 const resultTcDiv = document.getElementById('resultTc');
 
-locations.forEach((loc, index) => {
-    startLocationSelect.add(new Option(loc.name, index));
-});
+function populateStartLocation(filteredIndexes) {
+    startLocationSelect.options.length = 0;
+    filteredIndexes.forEach(i => {
+        const loc = locations[i];
+        startLocationSelect.add(new Option(loc.name, i));
+    });
+}
+
+// initial population
+populateStartLocation(locations.map((_, i) => i));
 
 function calculateDistanceToTc() {
     const loc = locations[startLocationSelect.value];
