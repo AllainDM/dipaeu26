@@ -14,6 +14,7 @@ const ethic = document.getElementById("ethic");
 const religion = document.getElementById("relig");
 const tts = document.getElementById("tts");
 const hre = document.getElementById("hre");
+const chuma = document.getElementById("chuma");
 const goroda = document.getElementById("goroda");
 
 img.addEventListener("click",() => {
@@ -67,6 +68,9 @@ hre.addEventListener("click",() => {
     img.src="maps/Karta_SRI.png"
 });
 
+chuma.addEventListener("click",() => {
+    img.src="maps/chuma.png"
+});
 
 // goroda.addEventListener("click",() => {
 //     img.src="maps/goroda.png"
