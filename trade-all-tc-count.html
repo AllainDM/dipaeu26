@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Количество во всех ТЦ</title>
+    <style>
+        .chart-controls {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .chart-controls label {
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .chart-controls select {
+            padding: 4px 8px;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
+            border: 1px solid #bcbcbc;
+            border-radius: 4px;
+            background: white;
+            min-width: 140px;
+        }
+        canvas {
+            border: 1px solid #bcbcbc;
+            background: #fff;
+            max-width: 100%;
+            height: auto;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3F4137;
+            margin: 10px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        .legend {
+            display: flex;
+            gap: 14px;
+            font-size: 13px;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-color {
+            width: 22px;
+            height: 3px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="mainmenu">
+            <li><a href="rules/contents.html">Правила</a></li>
+            <li><a href="turns.html">Ходы</a></li>
+            <li><a href="maps.html">Карты</a></li>
+            <li><a href="tables.html">Таблицы</a></li>
+            <li><a href="trade.html">Торговля</a></li>
+            <li><a href="tools.html">Инструменты</a></li>
+            <li><a href="links.html">Ссылки</a></li>
+            <li><a href="log.html">Лог</a></li>
+        </ul>
+    </header>
+
+    <p style="background:#fff3cd;border-left:4px solid #ffc107;padding:10px 16px;margin:12px 0;font-size:15px;">⚠ График является экспериментальным, рисуется на непроверенных данных и может содержать ошибки.</p>
+
+    <a href="trade.html" class="back-link">← Назад к торговле</a>
+    <h2>Количество товара — все ТЦ</h2>
+
+    <div class="chart-controls">
+        <label>Товар: <select id="goodSelect"></select></label>
+    </div>
+
+    <div id="chartTitle" class="chart-title"></div>
+    <div id="legend" class="legend"></div>
+    <canvas id="chart" width="950" height="500"></canvas>
+
+    <script src="trade-data.js"></script>
+    <script>
+        const canvas = document.getElementById('chart');
+        const ctx = canvas.getContext('2d');
+        const goodSelect = document.getElementById('goodSelect');
+        const chartTitle = document.getElementById('chartTitle');
+        const legendEl = document.getElementById('legend');
+
+        const firstTurn = Object.keys(countData).map(Number).sort((a, b) => a - b)[0];
+        const markets = countData[firstTurn].markets;
+        const goods = countData[firstTurn].goods.map(g => g[0]);
+        const countTurns = Object.keys(countData).map(Number).sort((a, b) => a - b);
+
+        const MARKET_COLORS = [
+            '#d32f2f', '#388e3c', '#fbc02d', '#1976d2',
+            '#f57c00', '#7b1fa2', '#0097a7', '#616161'
+        ];
+
+        goods.forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g;
+            opt.textContent = g;
+            goodSelect.appendChild(opt);
+        });
+        goodSelect.value = 'П/п';
+
+        function buildLegend() {
+            legendEl.innerHTML = '';
+            markets.forEach((m, i) => {
+                const item = document.createElement('span');
+                item.className = 'legend-item';
+                item.innerHTML = '<span class="legend-color" style="background:' + MARKET_COLORS[i] + ';"></span> ' + m;
+                legendEl.appendChild(item);
+            });
+        }
+        buildLegend();
+
+        function getAllMarketPoints(goodName) {
+            const series = [];
+            markets.forEach((_, mi) => {
+                const points = [];
+                countTurns.forEach(turn => {
+                    const data = countData[turn];
+                    if (!data) return;
+                    const row = data.goods.find(r => r[0] === goodName);
+                    if (!row) return;
+                    const val = row[mi + 1];
+                    if (val !== undefined && val !== null) {
+                        points.push({ turn, val });
+                    }
+                });
+                series.push(points);
+            });
+            return series;
+        }
+
+        function drawChart() {
+            const good = goodSelect.value;
+            chartTitle.textContent = good;
+
+            const series = getAllMarketPoints(good);
+            const hasData = series.some(s => s.length > 0);
+            if (!hasData) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = '18px Times New Roman';
+                ctx.fillStyle = '#999';
+                ctx.textAlign = 'center';
+                ctx.fillText('Нет данных для выбранного товара', canvas.width / 2, canvas.height / 2);
+                return;
+            }
+
+            const pad = { top: 30, right: 30, bottom: 45, left: 55 };
+            const w = canvas.width - pad.left - pad.right;
+            const h = canvas.height - pad.top - pad.bottom;
+
+            let minTurn = Infinity, maxTurn = -Infinity;
+            let minVal = Infinity, maxVal = -Infinity;
+            series.forEach(s => {
+                s.forEach(p => {
+                    if (p.turn < minTurn) minTurn = p.turn;
+                    if (p.turn > maxTurn) maxTurn = p.turn;
+                    if (p.val < minVal) minVal = p.val;
+                    if (p.val > maxVal) maxVal = p.val;
+                });
+            });
+            const valRange = maxVal - minVal || 1;
+
+            function xPos(turn) {
+                return pad.left + (turn - minTurn) / (maxTurn - minTurn) * w;
+            }
+            function yPos(val) {
+                return pad.top + h - (val - minVal) / valRange * h;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // grid
+            ctx.strokeStyle = '#eee';
+            ctx.lineWidth = 1;
+            const gridLines = 5;
+            for (let i = 0; i <= gridLines; i++) {
+                const y = pad.top + h * i / gridLines;
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(pad.left + w, y);
+                ctx.stroke();
+            }
+
+            // axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(pad.left, pad.top);
+            ctx.lineTo(pad.left, pad.top + h);
+            ctx.lineTo(pad.left + w, pad.top + h);
+            ctx.stroke();
+
+            // X labels
+            ctx.fillStyle = '#333';
+            ctx.font = '13px Times New Roman';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            const xStep = Math.max(1, Math.floor((maxTurn - minTurn) / 12));
+            for (let t = minTurn; t <= maxTurn; t += xStep) {
+                ctx.fillText(String(t), xPos(t), pad.top + h + 5);
+            }
+
+            // Y labels
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            ctx.font = '12px Times New Roman';
+            for (let i = 0; i <= gridLines; i++) {
+                const val = minVal + valRange * (1 - i / gridLines);
+                const y = pad.top + h * i / gridLines;
+                const label = val % 1 === 0 ? String(val) : val.toFixed(1);
+                ctx.fillText(label, pad.left - 8, y);
+            }
+
+            // draw lines for each market
+            series.forEach((s, mi) => {
+                if (s.length < 1) return;
+
+                ctx.strokeStyle = MARKET_COLORS[mi];
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                s.forEach((p, i) => {
+                    const x = xPos(p.turn);
+                    const y = yPos(p.val);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+
+                s.forEach(p => {
+                    const x = xPos(p.turn);
+                    const y = yPos(p.val);
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = MARKET_COLORS[mi];
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                });
+            });
+        }
+
+        goodSelect.addEventListener('change', drawChart);
+        drawChart();
+    </script>
+<script src="analytics.js"></script>
+</body>
+</html>
