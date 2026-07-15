@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
-    <title>Цены во всех ТЦ</title>
+    <title>Цены — все ТЦ</title>
     <style>
         .chart-controls {
             display: flex;
@@ -25,6 +25,25 @@
             background: white;
             min-width: 140px;
         }
+        .view-toggle {
+            display: flex;
+            gap: 8px;
+            margin: 8px 0 14px;
+        }
+        .view-toggle button {
+            padding: 6px 14px;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
+            border: 1px solid #bcbcbc;
+            background: #f5f5f0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .view-toggle button.active {
+            background: #3F4137;
+            color: #fdc073;
+            border-color: #3F4137;
+        }
         canvas {
             border: 1px solid #bcbcbc;
             background: #fff;
@@ -44,26 +63,51 @@
             font-size: 15px;
         }
         .legend {
-            display: flex;
-            gap: 14px;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px 14px;
             font-size: 13px;
-            margin: 8px 0;
-            flex-wrap: wrap;
+            margin: 8px 0 10px;
+            max-width: 950px;
         }
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            cursor: pointer;
+            padding: 3px 6px;
+            border-radius: 4px;
+            transition: background .15s;
+            user-select: none;
+        }
+        .legend-item:hover {
+            background: #f0f0f0;
+        }
+        .legend-item.hidden {
+            opacity: 0.45;
         }
         .legend-color {
             width: 22px;
             height: 3px;
             border-radius: 2px;
+            flex-shrink: 0;
         }
-        .legend-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
+        #tooltip {
+            position: absolute;
+            background: rgba(63, 65, 55, 0.95);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            pointer-events: none;
+            display: none;
+            z-index: 100;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+        .chart-wrapper {
+            position: relative;
+            display: inline-block;
         }
     </style>
 </head>
@@ -90,26 +134,58 @@
         <label>Товар: <select id="goodSelect"></select></label>
     </div>
 
+    <div class="view-toggle">
+        <button id="btnVariantA" class="active">Вариант А</button>
+        <button id="btnVariantB">Вариант Б</button>
+    </div>
+
     <div id="chartTitle" class="chart-title"></div>
-    <div id="legend" class="legend"></div>
-    <canvas id="chart" width="950" height="500"></canvas>
+
+    <div id="variantA">
+        <div class="chart-wrapper">
+            <canvas id="chartA" width="950" height="760"></canvas>
+            <div id="tooltipA"></div>
+        </div>
+    </div>
+
+    <div id="variantB" style="display:none;">
+        <div id="legendB" class="legend"></div>
+        <div class="chart-wrapper">
+            <canvas id="chartB" width="950" height="500"></canvas>
+            <div id="tooltipB"></div>
+        </div>
+    </div>
 
     <script src="trade-data.js"></script>
     <script>
-        const canvas = document.getElementById('chart');
-        const ctx = canvas.getContext('2d');
         const goodSelect = document.getElementById('goodSelect');
         const chartTitle = document.getElementById('chartTitle');
-        const legendEl = document.getElementById('legend');
+        const btnA = document.getElementById('btnVariantA');
+        const btnB = document.getElementById('btnVariantB');
+        const variantA = document.getElementById('variantA');
+        const variantB = document.getElementById('variantB');
+        const tooltipA = document.getElementById('tooltipA');
+        const tooltipB = document.getElementById('tooltipB');
+
+        const canvasA = document.getElementById('chartA');
+        const ctxA = canvasA.getContext('2d');
+        const canvasB = document.getElementById('chartB');
+        const ctxB = canvasB.getContext('2d');
 
         const markets = costData[9].markets;
         const goods = costData[9].goods.map(g => g[0]);
         const costTurns = Object.keys(costData).map(Number).sort((a, b) => a - b);
 
         const MARKET_COLORS = [
-            '#d32f2f', '#388e3c', '#fbc02d', '#1976d2',
-            '#f57c00', '#7b1fa2', '#0097a7', '#616161'
+            '#e41a1c', '#377eb8', '#4daf4a', '#984ea3',
+            '#ff7f00', '#a65628', '#f781bf', '#666666'
         ];
+
+        let currentVariant = 'A';
+        let visibleB = new Array(markets.length).fill(true);
+        let highlightedB = -1;
+        let lastSeriesB = [];
+        let lastBoundsB = {};
 
         goods.forEach(g => {
             const opt = document.createElement('option');
@@ -119,17 +195,31 @@
         });
         goodSelect.value = 'П/п';
 
-        // legend
-        function buildLegend() {
+        function buildLegendB() {
+            const legendEl = document.getElementById('legendB');
             legendEl.innerHTML = '';
             markets.forEach((m, i) => {
                 const item = document.createElement('span');
                 item.className = 'legend-item';
+                if (!visibleB[i]) item.classList.add('hidden');
                 item.innerHTML = '<span class="legend-color" style="background:' + MARKET_COLORS[i] + ';"></span> ' + m;
+                item.addEventListener('click', () => {
+                    visibleB[i] = !visibleB[i];
+                    item.classList.toggle('hidden', !visibleB[i]);
+                    drawVariantB();
+                });
+                item.addEventListener('mouseenter', () => {
+                    highlightedB = i;
+                    drawVariantB();
+                });
+                item.addEventListener('mouseleave', () => {
+                    highlightedB = -1;
+                    drawVariantB();
+                });
                 legendEl.appendChild(item);
             });
         }
-        buildLegend();
+        buildLegendB();
 
         function getAllMarketPoints(goodName) {
             const series = [];
@@ -150,25 +240,30 @@
             return series;
         }
 
-        function drawChart() {
-            const good = goodSelect.value;
-            chartTitle.textContent = good;
-
-            const series = getAllMarketPoints(good);
-            const hasData = series.some(s => s.length > 0);
-            if (!hasData) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.font = '18px Times New Roman';
-                ctx.fillStyle = '#999';
-                ctx.textAlign = 'center';
-                ctx.fillText('Нет данных для выбранного товара', canvas.width / 2, canvas.height / 2);
-                return;
+        function niceTicks(min, max, approx) {
+            if (max === min) {
+                const v = min || 1;
+                return { min: 0, max: v * 2, step: v, ticks: [0, v, v * 2] };
             }
+            const range = max - min;
+            const roughStep = range / approx;
+            const mag = Math.pow(10, Math.floor(Math.log10(roughStep)));
+            const norm = roughStep / mag;
+            let step;
+            if (norm <= 1.5) step = mag;
+            else if (norm <= 3.5) step = 2 * mag;
+            else if (norm <= 7.5) step = 5 * mag;
+            else step = 10 * mag;
+            const niceMin = Math.floor(min / step) * step;
+            const niceMax = Math.ceil(max / step) * step;
+            const ticks = [];
+            for (let v = niceMin; v <= niceMax + step * 0.00001; v = Math.round((v + step) * 100000) / 100000) {
+                ticks.push(v);
+            }
+            return { min: niceMin, max: niceMax, step, ticks };
+        }
 
-            const pad = { top: 30, right: 30, bottom: 45, left: 55 };
-            const w = canvas.width - pad.left - pad.right;
-            const h = canvas.height - pad.top - pad.bottom;
-
+        function getBounds(series) {
             let minTurn = Infinity, maxTurn = -Infinity;
             let minVal = Infinity, maxVal = -Infinity;
             series.forEach(s => {
@@ -179,67 +274,118 @@
                     if (p.val > maxVal) maxVal = p.val;
                 });
             });
-            const valRange = maxVal - minVal || 1;
+            if (minVal === maxVal) { maxVal += 1; minVal -= 0.5; }
+            const n = niceTicks(minVal, maxVal, 5);
+            return { minTurn, maxTurn, minVal: n.min, maxVal: n.max, ticks: n.ticks };
+        }
+
+        function setVariant(v) {
+            currentVariant = v;
+            if (v === 'A') {
+                variantA.style.display = 'block';
+                variantB.style.display = 'none';
+                btnA.classList.add('active');
+                btnB.classList.remove('active');
+            } else {
+                variantA.style.display = 'none';
+                variantB.style.display = 'block';
+                btnB.classList.add('active');
+                btnA.classList.remove('active');
+            }
+        }
+
+        btnA.addEventListener('click', () => { setVariant('A'); draw(); });
+        btnB.addEventListener('click', () => { setVariant('B'); draw(); });
+        goodSelect.addEventListener('change', draw);
+
+        // ---------- Variant A: small multiples ----------
+        const COLS = 2;
+        const ROWS = 4;
+        const SUB_W = 440;
+        const SUB_H = 160;
+        const GAP_X = 30;
+        const GAP_Y = 20;
+        const MARGIN_LEFT = 25;
+        const MARGIN_TOP = 30;
+        const PAD_SUB = { top: 18, right: 10, bottom: 28, left: 42 };
+
+        function drawSubplot(ctx, offsetX, offsetY, title, points, bounds, color, drawYLabels, drawXLabels) {
+            const { minTurn, maxTurn, minVal, maxVal } = bounds;
+            const plotW = SUB_W - PAD_SUB.left - PAD_SUB.right;
+            const plotH = SUB_H - PAD_SUB.top - PAD_SUB.bottom;
 
             function xPos(turn) {
-                return pad.left + (turn - minTurn) / (maxTurn - minTurn) * w;
+                return offsetX + PAD_SUB.left + (turn - minTurn) / (maxTurn - minTurn) * plotW;
             }
             function yPos(val) {
-                return pad.top + h - (val - minVal) / valRange * h;
+                return offsetY + PAD_SUB.top + plotH - (val - minVal) / (maxVal - minVal) * plotH;
             }
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // title
+            ctx.fillStyle = '#3F4137';
+            ctx.font = 'bold 13px Times New Roman';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText(title, offsetX + PAD_SUB.left, offsetY + 2);
+
+            // border
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(offsetX + PAD_SUB.left, offsetY + PAD_SUB.top, plotW, plotH);
 
             // grid
-            ctx.strokeStyle = '#eee';
+            const ticks = bounds.ticks;
+            const labelStep = Math.max(1, Math.floor(ticks.length / 5));
+            ctx.strokeStyle = '#f0f0f0';
             ctx.lineWidth = 1;
-            const gridLines = 5;
-            for (let i = 0; i <= gridLines; i++) {
-                const y = pad.top + h * i / gridLines;
+            for (let i = 0; i < ticks.length; i++) {
+                const y = yPos(ticks[i]);
+                if (y <= offsetY + PAD_SUB.top || y >= offsetY + PAD_SUB.top + plotH) continue;
                 ctx.beginPath();
-                ctx.moveTo(pad.left, y);
-                ctx.lineTo(pad.left + w, y);
+                ctx.moveTo(offsetX + PAD_SUB.left, y);
+                ctx.lineTo(offsetX + PAD_SUB.left + plotW, y);
+                ctx.stroke();
+            }
+            for (let i = 1; i < 4; i++) {
+                const x = offsetX + PAD_SUB.left + plotW * i / 4;
+                ctx.beginPath();
+                ctx.moveTo(x, offsetY + PAD_SUB.top);
+                ctx.lineTo(x, offsetY + PAD_SUB.top + plotH);
                 ctx.stroke();
             }
 
-            // axes
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.moveTo(pad.left, pad.top);
-            ctx.lineTo(pad.left, pad.top + h);
-            ctx.lineTo(pad.left + w, pad.top + h);
-            ctx.stroke();
+            // Y labels
+            if (drawYLabels) {
+                ctx.fillStyle = '#666';
+                ctx.font = '11px Times New Roman';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                for (let i = 0; i < ticks.length; i += labelStep) {
+                    const v = ticks[i];
+                    const y = yPos(v);
+                    if (y < offsetY + PAD_SUB.top - 4 || y > offsetY + PAD_SUB.top + plotH + 4) continue;
+                    ctx.fillText(v.toFixed(1), offsetX + PAD_SUB.left - 5, y);
+                }
+            }
 
             // X labels
-            ctx.fillStyle = '#333';
-            ctx.font = '13px Times New Roman';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            const xStep = Math.max(1, Math.floor((maxTurn - minTurn) / 12));
-            for (let t = minTurn; t <= maxTurn; t += xStep) {
-                ctx.fillText(String(t), xPos(t), pad.top + h + 5);
+            if (drawXLabels) {
+                ctx.fillStyle = '#666';
+                ctx.font = '11px Times New Roman';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                const xStep = Math.max(1, Math.floor((maxTurn - minTurn) / 4));
+                for (let t = minTurn; t <= maxTurn; t += xStep) {
+                    ctx.fillText(String(t), xPos(t), offsetY + PAD_SUB.top + plotH + 4);
+                }
             }
 
-            // Y labels
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            ctx.font = '12px Times New Roman';
-            for (let i = 0; i <= gridLines; i++) {
-                const val = minVal + valRange * (1 - i / gridLines);
-                const y = pad.top + h * i / gridLines;
-                ctx.fillText(val.toFixed(1), pad.left - 8, y);
-            }
-
-            // draw lines for each market
-            series.forEach((s, mi) => {
-                if (s.length < 1) return;
-
-                // line
-                ctx.strokeStyle = MARKET_COLORS[mi];
+            // line
+            if (points.length > 0) {
+                ctx.strokeStyle = color;
                 ctx.lineWidth = 2.5;
                 ctx.beginPath();
-                s.forEach((p, i) => {
+                points.forEach((p, i) => {
                     const x = xPos(p.turn);
                     const y = yPos(p.val);
                     if (i === 0) ctx.moveTo(x, y);
@@ -248,22 +394,255 @@
                 ctx.stroke();
 
                 // points
-                s.forEach(p => {
+                points.forEach(p => {
                     const x = xPos(p.turn);
                     const y = yPos(p.val);
                     ctx.beginPath();
-                    ctx.arc(x, y, 4, 0, Math.PI * 2);
-                    ctx.fillStyle = MARKET_COLORS[mi];
+                    ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+                    ctx.fillStyle = color;
                     ctx.fill();
                     ctx.strokeStyle = '#fff';
-                    ctx.lineWidth = 1.5;
+                    ctx.lineWidth = 1;
                     ctx.stroke();
+                });
+            }
+        }
+
+        function drawVariantA() {
+            const good = goodSelect.value;
+            chartTitle.textContent = good;
+            ctxA.clearRect(0, 0, canvasA.width, canvasA.height);
+
+            const series = getAllMarketPoints(good);
+            const bounds = getBounds(series);
+
+            series.forEach((s, i) => {
+                const col = i % COLS;
+                const row = Math.floor(i / COLS);
+                const x = MARGIN_LEFT + col * (SUB_W + GAP_X);
+                const y = MARGIN_TOP + row * (SUB_H + GAP_Y);
+                const drawYLabels = col === 0;
+                const drawXLabels = row === ROWS - 1;
+                drawSubplot(ctxA, x, y, markets[i], s, bounds, MARKET_COLORS[i], drawYLabels, drawXLabels);
+            });
+        }
+
+        // ---------- Variant B: multi-line chart ----------
+        function drawVariantB() {
+            const good = goodSelect.value;
+            chartTitle.textContent = good;
+            ctxB.clearRect(0, 0, canvasB.width, canvasB.height);
+
+            const series = getAllMarketPoints(good);
+            const bounds = getBounds(series);
+            lastSeriesB = series;
+            lastBoundsB = bounds;
+
+            const pad = { top: 30, right: 30, bottom: 45, left: 55 };
+            const w = canvasB.width - pad.left - pad.right;
+            const h = canvasB.height - pad.top - pad.bottom;
+            const { minTurn, maxTurn, minVal, maxVal } = bounds;
+            const valRange = maxVal - minVal;
+            const ticks = bounds.ticks;
+            const labelStep = Math.max(1, Math.floor(ticks.length / 6));
+
+            function xPos(turn) {
+                return pad.left + (turn - minTurn) / (maxTurn - minTurn) * w;
+            }
+            function yPos(val) {
+                return pad.top + h - (val - minVal) / valRange * h;
+            }
+
+            // grid
+            ctxB.strokeStyle = '#f0f0f0';
+            ctxB.lineWidth = 1;
+            for (let i = 0; i < ticks.length; i++) {
+                const y = yPos(ticks[i]);
+                if (y <= pad.top || y >= pad.top + h) continue;
+                ctxB.beginPath();
+                ctxB.moveTo(pad.left, y);
+                ctxB.lineTo(pad.left + w, y);
+                ctxB.stroke();
+            }
+
+            // axes
+            ctxB.strokeStyle = '#333';
+            ctxB.lineWidth = 1.5;
+            ctxB.beginPath();
+            ctxB.moveTo(pad.left, pad.top);
+            ctxB.lineTo(pad.left, pad.top + h);
+            ctxB.lineTo(pad.left + w, pad.top + h);
+            ctxB.stroke();
+
+            // X labels
+            ctxB.fillStyle = '#333';
+            ctxB.font = '13px Times New Roman';
+            ctxB.textAlign = 'center';
+            ctxB.textBaseline = 'top';
+            const xStep = Math.max(1, Math.floor((maxTurn - minTurn) / 12));
+            for (let t = minTurn; t <= maxTurn; t += xStep) {
+                ctxB.fillText(String(t), xPos(t), pad.top + h + 5);
+            }
+
+            // Y labels
+            ctxB.textAlign = 'right';
+            ctxB.textBaseline = 'middle';
+            ctxB.font = '12px Times New Roman';
+            for (let i = 0; i < ticks.length; i += labelStep) {
+                const v = ticks[i];
+                const y = yPos(v);
+                if (y < pad.top - 4 || y > pad.top + h + 4) continue;
+                ctxB.fillText(v.toFixed(1), pad.left - 8, y);
+            }
+
+            // draw lines
+            series.forEach((s, mi) => {
+                if (s.length < 1) return;
+                const isDimmed = highlightedB !== -1 && highlightedB !== mi;
+                const isHidden = !visibleB[mi];
+                if (isHidden) return;
+
+                ctxB.save();
+                ctxB.globalAlpha = isDimmed ? 0.2 : 0.85;
+
+                ctxB.strokeStyle = MARKET_COLORS[mi];
+                ctxB.lineWidth = highlightedB === mi ? 3.5 : 2.5;
+                ctxB.beginPath();
+                s.forEach((p, i) => {
+                    const x = xPos(p.turn);
+                    const y = yPos(p.val);
+                    if (i === 0) ctxB.moveTo(x, y);
+                    else ctxB.lineTo(x, y);
+                });
+                ctxB.stroke();
+
+                s.forEach(p => {
+                    const x = xPos(p.turn);
+                    const y = yPos(p.val);
+                    ctxB.beginPath();
+                    ctxB.arc(x, y, highlightedB === mi ? 6 : 4, 0, Math.PI * 2);
+                    ctxB.fillStyle = MARKET_COLORS[mi];
+                    ctxB.fill();
+                    ctxB.strokeStyle = '#fff';
+                    ctxB.lineWidth = 1.5;
+                    ctxB.stroke();
+                });
+
+                ctxB.restore();
+            });
+        }
+
+        // ---------- tooltips ----------
+        function rectOf(wrapper, canvas) {
+            const rect = canvas.getBoundingClientRect();
+            const wRect = wrapper.getBoundingClientRect();
+            return { left: rect.left - wRect.left, top: rect.top - wRect.top, width: rect.width, height: rect.height };
+        }
+
+        function findNearestPoint(canvas, series, bounds, e, pad, w, h) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const mx = (e.clientX - rect.left) * scaleX;
+            const my = (e.clientY - rect.top) * scaleY;
+            const { minTurn, maxTurn, minVal, maxVal } = bounds;
+            const valRange = maxVal - minVal;
+
+            let best = null;
+            let bestDist = Infinity;
+            const radius = 20;
+
+            series.forEach((s, mi) => {
+                s.forEach(p => {
+                    const x = pad.left + (p.turn - minTurn) / (maxTurn - minTurn) * w;
+                    const y = pad.top + h - (p.val - minVal) / valRange * h;
+                    const dx = x - mx;
+                    const dy = y - my;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < radius && dist < bestDist) {
+                        bestDist = dist;
+                        best = { mi, p, x, y };
+                    }
+                });
+            });
+            return best;
+        }
+
+        // tooltip for B
+        canvasB.addEventListener('mousemove', e => {
+            const pad = { top: 30, right: 30, bottom: 45, left: 55 };
+            const w = canvasB.width - pad.left - pad.right;
+            const h = canvasB.height - pad.top - pad.bottom;
+            const pt = findNearestPoint(canvasB, lastSeriesB, lastBoundsB, e, pad, w, h);
+            if (pt) {
+                tooltipB.style.display = 'block';
+                tooltipB.innerHTML = '<b>' + markets[pt.mi] + '</b><br>Ход ' + pt.p.turn + ': ' + pt.p.val.toFixed(1);
+                tooltipB.style.left = (pt.x / canvasB.width * canvasB.getBoundingClientRect().width + 12) + 'px';
+                tooltipB.style.top = (pt.y / canvasB.height * canvasB.getBoundingClientRect().height - 10) + 'px';
+            } else {
+                tooltipB.style.display = 'none';
+            }
+        });
+        canvasB.addEventListener('mouseleave', () => { tooltipB.style.display = 'none'; });
+
+        // tooltip for A
+        const tooltipDataA = [];
+        function buildTooltipDataA() {
+            tooltipDataA.length = 0;
+            const good = goodSelect.value;
+            const series = getAllMarketPoints(good);
+            const bounds = getBounds(series);
+            const pad = PAD_SUB;
+            const plotW = SUB_W - pad.left - pad.right;
+            const plotH = SUB_H - pad.top - pad.bottom;
+            const { minTurn, maxTurn, minVal, maxVal } = bounds;
+
+            series.forEach((s, mi) => {
+                const col = mi % COLS;
+                const row = Math.floor(mi / COLS);
+                const offsetX = MARGIN_LEFT + col * (SUB_W + GAP_X);
+                const offsetY = MARGIN_TOP + row * (SUB_H + GAP_Y);
+                s.forEach(p => {
+                    const x = offsetX + pad.left + (p.turn - minTurn) / (maxTurn - minTurn) * plotW;
+                    const y = offsetY + pad.top + plotH - (p.val - minVal) / (maxVal - minVal) * plotH;
+                    tooltipDataA.push({ mi, p, x, y });
                 });
             });
         }
 
-        goodSelect.addEventListener('change', drawChart);
-        drawChart();
+        canvasA.addEventListener('mousemove', e => {
+            buildTooltipDataA();
+            const rect = canvasA.getBoundingClientRect();
+            const scaleX = canvasA.width / rect.width;
+            const scaleY = canvasA.height / rect.height;
+            const mx = (e.clientX - rect.left) * scaleX;
+            const my = (e.clientY - rect.top) * scaleY;
+            let best = null;
+            let bestDist = 20;
+            tooltipDataA.forEach(d => {
+                const dist = Math.sqrt((d.x - mx) ** 2 + (d.y - my) ** 2);
+                if (dist < bestDist) {
+                    bestDist = dist;
+                    best = d;
+                }
+            });
+            if (best) {
+                tooltipA.style.display = 'block';
+                tooltipA.innerHTML = '<b>' + markets[best.mi] + '</b><br>Ход ' + best.p.turn + ': ' + best.p.val.toFixed(1);
+                tooltipA.style.left = (best.x / canvasA.width * rect.width + 12) + 'px';
+                tooltipA.style.top = (best.y / canvasA.height * rect.height - 10) + 'px';
+            } else {
+                tooltipA.style.display = 'none';
+            }
+        });
+        canvasA.addEventListener('mouseleave', () => { tooltipA.style.display = 'none'; });
+
+        function draw() {
+            if (currentVariant === 'A') drawVariantA();
+            else drawVariantB();
+        }
+
+        draw();
     </script>
 <script src="analytics.js"></script>
 </body>
