@@ -71,7 +71,8 @@
                         <th>Юнит</th>
                         <th>Симв</th>
                         <th>Кол-во</th>
-                        <th>Знач.</th>
+                        <th>БО база</th>
+                        <th>Местн.</th>
                         <th>БО</th>
                     </tr>
                 </thead>
@@ -169,26 +170,37 @@
             const tIdx = TERRAINS.indexOf(state.terrain);
             UNIT_NAMES.forEach((name, i) => {
                 const qt = state.qty[i];
+                const bo = state.baseBO[i];
                 let perkBonus = 0;
                 if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
                 if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
-                const val = matrix[tIdx][i] + perkBonus;
-                const total = qt * val;
+                const terrainVal = matrix[tIdx][i];
+                const totalVal = bo + terrainVal + perkBonus;
+                const total = qt * totalVal;
                 html += '<tr>' +
                     `<td class="name-col">${name}</td>` +
                     `<td>${UNIT_SHORT[i]}</td>` +
                     `<td><input type="number" min="0" data-idx="${i}" value="${qt}" class="qty-inp"></td>` +
-                    `<td>${val.toFixed(2)}</td>` +
+                    `<td><input type="number" min="0" step="0.1" data-uidx="${i}" value="${bo}" class="bo-inp"></td>` +
+                    `<td>${terrainVal.toFixed(2)}</td>` +
                     `<td class="unit-total">${total.toFixed(1)}</td>` +
                     '</tr>';
             });
             tbody.innerHTML = html;
 
-            // Бинд инпутов
+            // Бинд инпутов кол-ва
             tbody.querySelectorAll('.qty-inp').forEach(inp => {
                 inp.addEventListener('input', () => {
                     const idx = parseInt(inp.dataset.idx);
                     state.qty[idx] = Math.max(0, parseInt(inp.value) || 0);
+                    renderTable();
+                });
+            });
+            // Бинд инпутов БО базы
+            tbody.querySelectorAll('.bo-inp').forEach(inp => {
+                inp.addEventListener('input', () => {
+                    const idx = parseInt(inp.dataset.uidx);
+                    state.baseBO[idx] = Math.max(0, parseFloat(inp.value) || 0);
                     renderTable();
                 });
             });

@@ -65,6 +65,7 @@ const PERK_K_IDX = [2, 7, 8, 9, 10]; // Драгун, Верблюдерия, К
 
 let state = {
     qty: new Array(14).fill(0),
+    baseBO: new Array(14).fill(0),
     terrain: 'равнина',
     mode: 'Атака',       // 'Атака' | 'Оборона'
     skill: 0,
@@ -85,11 +86,14 @@ function calc() {
         let bonus = 0;
         if (state.perk === 'П' && PERK_P_IDX.includes(i)) bonus = 0.1;
         if (state.perk === 'К' && PERK_K_IDX.includes(i)) bonus = 0.1;
-        const baseVal = matrix[tIdx][i] + bonus;
+        const baseVal = state.baseBO[i] + matrix[tIdx][i] + bonus;
         return {
             name: UNIT_NAMES[i],
             short: UNIT_SHORT[i],
             qty: qt,
+            baseBO: state.baseBO[i],
+            terrainVal: matrix[tIdx][i],
+            perkBonus: bonus,
             val: baseVal,
             total: qt * baseVal,
         };
