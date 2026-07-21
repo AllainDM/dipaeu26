@@ -1024,7 +1024,7 @@ unit_bonus.addEventListener("click",() => {
         <p><strong>Атака</strong></p>
         <table>
             <thead>
-                <tr><th></th><th>Равнина</th><th>Степь</th><th>Холмы</th><th>Тундра</th><th>Леса</th><th>Джунгли</th><th>Болото</th><th>Пустыня</th><th>Море</th><th>Город</th></tr>
+                <tr><th></th><th style="background:#C5DEB5;color:#333">Равнина</th><th style="background:#92D050;color:#333">Степь</th><th style="background:#F4B183;color:#333">Холмы</th><th>Тундра</th><th style="background:#548135;color:#fff">Леса</th><th style="background:#00B050;color:#fff">Джунгли</th><th style="background:#258B7A;color:#fff">Болото</th><th style="background:#FFE599;color:#333">Пустыня</th><th style="background:#4472C4;color:#fff">Море</th><th style="background:#666;color:#fff">Город</th></tr>
             </thead>
             <tbody>
                 <tr><td>Стр</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-0,5</td><td>-0,5</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
@@ -1045,7 +1045,7 @@ unit_bonus.addEventListener("click",() => {
         <p><strong>Оборона</strong></p>
         <table>
             <thead>
-                <tr><th></th><th>Равнина</th><th>Степь</th><th>Холмы</th><th>Тундра</th><th>Леса</th><th>Джунгли</th><th>Болото</th><th>Пустыня</th><th>Море</th><th>Город</th></tr>
+                <tr><th></th><th style="background:#C5DEB5;color:#333">Равнина</th><th style="background:#92D050;color:#333">Степь</th><th style="background:#F4B183;color:#333">Холмы</th><th>Тундра</th><th style="background:#548135;color:#fff">Леса</th><th style="background:#00B050;color:#fff">Джунгли</th><th style="background:#258B7A;color:#fff">Болото</th><th style="background:#FFE599;color:#333">Пустыня</th><th style="background:#4472C4;color:#fff">Море</th><th style="background:#666;color:#fff">Город</th></tr>
             </thead>
             <tbody>
                 <tr><td>Стр</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-0,5</td><td>-0,5</td><td>0</td><td>0</td><td>0</td><td>+0,5</td></tr>
