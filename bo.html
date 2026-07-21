@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Подсчёт БО</title>
+    <style>
+        body { max-width: 1100px; }
+        .bo-grid { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 16px; }
+        .bo-table-wrap { flex: 1; min-width: 500px; }
+        .bo-settings { width: 340px; }
+        .bo-table { width: 100%; border-collapse: collapse; background: white; font-size: 14px; }
+        .bo-table th { background: #3F4137; color: #fdc073; padding: 6px 8px; text-align: center; }
+        .bo-table td { padding: 4px 8px; border: 1px solid #ccc; text-align: center; }
+        .bo-table td.name-col { text-align: left; font-weight: bold; }
+        .bo-table input[type=number] { width: 60px; padding: 3px 6px; text-align: center; border: 1px solid #aaa; border-radius: 3px; }
+        .bo-table .unit-total { font-weight: bold; }
+        .bo-table tr:nth-child(even) { background: #f8f8f8; }
+
+        .sett-card { background: white; border: 1px solid #ddd; border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; }
+        .sett-card h4 { margin: 0 0 10px; font-size: 15px; color: #3F4137; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+        .sett-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+        .sett-row label { font-size: 14px; min-width: 60px; }
+        .sett-row select, .sett-row input[type=number] { padding: 4px 8px; border: 1px solid #aaa; border-radius: 3px; font-size: 14px; }
+        .sett-row select { min-width: 120px; }
+        .sett-row input[type=number] { width: 70px; }
+        .btn-terrain { padding: 4px 10px; border: 1px solid #bbb; border-radius: 3px; background: #f0f0f0; cursor: pointer; font-size: 12px; }
+        .btn-terrain.active { background: #3F4137; color: #fdc073; border-color: #3F4137; }
+        .btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
+        .btn-mode { padding: 6px 16px; border: 1px solid #bbb; border-radius: 4px; cursor: pointer; font-size: 14px; background: #f0f0f0; }
+        .btn-mode.active { background: #3F4137; color: #fdc073; border-color: #3F4137; }
+
+        .result-card { background: white; border: 2px solid #3F4137; border-radius: 8px; padding: 16px; margin-top: 12px; }
+        .result-row { display: flex; gap: 24px; flex-wrap: wrap; align-items: baseline; }
+        .result-item { text-align: center; }
+        .result-item .val { font-size: 28px; font-weight: bold; color: #3F4137; }
+        .result-item .lbl { font-size: 12px; color: #666; }
+        .result-item.attack .val { color: #b22222; }
+        .result-item.defense .val { color: #2e5a2e; }
+        .combo-on { color: #1a7a1a; font-weight: bold; }
+        .combo-off { color: #999; }
+
+        @media (max-width: 860px) {
+            .bo-grid { flex-direction: column; }
+            .bo-settings { width: 100%; }
+        }
+        .hint { font-size: 12px; color: #888; margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="mainmenu">
+            <li><a href="rules/contents.html">Правила</a></li>
+            <li><a href="turns.html">Ходы</a></li>
+            <li><a href="maps.html">Карты</a></li>
+            <li><a href="tables.html">Таблицы</a></li>
+            <li><a href="trade.html">Торговля</a></li>
+            <li><a href="tools.html">Инструменты</a></li>
+            <li><a href="links.html">Ссылки</a></li>
+            <li><a href="log.html">Лог</a></li>
+        </ul>
+    </header>
+
+    <h2>Подсчёт БО (боевых очков)</h2>
+
+    <div class="bo-grid">
+        <div class="bo-table-wrap">
+            <table class="bo-table">
+                <thead>
+                    <tr>
+                        <th>Юнит</th>
+                        <th>Симв</th>
+                        <th>Кол-во</th>
+                        <th>Знач.</th>
+                        <th>БО</th>
+                    </tr>
+                </thead>
+                <tbody id="unit-tbody"></tbody>
+            </table>
+            <div id="result-card" class="result-card"></div>
+        </div>
+
+        <div class="bo-settings">
+            <div class="sett-card">
+                <h4>Режим</h4>
+                <div class="sett-row">
+                    <div class="btn-group" id="mode-group">
+                        <button class="btn-mode active" data-mode="Атака">Атака</button>
+                        <button class="btn-mode" data-mode="Оборона">Оборона</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sett-card">
+                <h4>Местность</h4>
+                <div class="sett-row">
+                    <div class="btn-group" id="terrain-group"></div>
+                </div>
+            </div>
+
+            <div class="sett-card">
+                <h4>Командир</h4>
+                <div class="sett-row">
+                    <label>Скилл:</label>
+                    <input type="number" id="skill-inp" min="0" max="30" value="0">
+                </div>
+                <div class="sett-row">
+                    <label>Перк:</label>
+                    <select id="perk-sel">
+                        <option value="нет">нет</option>
+                        <option value="П">П — пехота (+0.1 бонуса)</option>
+                        <option value="К">К — кавалерия (+0.1 бонуса)</option>
+                        <option value="Т">Т — +1 к ширине</option>
+                        <option value="А">А — +10% в атаке</option>
+                        <option value="З">З — +10% в обороне</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sett-card">
+                <h4>Особые условия</h4>
+                <div class="sett-row">
+                    <label>Десант/река:</label>
+                    <select id="assault-sel">
+                        <option value="нет">нет</option>
+                        <option value="через реку">через реку</option>
+                        <option value="десант">морской десант</option>
+                    </select>
+                </div>
+                <div class="sett-row">
+                    <label>Размер города:</label>
+                    <input type="number" id="city-size-inp" min="0" max="100" value="0">
+                    <span class="hint">(для местности «город»)</span>
+                </div>
+                <div class="sett-row">
+                    <label>Бонус ширины:</label>
+                    <input type="number" id="width-bonus-inp" min="0" max="50" value="0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="bo.js"></script>
+    <script>
+        const tbody = document.getElementById('unit-tbody');
+        const resultCard = document.getElementById('result-card');
+        const skillInp = document.getElementById('skill-inp');
+        const perkSel = document.getElementById('perk-sel');
+        const assaultSel = document.getElementById('assault-sel');
+        const citySizeInp = document.getElementById('city-size-inp');
+        const widthBonusInp = document.getElementById('width-bonus-inp');
+        const modeGroup = document.getElementById('mode-group');
+        const terrainGroup = document.getElementById('terrain-group');
+
+        // Террейн кнопки
+        TERRAINS.forEach(t => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-terrain' + (t === state.terrain ? ' active' : '');
+            btn.textContent = t;
+            btn.dataset.terrain = t;
+            terrainGroup.appendChild(btn);
+        });
+
+        // Рендер таблицы юнитов
+        function renderTable() {
+            const r = calc();
+            let html = '';
+            const matrix = state.mode === 'Атака' ? ATK_MATRIX : DEF_MATRIX;
+            const tIdx = TERRAINS.indexOf(state.terrain);
+            UNIT_NAMES.forEach((name, i) => {
+                const qt = state.qty[i];
+                let perkBonus = 0;
+                if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
+                if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
+                const val = matrix[tIdx][i] + perkBonus;
+                const total = qt * val;
+                html += '<tr>' +
+                    `<td class="name-col">${name}</td>` +
+                    `<td>${UNIT_SHORT[i]}</td>` +
+                    `<td><input type="number" min="0" data-idx="${i}" value="${qt}" class="qty-inp"></td>` +
+                    `<td>${val.toFixed(2)}</td>` +
+                    `<td class="unit-total">${total.toFixed(1)}</td>` +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+
+            // Бинд инпутов
+            tbody.querySelectorAll('.qty-inp').forEach(inp => {
+                inp.addEventListener('input', () => {
+                    const idx = parseInt(inp.dataset.idx);
+                    state.qty[idx] = Math.max(0, parseInt(inp.value) || 0);
+                    renderTable();
+                });
+            });
+
+            renderResult(r);
+        }
+
+        function renderResult(r) {
+            const comboText = r.comboActive
+                ? '<span class="combo-on">✓ активен (+15%)</span>'
+                : '<span class="combo-off">✗ неактивен</span>';
+            resultCard.innerHTML = `
+                <div class="result-row">
+                    <div class="result-item ${state.mode === 'Атака' ? 'attack' : 'defense'}">
+                        <div class="val">${r.totalBO}</div>
+                        <div class="lbl">Итого БО (${state.mode.toLowerCase()})</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="val">${r.totalBase}</div>
+                        <div class="lbl">База БО</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="val">${r.bonus > 0 ? '+' : ''}${r.bonus}%</div>
+                        <div class="lbl">Суммарный бонус</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="val">${r.armySize}</div>
+                        <div class="lbl">Юнитов</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="val">${r.width}</div>
+                        <div class="lbl">Ширина</div>
+                    </div>
+                </div>
+                <div class="result-row" style="margin-top:10px;font-size:13px;color:#555;">
+                    <span>Стрелки: ${r.totalRanged} (${r.pctRanged}%)</span>
+                    <span>Кавалерия: ${r.totalCavalry} (${r.pctCavalry}%)</span>
+                    <span>Пехота: ${r.totalInfantry} (${r.pctInfantry}%)</span>
+                    <span>Комбо: ${comboText}</span>
+                    ${r.fort > 0 ? `<span>Фортификации: +${r.fort}</span>` : ''}
+                </div>
+            `;
+        }
+
+        // Обработчики настроек
+        modeGroup.addEventListener('click', e => {
+            const btn = e.target.closest('.btn-mode');
+            if (!btn) return;
+            modeGroup.querySelectorAll('.btn-mode').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.mode = btn.dataset.mode;
+            renderTable();
+        });
+
+        terrainGroup.addEventListener('click', e => {
+            const btn = e.target.closest('.btn-terrain');
+            if (!btn) return;
+            terrainGroup.querySelectorAll('.btn-terrain').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.terrain = btn.dataset.terrain;
+            renderTable();
+        });
+
+        skillInp.addEventListener('input', () => {
+            state.skill = Math.max(0, parseInt(skillInp.value) || 0);
+            renderTable();
+        });
+
+        perkSel.addEventListener('change', () => {
+            state.perk = perkSel.value;
+            renderTable();
+        });
+
+        assaultSel.addEventListener('change', () => {
+            state.assault = assaultSel.value;
+            renderTable();
+        });
+
+        citySizeInp.addEventListener('input', () => {
+            state.citySize = Math.max(0, parseInt(citySizeInp.value) || 0);
+            renderTable();
+        });
+
+        widthBonusInp.addEventListener('input', () => {
+            state.widthBonus = Math.max(0, parseInt(widthBonusInp.value) || 0);
+            renderTable();
+        });
+
+        renderTable();
+    </script>
+    <script src="analytics.js"></script>
+</body>
+</html>
