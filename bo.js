@@ -81,31 +81,31 @@ function calc() {
     const isAtk = state.mode === 'Атака';
     const matrix = isAtk ? ATK_MATRIX : DEF_MATRIX;
 
-    // 1. БО по каждому юниту
+    // ── 1. БО по каждому юниту ──
     const unitBO = q.map((qt, i) => {
-        let bonus = 0;
-        if (state.perk === 'П' && PERK_P_IDX.includes(i)) bonus = 0.1;
-        if (state.perk === 'К' && PERK_K_IDX.includes(i)) bonus = 0.1;
-        const baseVal = state.baseBO[i] + matrix[tIdx][i] + bonus;
+        let perkBonus = 0;
+        if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
+        if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
+        const baseVal = state.baseBO[i] + matrix[tIdx][i] + perkBonus;
         return {
             name: UNIT_NAMES[i],
             short: UNIT_SHORT[i],
             qty: qt,
             baseBO: state.baseBO[i],
             terrainVal: matrix[tIdx][i],
-            perkBonus: bonus,
+            perkBonus,
             val: baseVal,
             total: qt * baseVal,
         };
     });
 
-    // 2. База = сумма БО всех юнитов
+    // ── 2. База ──
     const totalBase = unitBO.reduce((s, u) => s + u.total, 0);
 
-    // 3. Размер армии
+    // ── 3. Размер армии ──
     const armySize = q.reduce((s, v) => s + v, 0);
 
-    // 4. Ширина
+    // ── 4. Ширина ──
     let width;
     if (state.terrain === 'город') {
         width = isAtk ? state.citySize * 2 : state.citySize;
@@ -114,38 +114,71 @@ function calc() {
     }
     width += state.widthBonus;
     if (state.perk === 'Т') width += 1;
+    const widthExcess = armySize > width ? armySize - width : 0;
 
-    // 5. Командный бонус (H33)
-    let bonus = 0;
-    // скилл
-    if (state.skill === 0) bonus -= 0.05;
-    else bonus += state.skill * 0.05;
-    // перк А/З
-    if (isAtk && state.perk === 'А') bonus += 0.10;
-    if (!isAtk && state.perk === 'З') bonus += 0.10;
-    // штраф ширины
-    if (armySize > width) bonus -= (armySize - width) * 0.10;
-    // комбо
-    const totalRanged = RANGED_IDX.reduce((s, i) => s + q[i], 0);
-    const totalCavalry = CAVALRY_IDX.reduce((s, i) => s + q[i], 0);
+    // ── 5. Состав групп ──
+    const totalRanged   = RANGED_IDX.reduce((s, i) => s + q[i], 0);
+    const totalCavalry  = CAVALRY_IDX.reduce((s, i) => s + q[i], 0);
     const totalInfantry = INFANTRY_IDX.reduce((s, i) => s + q[i], 0);
-    if (armySize > 0 &&
+
+    // ── 6. Трассировка бонусов ──
+    const traces = [];
+
+    // скилл
+    let skillPct;
+    if (state.skill === 0) {
+        skillPct = -5;
+        traces.push({ label: 'Скилл (0)', formula: '0 × 5%', pct: -5, note: 'скилл 0 = −5%' });
+    } else {
+        skillPct = state.skill * 5;
+        traces.push({ label: 'Скилл', formula: `${state.skill} × 5%`, pct: skillPct });
+    }
+
+    // перк А/З
+    let perkPct = 0;
+    if (isAtk && state.perk === 'А') { perkPct = 10;
+        traces.push({ label: 'Перк «А»', formula: '', pct: 10, note: 'атака +10%' });
+    }
+    if (!isAtk && state.perk === 'З') { perkPct = 10;
+        traces.push({ label: 'Перк «З»', formula: '', pct: 10, note: 'оборона +10%' });
+    }
+
+    // ширина
+    let widthPct = 0;
+    if (widthExcess > 0) {
+        widthPct = -widthExcess * 10;
+        traces.push({ label: 'Ширина', formula: `${armySize} > ${width}, избыток ${widthExcess}`, pct: widthPct });
+    }
+
+    // комбо
+    let comboPct = 0;
+    const comboActive = armySize > 0 &&
         totalRanged / armySize > 0.30 &&
         totalCavalry / armySize > 0.30 &&
-        totalInfantry / armySize > 0.30) {
-        bonus += 0.15;
+        totalInfantry / armySize > 0.30;
+    if (comboActive) { comboPct = 15;
+        traces.push({ label: 'Комбо', formula: `все группы > 30%`, pct: 15 });
     }
-    // река / десант (только атака)
+
+    // река / десант
+    let assaultPct = 0;
     if (isAtk) {
-        if (state.assault === 'через реку') bonus -= 0.10;
-        else if (state.assault === 'десант') {
-            if (state.terrain === 'болота' || state.terrain === 'город') bonus -= 0.30;
-            else if (['холмы', 'тунда', 'леса', 'джунгли'].includes(state.terrain)) bonus -= 0.20;
-            else bonus -= 0.10;
+        if (state.assault === 'через реку') { assaultPct = -10;
+            traces.push({ label: 'Река', formula: '', pct: -10 });
+        } else if (state.assault === 'десант') {
+            let p = -10;
+            let note = 'десант −10%';
+            if (state.terrain === 'болота' || state.terrain === 'город') { p = -30; note = 'десант (болото/город) −30%'; }
+            else if (['холмы', 'тунда', 'леса', 'джунгли'].includes(state.terrain)) { p = -20; note = 'десант (холмы/тунда/леса/джунгли) −20%'; }
+            assaultPct = p;
+            traces.push({ label: 'Десант', formula: '', pct: p, note });
         }
     }
 
-    // 6. Фортификации (только оборона)
+    const totalPct = skillPct + perkPct + widthPct + comboPct + assaultPct;
+    const bonus = totalPct / 100;
+
+    // ── 7. Фортификации ──
     let fort = 0;
     if (!isAtk) {
         if (state.terrain === 'холмы' || state.terrain === 'леса') fort = 1;
@@ -159,19 +192,23 @@ function calc() {
         unitBO,
         totalBase: +totalBase.toFixed(2),
         totalBO: +totalBO.toFixed(2),
-        bonus: +(bonus * 100).toFixed(1),
+        bonus: +totalPct.toFixed(1),
+        traces,
         fort,
         armySize,
         width,
+        widthExcess,
         totalRanged,
         totalCavalry,
         totalInfantry,
         pctRanged: armySize > 0 ? +((totalRanged / armySize) * 100).toFixed(1) : 0,
         pctCavalry: armySize > 0 ? +((totalCavalry / armySize) * 100).toFixed(1) : 0,
         pctInfantry: armySize > 0 ? +((totalInfantry / armySize) * 100).toFixed(1) : 0,
-        comboActive: armySize > 0 &&
-            totalRanged / armySize > 0.30 &&
-            totalCavalry / armySize > 0.30 &&
-            totalInfantry / armySize > 0.30,
+        comboActive,
+        skill: state.skill,
+        perk: state.perk,
+        assault: state.assault,
+        terrain: state.terrain,
+        mode: state.mode,
     };
 }

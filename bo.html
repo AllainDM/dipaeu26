@@ -45,6 +45,8 @@
             .bo-settings { width: 100%; }
         }
         .hint { font-size: 12px; color: #888; margin-top: 4px; }
+        #trace-panel table th { background: #f0f0f0; padding: 3px 6px; border: 1px solid #ddd; }
+        #trace-panel table td { padding: 3px 6px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
@@ -223,7 +225,7 @@
                         <div class="lbl">База БО</div>
                     </div>
                     <div class="result-item">
-                        <div class="val">${r.bonus > 0 ? '+' : ''}${r.bonus}%</div>
+                        <div class="val">${r.bonus >= 0 ? '+' : ''}${r.bonus}%</div>
                         <div class="lbl">Суммарный бонус</div>
                     </div>
                     <div class="result-item">
@@ -242,7 +244,73 @@
                     <span>Комбо: ${comboText}</span>
                     ${r.fort > 0 ? `<span>Фортификации: +${r.fort}</span>` : ''}
                 </div>
+                <div style="margin-top:12px;text-align:center;">
+                    <button id="trace-toggle" style="background:none;border:1px solid #ccc;border-radius:4px;padding:4px 14px;cursor:pointer;font-size:13px;">📊 Детали расчёта</button>
+                </div>
+                <div id="trace-panel" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid #ddd;font-size:13px;"></div>
             `;
+
+            document.getElementById('trace-toggle').addEventListener('click', function() {
+                const panel = document.getElementById('trace-panel');
+                const isHidden = panel.style.display === 'none';
+                panel.style.display = isHidden ? 'block' : 'none';
+                this.textContent = isHidden ? '📊 Скрыть детали' : '📊 Детали расчёта';
+                if (isHidden) renderTrace(r);
+            });
+        }
+
+        function renderTrace(r) {
+            const panel = document.getElementById('trace-panel');
+
+            // ── Поюнитовая таблица ──
+            let unitRows = '';
+            for (const u of r.unitBO) {
+                if (u.qty === 0 && u.baseBO === 0) continue;
+                unitRows += '<tr>' +
+                    `<td>${u.name}</td>` +
+                    `<td style="text-align:center">${u.qty}</td>` +
+                    `<td style="text-align:center">${u.baseBO.toFixed(1)}</td>` +
+                    `<td style="text-align:center">${u.terrainVal.toFixed(2)}</td>` +
+                    `<td style="text-align:center">${u.perkBonus > 0 ? '+' + u.perkBonus.toFixed(1) : '0'}</td>` +
+                    `<td style="text-align:center">${u.val.toFixed(2)}</td>` +
+                    `<td style="text-align:right"><b>${u.total.toFixed(1)}</b></td>` +
+                    '</tr>';
+            }
+            let html = '<div style="margin-bottom:14px"><b>Поюнитовая раскладка:</b>' +
+                '<table style="width:100%;border-collapse:collapse;margin-top:6px;font-size:12px;">' +
+                '<tr style="background:#f0f0f0"><th>Юнит</th><th>Кол-во</th><th>БО база</th><th>Местн.</th><th>Перк</th><th>Знач.</th><th>БО</th></tr>' +
+                unitRows +
+                `<tr style="font-weight:bold;border-top:2px solid #3F4137"><td colspan="6" style="text-align:right">База БО:</td><td style="text-align:right">${r.totalBase}</td></tr>` +
+                '</table></div>';
+
+            // ── Трассировка бонусов ──
+            let traceRows = '';
+            for (const t of r.traces) {
+                const sign = t.pct >= 0 ? '+' : '';
+                traceRows += '<tr>' +
+                    `<td>${t.label}</td>` +
+                    `<td style="color:#666">${t.formula ? t.formula : (t.note || '')}</td>` +
+                    `<td style="text-align:right;font-weight:bold">${sign}${t.pct}%</td>` +
+                    '</tr>';
+            }
+            const totalSign = r.bonus >= 0 ? '+' : '';
+            traceRows += '<tr style="font-weight:bold;border-top:2px solid #3F4137">' +
+                '<td colspan="2" style="text-align:right">Итого бонус:</td>' +
+                `<td style="text-align:right">${totalSign}${r.bonus}%</td>` +
+                '</tr>';
+
+            html += '<div style="margin-bottom:14px"><b>Трассировка бонуса:</b>' +
+                '<table style="width:100%;border-collapse:collapse;margin-top:6px;font-size:12px;">' +
+                '<tr style="background:#f0f0f0"><th>Компонент</th><th>Расчёт</th><th>Значение</th></tr>' +
+                traceRows +
+                '</table></div>';
+
+            // ── Итоговая формула ──
+            const mult = (1 + r.bonus / 100).toFixed(2);
+            html += '<div><b>Итоговая формула:</b><br>' +
+                `<span style="color:#666">${r.totalBase} × ${mult} ${r.fort > 0 ? '+ ' + r.fort : ''}= <b>${r.totalBO}</b></span></div>`;
+
+            panel.innerHTML = html;
         }
 
         // Обработчики настроек
