@@ -13,7 +13,7 @@
         .bo-table th { background: #3F4137; color: #fdc073; padding: 6px 8px; text-align: center; }
         .bo-table td { padding: 4px 8px; border: 1px solid #ccc; text-align: center; }
         .bo-table td.name-col { text-align: left; font-weight: bold; }
-        .bo-table input[type=number] { width: 60px; padding: 3px 6px; text-align: center; border: 1px solid #aaa; border-radius: 3px; }
+        .bo-table .qty-inp, .bo-table .bo-inp { width: 60px; padding: 3px 6px; text-align: center; border: 1px solid #aaa; border-radius: 3px; }
         .bo-table .unit-total { font-weight: bold; }
         .bo-table tr:nth-child(even) { background: #f8f8f8; }
 
@@ -182,8 +182,8 @@
                 html += '<tr>' +
                     `<td class="name-col">${name}</td>` +
                     `<td>${UNIT_SHORT[i]}</td>` +
-                    `<td><input type="number" min="0" data-idx="${i}" value="${qt}" class="qty-inp"></td>` +
-                    `<td><input type="number" min="0" step="0.1" data-uidx="${i}" value="${bo}" class="bo-inp"></td>` +
+                    `<td><input type="text" inputmode="decimal" data-idx="${i}" value="${qt}" class="qty-inp"></td>` +
+                    `<td><input type="text" inputmode="decimal" data-uidx="${i}" value="${bo}" class="bo-inp"></td>` +
                     `<td>${terrainVal.toFixed(2)}</td>` +
                     `<td class="unit-total">${total.toFixed(1)}</td>` +
                     '</tr>';
@@ -194,19 +194,30 @@
             tbody.querySelectorAll('.qty-inp').forEach(inp => {
                 inp.addEventListener('input', () => {
                     const idx = parseInt(inp.dataset.idx);
-                    state.qty[idx] = Math.max(0, parseInt(inp.value) || 0);
-                    renderTable();
+                    state.qty[idx] = Math.max(0, parseFloat(inp.value.replace(',', '.')) || 0);
+                    updateResults();
                 });
             });
             // Бинд инпутов БО базы
             tbody.querySelectorAll('.bo-inp').forEach(inp => {
                 inp.addEventListener('input', () => {
                     const idx = parseInt(inp.dataset.uidx);
-                    state.baseBO[idx] = Math.max(0, parseFloat(inp.value) || 0);
-                    renderTable();
+                    state.baseBO[idx] = Math.max(0, parseFloat(inp.value.replace(',', '.')) || 0);
+                    updateResults();
                 });
             });
 
+            renderResult(r);
+        }
+
+        function updateResults() {
+            const r = calc();
+            for (let i = 0; i < r.unitBO.length; i++) {
+                const row = tbody.children[i];
+                if (row && row.cells[5]) {
+                    row.cells[5].textContent = r.unitBO[i].total.toFixed(1);
+                }
+            }
             renderResult(r);
         }
 
@@ -334,27 +345,27 @@
 
         skillInp.addEventListener('input', () => {
             state.skill = Math.max(0, parseInt(skillInp.value) || 0);
-            renderTable();
+            updateResults();
         });
 
         perkSel.addEventListener('change', () => {
             state.perk = perkSel.value;
-            renderTable();
+            updateResults();
         });
 
         assaultSel.addEventListener('change', () => {
             state.assault = assaultSel.value;
-            renderTable();
+            updateResults();
         });
 
         citySizeInp.addEventListener('input', () => {
             state.citySize = Math.max(0, parseInt(citySizeInp.value) || 0);
-            renderTable();
+            updateResults();
         });
 
         widthBonusInp.addEventListener('input', () => {
             state.widthBonus = Math.max(0, parseInt(widthBonusInp.value) || 0);
-            renderTable();
+            updateResults();
         });
 
         renderTable();
