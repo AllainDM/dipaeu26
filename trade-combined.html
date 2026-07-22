@@ -23,7 +23,7 @@
             border: 1px solid #bcbcbc;
             border-radius: 4px;
             background: white;
-            min-width: 140px;
+            min-width: 80px;
         }
         canvas {
             border: 1px solid #bcbcbc;
@@ -60,10 +60,22 @@
             height: 3px;
             border-radius: 2px;
         }
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+        #tooltip {
+            position: absolute;
+            background: rgba(63, 65, 55, 0.95);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            pointer-events: none;
+            display: none;
+            z-index: 100;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+        .chart-wrapper {
+            position: relative;
+            display: inline-block;
         }
     </style>
 </head>
@@ -95,15 +107,20 @@
         <span class="legend-item"><span class="legend-color" style="background:#d32f2f;"></span> Цена</span>
         <span class="legend-item"><span class="legend-color" style="background:#1565c0;"></span> Количество</span>
     </div>
-    <canvas id="chart" width="950" height="500"></canvas>
+    <div class="chart-wrapper">
+        <canvas id="chart" width="950" height="500"></canvas>
+        <div id="tooltip"></div>
+    </div>
 
     <script src="trade-data.js"></script>
+    <script src="trade-charts.js"></script>
     <script>
         const canvas = document.getElementById('chart');
         const ctx = canvas.getContext('2d');
         const marketSelect = document.getElementById('marketSelect');
         const goodSelect = document.getElementById('goodSelect');
         const chartTitle = document.getElementById('chartTitle');
+        const tooltip = document.getElementById('tooltip');
 
         const markets = costData[9].markets;
         const goods = costData[9].goods.map(g => g[0]);
@@ -125,12 +142,17 @@
 
         const costTurns = Object.keys(costData).map(Number).sort((a, b) => a - b);
         const countTurns = Object.keys(countData).map(Number).sort((a, b) => a - b);
+        const allTurnsList = [...new Set([...costTurns, ...countTurns])].sort((a, b) => a - b);
+
+        const formatCount = v => v % 1 === 0 ? String(v) : v.toFixed(1);
+        const range = tradeBuildRangeFilter(document.querySelector('.chart-controls'), allTurnsList, drawChart);
 
         function getPoints(dataObj, turnList) {
             const mi = parseInt(marketSelect.value);
             const good = goodSelect.value;
             const points = [];
             turnList.forEach(turn => {
+                if (turn < range.from() || turn > range.to()) return;
                 const data = dataObj[turn];
                 if (!data) return;
                 const row = data.goods.find(r => r[0] === good);
@@ -143,6 +165,8 @@
             return points;
         }
 
+        let lastSeries = [];
+
         function drawChart() {
             const mi = parseInt(marketSelect.value);
             const market = markets[mi];
@@ -152,11 +176,14 @@
             const costPoints = getPoints(costData, costTurns);
             const countPoints = getPoints(countData, countTurns);
 
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            lastSeries = [];
+
             if (costPoints.length === 0 && countPoints.length === 0) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.font = '18px Times New Roman';
                 ctx.fillStyle = '#999';
                 ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
                 ctx.fillText('Нет данных для выбранных параметров', canvas.width / 2, canvas.height / 2);
                 return;
             }
@@ -165,159 +192,179 @@
             const w = canvas.width - pad.left - pad.right;
             const h = canvas.height - pad.top - pad.bottom;
 
-            const allTurns = [
+            const turns = [
                 ...costPoints.map(p => p.turn),
                 ...countPoints.map(p => p.turn)
             ];
-            const minTurn = Math.min(...allTurns);
-            const maxTurn = Math.max(...allTurns);
-
-            const costVals = costPoints.map(p => p.val);
-            const countVals = countPoints.map(p => p.val);
-            const minCost = Math.min(...costVals);
-            const maxCost = Math.max(...costVals);
-            const minCount = Math.min(...countVals);
-            const maxCount = Math.max(...countVals);
-            const costRange = maxCost - minCost || 1;
-            const countRange = maxCount - minCount || 1;
+            const minTurn = Math.min(...turns);
+            const maxTurn = Math.max(...turns);
 
             function xPos(turn) {
-                return pad.left + (turn - minTurn) / (maxTurn - minTurn) * w;
+                return pad.left + (maxTurn === minTurn ? w / 2 : (turn - minTurn) / (maxTurn - minTurn) * w);
+            }
+
+            // шкалы осей строятся только для серий с данными
+            let costScale = null;
+            if (costPoints.length > 0) {
+                const vals = costPoints.map(p => p.val);
+                const n = tradeNiceTicks(Math.min(...vals), Math.max(...vals), 5);
+                costScale = { min: n.min, max: n.max, ticks: n.ticks };
+            }
+            let countScale = null;
+            if (countPoints.length > 0) {
+                const vals = countPoints.map(p => p.val);
+                const n = tradeNiceTicks(Math.min(...vals), Math.max(...vals), 5);
+                countScale = { min: n.min, max: n.max, ticks: n.ticks };
             }
 
             function yPosCost(val) {
-                return pad.top + h - (val - minCost) / costRange * h;
+                return pad.top + h - (val - costScale.min) / (costScale.max - costScale.min) * h;
             }
-
             function yPosCount(val) {
-                return pad.top + h - (val - minCount) / countRange * h;
+                return pad.top + h - (val - countScale.min) / (countScale.max - countScale.min) * h;
             }
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // grid lines
+            // сетка — по шкале цен (или количества, если цен нет)
+            const gridScale = costScale || countScale;
+            const gridYPos = costScale ? yPosCost : yPosCount;
             ctx.strokeStyle = '#eee';
             ctx.lineWidth = 1;
-            const gridLines = 5;
-            for (let i = 0; i <= gridLines; i++) {
-                const y = pad.top + h * i / gridLines;
+            gridScale.ticks.forEach(t => {
+                const y = gridYPos(t);
+                if (y <= pad.top || y >= pad.top + h) return;
                 ctx.beginPath();
                 ctx.moveTo(pad.left, y);
                 ctx.lineTo(pad.left + w, y);
                 ctx.stroke();
-            }
+            });
 
-            // axes
+            // оси
             ctx.strokeStyle = '#333';
             ctx.lineWidth = 1.5;
 
-            // left axis (price)
+            // левая ось (цена)
             ctx.beginPath();
             ctx.moveTo(pad.left, pad.top);
             ctx.lineTo(pad.left, pad.top + h);
             ctx.stroke();
 
-            // right axis (count)
+            // правая ось (количество)
             ctx.beginPath();
             ctx.moveTo(pad.left + w, pad.top);
             ctx.lineTo(pad.left + w, pad.top + h);
             ctx.stroke();
 
-            // bottom axis
+            // нижняя ось
             ctx.beginPath();
             ctx.moveTo(pad.left, pad.top + h);
             ctx.lineTo(pad.left + w, pad.top + h);
             ctx.stroke();
 
-            // X labels
+            // подписи X (ходы)
             ctx.fillStyle = '#333';
             ctx.font = '13px Times New Roman';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
             const xStep = Math.max(1, Math.floor((maxTurn - minTurn) / 12));
             for (let t = minTurn; t <= maxTurn; t += xStep) {
-                const x = xPos(t);
-                ctx.fillText(String(t), x, pad.top + h + 5);
+                ctx.fillText(String(t), xPos(t), pad.top + h + 5);
             }
 
-            // Left Y labels (price)
-            ctx.fillStyle = '#d32f2f';
-            ctx.font = '12px Times New Roman';
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            for (let i = 0; i <= gridLines; i++) {
-                const val = minCost + costRange * (1 - i / gridLines);
-                const y = pad.top + h * i / gridLines;
-                ctx.fillText(val.toFixed(1), pad.left - 8, y);
-            }
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'bottom';
-            ctx.fillText('Цена', pad.left, pad.top - 4);
-
-            // Right Y labels (count)
-            ctx.fillStyle = '#1565c0';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'middle';
-            for (let i = 0; i <= gridLines; i++) {
-                const val = minCount + countRange * (1 - i / gridLines);
-                const y = pad.top + h * i / gridLines;
-                const label = val % 1 === 0 ? String(val) : val.toFixed(1);
-                ctx.fillText(label, pad.left + w + 8, y);
-            }
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'bottom';
-            ctx.fillText('Кол-во', pad.left + w, pad.top - 4);
-
-            // draw cost line
-            ctx.strokeStyle = '#d32f2f';
-            ctx.lineWidth = 2.5;
-            ctx.beginPath();
-            costPoints.forEach((p, i) => {
-                const x = xPos(p.turn);
-                const y = yPosCost(p.val);
-                if (i === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            });
-            ctx.stroke();
-
-            // cost points
-            costPoints.forEach(p => {
-                const x = xPos(p.turn);
-                const y = yPosCost(p.val);
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, Math.PI * 2);
+            // подписи левой оси (цена)
+            if (costScale) {
                 ctx.fillStyle = '#d32f2f';
-                ctx.fill();
-                ctx.strokeStyle = '#fff';
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-            });
+                ctx.font = '12px Times New Roman';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                const labelStep = Math.max(1, Math.floor(costScale.ticks.length / 6));
+                for (let i = 0; i < costScale.ticks.length; i += labelStep) {
+                    const v = costScale.ticks[i];
+                    const y = yPosCost(v);
+                    if (y < pad.top - 4 || y > pad.top + h + 4) continue;
+                    ctx.fillText(v.toFixed(1), pad.left - 8, y);
+                }
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText('Цена', pad.left, pad.top - 4);
+            }
 
-            // draw count line
-            ctx.strokeStyle = '#1565c0';
-            ctx.lineWidth = 2.5;
-            ctx.beginPath();
-            countPoints.forEach((p, i) => {
-                const x = xPos(p.turn);
-                const y = yPosCount(p.val);
-                if (i === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            });
-            ctx.stroke();
-
-            // count points
-            countPoints.forEach(p => {
-                const x = xPos(p.turn);
-                const y = yPosCount(p.val);
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, Math.PI * 2);
+            // подписи правой оси (количество)
+            if (countScale) {
                 ctx.fillStyle = '#1565c0';
-                ctx.fill();
-                ctx.strokeStyle = '#fff';
-                ctx.lineWidth = 1.5;
+                ctx.font = '12px Times New Roman';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                const labelStep = Math.max(1, Math.floor(countScale.ticks.length / 6));
+                for (let i = 0; i < countScale.ticks.length; i += labelStep) {
+                    const v = countScale.ticks[i];
+                    const y = yPosCount(v);
+                    if (y < pad.top - 4 || y > pad.top + h + 4) continue;
+                    ctx.fillText(formatCount(v), pad.left + w + 8, y);
+                }
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText('Кол-во', pad.left + w, pad.top - 4);
+            }
+
+            // линия и точки цены
+            if (costScale) {
+                ctx.strokeStyle = '#d32f2f';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                costPoints.forEach((p, i) => {
+                    const x = xPos(p.turn);
+                    const y = yPosCost(p.val);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
                 ctx.stroke();
-            });
+                costPoints.forEach(p => {
+                    const x = xPos(p.turn);
+                    const y = yPosCost(p.val);
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#d32f2f';
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                });
+                lastSeries.push({ name: 'Цена', format: v => v.toFixed(1), points: costPoints, xPos: xPos, yPos: yPosCost });
+            }
+
+            // линия и точки количества
+            if (countScale) {
+                ctx.strokeStyle = '#1565c0';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                countPoints.forEach((p, i) => {
+                    const x = xPos(p.turn);
+                    const y = yPosCount(p.val);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+                countPoints.forEach(p => {
+                    const x = xPos(p.turn);
+                    const y = yPosCount(p.val);
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#1565c0';
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                });
+                lastSeries.push({ name: 'Количество', format: formatCount, points: countPoints, xPos: xPos, yPos: yPosCount });
+            }
         }
+
+        canvas.addEventListener('mousemove', e => {
+            const hit = tradeFindNearestPoint(canvas, e, lastSeries);
+            tradeShowTooltip(canvas, tooltip, hit,
+                hit ? '<b>' + hit.series.name + '</b><br>Ход ' + hit.p.turn + ': ' + hit.series.format(hit.p.val) : '');
+        });
+        canvas.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
 
         marketSelect.addEventListener('change', drawChart);
         goodSelect.addEventListener('change', drawChart);

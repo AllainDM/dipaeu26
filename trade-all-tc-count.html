@@ -92,7 +92,7 @@
             border-radius: 2px;
             flex-shrink: 0;
         }
-        #tooltip {
+        #tooltipA, #tooltipB {
             position: absolute;
             background: rgba(63, 65, 55, 0.95);
             color: #fff;
@@ -157,6 +157,7 @@
     </div>
 
     <script src="trade-data.js"></script>
+    <script src="trade-charts.js"></script>
     <script>
         const goodSelect = document.getElementById('goodSelect');
         const chartTitle = document.getElementById('chartTitle');
@@ -187,6 +188,8 @@
         let highlightedB = -1;
         let lastSeriesB = [];
         let lastBoundsB = {};
+
+        const range = tradeBuildRangeFilter(document.querySelector('.chart-controls'), countTurns, draw);
 
         goods.forEach(g => {
             const opt = document.createElement('option');
@@ -227,6 +230,7 @@
             markets.forEach((_, mi) => {
                 const points = [];
                 countTurns.forEach(turn => {
+                    if (turn < range.from() || turn > range.to()) return;
                     const data = countData[turn];
                     if (!data) return;
                     const row = data.goods.find(r => r[0] === goodName);
