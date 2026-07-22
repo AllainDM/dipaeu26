@@ -1,7 +1,7 @@
 // Данные и логика подсчёта БО — на основе Kalkulyator_BO-2.xlsx
 
 const TERRAINS = [
-    'равнина', 'степь', 'холмы', 'тунда', 'леса',
+    'равнина', 'степь', 'холмы', 'тундра', 'леса',
     'джунгли', 'болота', 'пустыня', 'город'
 ];
 
@@ -47,7 +47,7 @@ const DEF_MATRIX = [
 ];
 
 // Ширина фронта по terrain
-const WIDTH_BY_TERRAIN = [10, 10, 5, 5, 4, 4, 3, 7, 0];
+const WIDTH_BY_TERRAIN = [10, 10, 6, 6, 5, 5, 4, 8, 0];
 
 // Индексы юнитов для групп (для комбо-бонуса)
 // БС(0) не даёт БО, но входит в комбо
@@ -73,6 +73,7 @@ let state = {
     citySize: 0,
     widthBonus: 0,
     assault: 'нет',      // 'через реку' | 'десант' | 'нет'
+    supplyExceeded: false,
 };
 
 function calc() {
@@ -146,7 +147,7 @@ function calc() {
     // ширина
     let widthPct = 0;
     if (widthExcess > 0) {
-        widthPct = -widthExcess * 10;
+        widthPct = -widthExcess * 6;
         traces.push({ label: 'Ширина', formula: `${armySize} > ${width}, избыток ${widthExcess}`, pct: widthPct });
     }
 
@@ -165,25 +166,28 @@ function calc() {
     if (isAtk) {
         if (state.assault === 'через реку') { assaultPct = -10;
             traces.push({ label: 'Река', formula: '', pct: -10 });
-        } else if (state.assault === 'десант') {
-            let p = -10;
-            let note = 'десант −10%';
-            if (state.terrain === 'болота' || state.terrain === 'город') { p = -30; note = 'десант (болото/город) −30%'; }
-            else if (['холмы', 'тунда', 'леса', 'джунгли'].includes(state.terrain)) { p = -20; note = 'десант (холмы/тунда/леса/джунгли) −20%'; }
-            assaultPct = p;
-            traces.push({ label: 'Десант', formula: '', pct: p, note });
+        } else if (state.assault === 'десант') { assaultPct = -30;
+            traces.push({ label: 'Десант', formula: '', pct: -30, note: 'десант −30%' });
         }
     }
 
-    const totalPct = skillPct + perkPct + widthPct + comboPct + assaultPct;
+    // пустыня + превышение снабжения
+    let desertPct = 0;
+    if (isAtk && state.terrain === 'пустыня' && state.supplyExceeded) {
+        desertPct = -20;
+        traces.push({ label: 'Пустыня', formula: '', pct: -20, note: 'пустыня + превышение снабжения −20%' });
+    }
+
+    const totalPct = skillPct + perkPct + widthPct + comboPct + assaultPct + desertPct;
     const bonus = totalPct / 100;
 
     // ── 7. Фортификации ──
     let fort = 0;
     if (!isAtk) {
-        if (state.terrain === 'холмы' || state.terrain === 'леса') fort = 1;
-        else if (state.terrain === 'джунгли') fort = 2;
-        else if (state.terrain === 'болота') fort = 3;
+        if (state.terrain === 'холмы' || state.terrain === 'джунгли') fort = 2;
+        else if (state.terrain === 'болота') fort = 1.5;
+        else if (state.terrain === 'леса') fort = 1;
+        else if (state.terrain === 'пустыня' || state.terrain === 'тундра') fort = 0.5;
     }
 
     const totalBO = totalBase * (1 + bonus) + fort;
@@ -211,4 +215,62 @@ function calc() {
         terrain: state.terrain,
         mode: state.mode,
     };
+}
+
+const TERRAIN_COLORS = {
+    'равнина': '#c8e6c9', 'степь': '#fff9c4', 'холмы': '#d7ccc8',
+    'тундра': '#e0f7fa', 'леса': '#81c784', 'джунгли': '#66bb6a',
+    'болота': '#80cbc4', 'пустыня': '#ffe0b2', 'город': '#e0e0e0'
+};
+
+// Рендер транспонированной матрицы юниты×terrain для окна справки
+function renderTerrainHelp(mode) {
+    const wrap = document.getElementById('terrain-help-table-wrap');
+    const matrix = mode === 'Атака' ? ATK_MATRIX : DEF_MATRIX;
+    let html = '';
+    html += '<div style="margin-bottom:10px;display:flex;gap:6px;">';
+    ['Атака', 'Оборона'].forEach(m => {
+        html += `<button class="btn-mode${m === mode ? ' active' : ''}" data-th-mode="${m}">${m}</button>`;
+    });
+    html += '</div>';
+    html += '<table class="terrain-help-table"><thead><tr>';
+    html += '<th>Юнит</th>';
+    TERRAINS.forEach(t => {
+        html += `<th style="background:${TERRAIN_COLORS[t]};color:#222;">${t}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+    // Ширина
+    html += '<tr class="info-row"><td class="name-col">Ширина</td>';
+    TERRAINS.forEach((t, ti) => {
+        html += `<td>${t === 'город' ? 'N*' : WIDTH_BY_TERRAIN[ti]}</td>`;
+    });
+    html += '</tr>';
+    // Форт
+    html += '<tr class="info-row last-info"><td class="name-col">Форт</td>';
+    TERRAINS.forEach(t => {
+        let f = 0;
+        if (t === 'холмы' || t === 'джунгли') f = 2;
+        else if (t === 'болота') f = 1.5;
+        else if (t === 'леса') f = 1;
+        else if (t === 'пустыня' || t === 'тундра') f = 0.5;
+        html += `<td>${f > 0 ? '+' + f : '—'}</td>`;
+    });
+    html += '</tr>';
+    // Юниты
+    UNIT_SHORT.forEach((name, ui) => {
+        html += '<tr>';
+        html += `<td class="name-col" title="${UNIT_NAMES[ui]}">${name}</td>`;
+        TERRAINS.forEach((t, ti) => {
+            const v = matrix[ti][ui];
+            const vc = v > 0 ? '#2e7d32' : v < 0 ? '#c62828' : '#888';
+            html += `<td style="color:${vc}">${v > 0 ? '+' + v.toFixed(1) : v.toFixed(1)}</td>`;
+        });
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+    html += '<p style="font-size:12px;color:#888;margin:8px 0 0;">* N = размер города (оборона) или размер города × 2 (атака).</p>';
+    wrap.innerHTML = html;
+    wrap.querySelectorAll('[data-th-mode]').forEach(btn => {
+        btn.addEventListener('click', () => renderTerrainHelp(btn.dataset.thMode));
+    });
 }
