@@ -395,7 +395,15 @@
         });
 
         renderTable();
-
+    </script>
+    <div id="terrain-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span id="terrain-modal-close" class="modal-close">&times;</span>
+            <h3 style="margin-top:0;">Типы местности</h3>
+            <div id="terrain-help-table-wrap" style="overflow-x:auto;"></div>
+        </div>
+    </div>
+    <script>
         // Модальное окно справки по местности
         document.getElementById('terrain-help-btn').addEventListener('click', () => {
             const wrap = document.getElementById('terrain-help-table-wrap');
@@ -409,13 +417,6 @@
             if (e.target === e.currentTarget) e.target.style.display = 'none';
         });
     </script>
-    <div id="terrain-modal" class="modal-overlay" style="display:none;">
-        <div class="modal-content">
-            <span id="terrain-modal-close" class="modal-close">&times;</span>
-            <h3 style="margin-top:0;">Типы местности</h3>
-            <div id="terrain-help-table-wrap" style="overflow-x:auto;"></div>
-        </div>
-    </div>
     <script src="analytics.js"></script>
 </body>
 </html>
