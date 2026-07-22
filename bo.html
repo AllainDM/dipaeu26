@@ -5,51 +5,163 @@
     <link rel="stylesheet" href="style.css">
     <title>Подсчёт БО</title>
     <style>
-        body { max-width: 1100px; }
-        .bo-grid { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 16px; }
-        .bo-table-wrap { flex: 1; min-width: 500px; }
-        .bo-settings { width: 340px; }
-        .bo-table { width: 100%; border-collapse: collapse; background: white; font-size: 14px; }
-        .bo-table th { background: #3F4137; color: #fdc073; padding: 6px 8px; text-align: center; }
-        .bo-table td { padding: 4px 8px; border: 1px solid #ccc; text-align: center; }
-        .bo-table td.name-col { text-align: left; font-weight: bold; }
-        .bo-table .qty-inp, .bo-table .bo-inp { width: 60px; padding: 3px 6px; text-align: center; border: 1px solid #aaa; border-radius: 3px; }
-        .bo-table .unit-total { font-weight: bold; }
-        .bo-table tr:nth-child(even) { background: #f8f8f8; }
+        /* === Калькулятор БО: современный UI в фирменных цветах === */
+        body { max-width: 1150px; }
+        .bo-ui, .bo-ui button, .bo-ui input, .bo-ui select {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+        .bo-grid { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 16px; align-items: flex-start; }
+        .bo-table-wrap { flex: 1; min-width: 520px; }
+        .table-scroll { overflow-x: auto; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.10); }
+        .bo-settings { width: 360px; }
 
-        .sett-card { background: white; border: 1px solid #ddd; border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; }
-        .sett-card h4 { margin: 0 0 10px; font-size: 15px; color: #3F4137; border-bottom: 1px solid #eee; padding-bottom: 6px; }
-        .sett-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+        /* --- Таблица юнитов --- */
+        .bo-table { width: 100%; min-width: 540px; border-collapse: collapse; background: white; font-size: 14px; margin: 0; }
+        .bo-table th { background: #3F4137; color: #fdc073; padding: 8px 6px; text-align: center; font-weight: 600; font-size: 13px; border: none; }
+        .bo-table td { padding: 4px 6px; border: 1px solid #e6e6e6; text-align: center; }
+        .bo-table td.name-col { text-align: left; font-weight: 600; white-space: nowrap; padding-left: 10px; }
+        .bo-table td.short-col { color: #999; font-size: 12px; }
+        .bo-table tr.group-row td {
+            background: #eceee8; color: #3F4137; text-align: left; font-weight: 700;
+            font-size: 12px; letter-spacing: .6px; text-transform: uppercase;
+            padding: 5px 10px; border: none;
+        }
+        .bo-table tr.unit-row:nth-child(even) { background: #fff; }
+        .bo-table tr.unit-row:hover td { background: #faf6ee; }
+        .bo-table tr.perk-hl td { background: #fff6e3; }
+        .bo-table .unit-total { font-weight: 700; font-variant-numeric: tabular-nums; }
+        .perk-mark { color: #e09500; font-size: 12px; margin-left: 4px; }
+
+        /* Бейджи комбо-групп (П/К/С) */
+        .cbadge {
+            display: inline-block; width: 16px; height: 16px; line-height: 16px; text-align: center;
+            border-radius: 4px; font-size: 10px; font-weight: 700; color: #fff; margin-left: 4px;
+            vertical-align: 1px;
+        }
+        .cb-p { background: #6d9e5f; }
+        .cb-k { background: #c98a3d; }
+        .cb-s { background: #5b8ec9; }
+
+        /* Цвета модификаторов местности */
+        .mod-pos { color: #1b7a3d; font-weight: 600; }
+        .mod-neg { color: #c0392b; font-weight: 600; }
+        .mod-zero { color: #aaa; }
+
+        /* Степпер количества */
+        .qty-stepper { display: inline-flex; align-items: center; gap: 3px; }
+        .step-btn {
+            width: 26px; height: 26px; border-radius: 6px; border: 1px solid #ccc; background: #f5f5f5;
+            cursor: pointer; font-size: 15px; line-height: 1; display: inline-flex; align-items: center;
+            justify-content: center; transition: all .15s; user-select: none; padding: 0;
+        }
+        .step-btn:hover { background: #fde8c8; border-color: #FDA83D; }
+        .step-btn:disabled { opacity: .35; cursor: default; background: #f5f5f5; border-color: #ddd; }
+        .qty-stepper .qty-inp { width: 50px; }
+
+        /* Инпуты */
+        .bo-ui input[type="text"], .bo-ui input[type="number"], .bo-ui select {
+            padding: 5px 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;
+            transition: border-color .15s, box-shadow .15s; background: #fff; box-sizing: border-box;
+        }
+        .bo-ui input:focus, .bo-ui select:focus {
+            outline: none; border-color: #FDA83D; box-shadow: 0 0 0 3px rgba(253,168,61,.25);
+        }
+        .bo-table .bo-inp { width: 56px; text-align: center; }
+        .bo-table .qty-inp { text-align: center; }
+
+        /* --- Карточки настроек --- */
+        .sett-card {
+            background: #fff; border: 1px solid #e5e5e5; border-radius: 12px;
+            padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,.06);
+        }
+        .sett-card h4 {
+            margin: 0 0 12px; font-size: 12.5px; text-transform: uppercase; letter-spacing: .6px;
+            color: #6b6b5e; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px;
+        }
+        .sett-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .sett-row:last-child { margin-bottom: 0; }
         .sett-row label { font-size: 14px; min-width: 60px; }
-        .sett-row select, .sett-row input[type=number] { padding: 4px 8px; border: 1px solid #aaa; border-radius: 3px; font-size: 14px; }
-        .sett-row select { min-width: 120px; }
-        .sett-row input[type=number] { width: 70px; }
-        .btn-terrain { padding: 4px 10px; border: 1px solid #bbb; border-radius: 3px; background: #f0f0f0; cursor: pointer; font-size: 12px; }
-        .btn-terrain.active { background: #3F4137; color: #fdc073; border-color: #3F4137; }
-        .btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
-        .btn-mode { padding: 6px 16px; border: 1px solid #bbb; border-radius: 4px; cursor: pointer; font-size: 14px; background: #f0f0f0; }
-        .btn-mode.active { background: #3F4137; color: #fdc073; border-color: #3F4137; }
+        .sett-row select { min-width: 130px; }
+        .sett-row input[type=number] { width: 72px; }
+        .check-label { display: flex; align-items: center; gap: 6px; font-size: 13.5px; min-width: auto !important; cursor: pointer; }
+        .hint { font-size: 12px; color: #999; }
 
-        .result-card { background: white; border: 2px solid #3F4137; border-radius: 8px; padding: 16px; margin-top: 12px; }
-        .result-row { display: flex; gap: 24px; flex-wrap: wrap; align-items: baseline; }
+        /* Сегмент-переключатель режима */
+        .seg-control { display: flex; background: #eceee8; border-radius: 10px; padding: 3px; gap: 3px; }
+        .seg-btn {
+            flex: 1; border: none; background: transparent; padding: 9px 10px; border-radius: 8px;
+            cursor: pointer; font-size: 14px; font-weight: 600; color: #555; transition: all .15s;
+        }
+        .seg-btn:hover { color: #333; }
+        .seg-btn.active { background: #3F4137; color: #fdc073; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+
+        /* Цветные чипы местности */
+        .chip-group { display: flex; gap: 6px; flex-wrap: wrap; }
+        .chip {
+            border-radius: 999px; padding: 6px 13px; border: 2px solid transparent;
+            background: var(--cc, #eee); cursor: pointer; font-size: 13px; color: #333;
+            transition: all .15s;
+        }
+        .chip:hover { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0,0,0,.18); }
+        .chip.active { border-color: #3F4137; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,.28); }
+        .terrain-help-ic { cursor: help; font-size: 15px; color: #3F4137; }
+
+        /* --- Карточка результата (sticky) --- */
+        .result-card {
+            background: #fff; border: 2px solid #3F4137; border-radius: 14px;
+            padding: 14px 18px; margin-top: 14px;
+            position: sticky; bottom: 12px; z-index: 60;
+            box-shadow: 0 4px 16px rgba(0,0,0,.18);
+        }
+        .result-row { display: flex; gap: 28px; flex-wrap: wrap; align-items: baseline; }
         .result-item { text-align: center; }
-        .result-item .val { font-size: 28px; font-weight: bold; color: #3F4137; }
-        .result-item .lbl { font-size: 12px; color: #666; }
+        .result-item .val { font-size: 26px; font-weight: 700; color: #3F4137; font-variant-numeric: tabular-nums; }
+        .result-item.main .val { font-size: 34px; }
+        .result-item .lbl { font-size: 11.5px; color: #777; text-transform: uppercase; letter-spacing: .4px; margin-top: 2px; }
         .result-item.attack .val { color: #b22222; }
         .result-item.defense .val { color: #2e5a2e; }
-        .combo-on { color: #1a7a1a; font-weight: bold; }
-        .combo-off { color: #999; }
+        .result-item .val.val-pos { color: #1b7a3d; }
+        .result-item .val.val-neg { color: #c0392b; }
 
-        @media (max-width: 860px) {
-            .bo-grid { flex-direction: column; }
-            .bo-settings { width: 100%; }
+        /* Прогресс-бары комбо */
+        .combo-block { margin-top: 14px; padding-top: 12px; border-top: 1px solid #eee; display: flex; flex-direction: column; gap: 7px; }
+        .combo-bar-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+        .cb-label { width: 82px; color: #555; flex-shrink: 0; }
+        .cb-track { position: relative; flex: 1; height: 9px; background: #eee; border-radius: 5px; }
+        .cb-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; transition: width .25s; }
+        .cb-threshold { position: absolute; left: 30%; top: -2px; bottom: -2px; width: 2px; background: #3F4137; opacity: .65; }
+        .cb-val { width: 92px; text-align: right; color: #999; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+        .cb-val.ok { color: #1b7a3d; font-weight: 700; }
+        .combo-status { margin-top: 3px; font-size: 14px; }
+        .combo-status.on { color: #1a7a1a; font-weight: 700; }
+        .combo-status.off { color: #999; font-weight: 600; }
+
+        /* Кнопка деталей и трейс-панель */
+        .trace-btn {
+            background: #f5f5f5; border: 1px solid #d5d5d5; border-radius: 8px; padding: 6px 16px;
+            cursor: pointer; font-size: 13px; color: #555; transition: all .15s;
         }
-        .hint { font-size: 12px; color: #888; margin-top: 4px; }
+        .trace-btn:hover { background: #fde8c8; border-color: #FDA83D; color: #3F4137; }
         #trace-panel table th { background: #f0f0f0; padding: 3px 6px; border: 1px solid #ddd; }
         #trace-panel table td { padding: 3px 6px; border: 1px solid #ddd; }
 
+        /* Кнопки пресетов и сброса */
+        .bo-settings .btn { border-radius: 8px; border-width: 1px; flex: 0 1 auto; min-width: 76px; }
+        .btn-reset {
+            width: 100%; padding: 9px; border-radius: 8px; border: 1px solid #e0b8b8;
+            background: #fdf4f4; color: #a33; font-size: 13.5px; font-weight: 600;
+            cursor: pointer; transition: all .15s;
+        }
+        .btn-reset:hover { background: #f9e4e4; border-color: #c99090; }
+
+        /* Кнопки режима в модальном окне справки (рендерятся из bo.js) */
+        .btn-mode { padding: 6px 16px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; font-size: 13px; background: #f5f5f5; transition: all .15s; }
+        .btn-mode:hover { border-color: #FDA83D; }
+        .btn-mode.active { background: #3F4137; color: #fdc073; border-color: #3F4137; }
+
+        /* Модальное окно справки */
         .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; display:flex; align-items:center; justify-content:center; }
-        .modal-content { background:#fff; border-radius:8px; padding:24px; max-width:860px; width:95%; max-height:80vh; overflow-y:auto; position:relative; }
+        .modal-content { background:#fff; border-radius:14px; padding:24px; max-width:860px; width:95%; max-height:80vh; overflow-y:auto; position:relative; box-shadow: 0 8px 30px rgba(0,0,0,.3); }
         .modal-close { position:absolute; top:12px; right:16px; font-size:24px; cursor:pointer; color:#888; line-height:1; }
         .modal-close:hover { color:#000; }
         .terrain-help-table { width:100%; border-collapse:collapse; background:white; font-size:12px; white-space:nowrap; }
@@ -59,6 +171,18 @@
         .terrain-help-table .info-row td { background:#f0f0f0; font-weight:bold; }
         .terrain-help-table .last-info td { border-bottom:3px solid #3F4137; }
         .terrain-help-table tr:not(.info-row):nth-child(even) { background:#f8f8f8; }
+
+        @media (max-width: 900px) {
+            .bo-grid { flex-direction: column; }
+            .bo-settings { width: 100%; box-sizing: border-box; }
+            .bo-table-wrap { min-width: 0; width: 100%; }
+            .result-card { padding: 10px 14px; bottom: 8px; }
+            .result-item .val { font-size: 20px; }
+            .result-item.main .val { font-size: 26px; }
+            .result-row { gap: 16px; }
+            .cb-label { width: 70px; }
+            .cb-val { width: 80px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -77,40 +201,38 @@
 
     <h2>Подсчёт БО (боевых очков)</h2>
 
-    <div class="bo-grid">
+    <div class="bo-grid bo-ui">
         <div class="bo-table-wrap">
-            <table class="bo-table">
-                <thead>
-                    <tr>
-                        <th>Юнит</th>
-                        <th>Симв</th>
-                        <th>Кол-во</th>
-                        <th>БО база</th>
-                        <th>Местн.</th>
-                        <th>БО</th>
-                    </tr>
-                </thead>
-                <tbody id="unit-tbody"></tbody>
-            </table>
+            <div class="table-scroll">
+                <table class="bo-table">
+                    <thead>
+                        <tr>
+                            <th>Юнит</th>
+                            <th>Симв</th>
+                            <th>Кол-во</th>
+                            <th>БО база</th>
+                            <th>Местн.</th>
+                            <th>БО</th>
+                        </tr>
+                    </thead>
+                    <tbody id="unit-tbody"></tbody>
+                </table>
+            </div>
             <div id="result-card" class="result-card"></div>
         </div>
 
         <div class="bo-settings">
             <div class="sett-card">
                 <h4>Режим</h4>
-                <div class="sett-row">
-                    <div class="btn-group" id="mode-group">
-                        <button class="btn-mode active" data-mode="Атака">Атака</button>
-                        <button class="btn-mode" data-mode="Оборона">Оборона</button>
-                    </div>
+                <div class="seg-control" id="mode-group">
+                    <button class="seg-btn active" data-mode="Атака">⚔ Атака</button>
+                    <button class="seg-btn" data-mode="Оборона">🛡 Оборона</button>
                 </div>
             </div>
 
             <div class="sett-card">
-                <h4>Местность <span id="terrain-help-btn" style="cursor:help;font-size:16px;color:#3F4137;" title="Справка по типам местности">ⓘ</span></h4>
-                <div class="sett-row">
-                    <div class="btn-group" id="terrain-group"></div>
-                </div>
+                <h4>Местность <span id="terrain-help-btn" class="terrain-help-ic" title="Справка по типам местности">ⓘ</span></h4>
+                <div class="chip-group" id="terrain-group"></div>
             </div>
 
             <div class="sett-card">
@@ -134,7 +256,7 @@
 
             <div class="sett-card">
                 <h4>Особые условия</h4>
-                <div class="sett-row">
+                <div class="sett-row" id="assault-row">
                     <label>Десант/река:</label>
                     <select id="assault-sel">
                         <option value="нет">нет</option>
@@ -142,23 +264,43 @@
                         <option value="десант">морской десант</option>
                     </select>
                 </div>
-                <div class="sett-row">
+                <div class="sett-row" id="city-row" style="display:none;">
                     <label>Размер города:</label>
                     <input type="number" id="city-size-inp" min="0" max="100" value="0">
-                    <span class="hint">(для местности «город»)</span>
                 </div>
                 <div class="sett-row">
                     <label>Бонус ширины:</label>
                     <input type="number" id="width-bonus-inp" min="0" max="50" value="0">
                 </div>
-                <div class="sett-row">
+                <div class="sett-row" id="supply-row" style="display:none;">
                     <label>Снабжение:</label>
-                    <label style="font-size:13px;font-weight:normal;min-width:auto;">
+                    <label class="check-label">
                         <input type="checkbox" id="supply-exceeded-chk">
-                        превышен лимит снабжения
+                        превышен лимит (−20%)
                     </label>
-                    <span class="hint">(только пустыня, −20%)</span>
                 </div>
+            </div>
+            <div class="sett-card">
+                <h4>Пресеты</h4>
+                <div class="sett-row">
+                    <input type="text" id="preset-name" placeholder="Название пресета" style="flex:1;min-width:100px;">
+                    <button class="btn" id="preset-save">Сохранить</button>
+                </div>
+                <div class="sett-row">
+                    <select id="preset-list" style="flex:1;">
+                        <option value="">— выберите пресет —</option>
+                    </select>
+                    <button class="btn" id="preset-load">Загрузить</button>
+                    <button class="btn" id="preset-delete">Удалить</button>
+                </div>
+                <div class="sett-row" style="gap:8px;">
+                    <button class="btn" id="preset-export">Экспорт</button>
+                    <button class="btn" id="preset-import">Импорт</button>
+                    <input type="file" id="preset-import-file" accept=".json" style="display:none;">
+                </div>
+            </div>
+            <div class="sett-card">
+                <button class="btn-reset" id="reset-all">Сбросить всё</button>
             </div>
         </div>
     </div>
@@ -176,14 +318,32 @@
         const modeGroup = document.getElementById('mode-group');
         const terrainGroup = document.getElementById('terrain-group');
 
-        // Террейн кнопки
+        // Группы юнитов для отображения (индексы соответствуют матрицам bo.js)
+        const DISPLAY_GROUPS = [
+            { title: 'Пехота', color: '#6d9e5f', units: [4, 5, 6] },
+            { title: 'Кавалерия', color: '#c98a3d', units: [0, 2, 7, 8, 9, 10] },
+            { title: 'Стрелки', color: '#5b8ec9', units: [1, 3, 11] },
+            { title: 'Осадные', color: '#8d8d99', units: [12, 13] },
+        ];
+
+        // Чипы местности
         TERRAINS.forEach(t => {
             const btn = document.createElement('button');
-            btn.className = 'btn-terrain' + (t === state.terrain ? ' active' : '');
+            btn.className = 'chip' + (t === state.terrain ? ' active' : '');
             btn.textContent = t;
             btn.dataset.terrain = t;
+            btn.style.setProperty('--cc', TERRAIN_COLORS[t]);
             terrainGroup.appendChild(btn);
         });
+
+        // Бейджи комбо-групп для юнита (П/К/С)
+        function comboBadges(i) {
+            let s = '';
+            if (INFANTRY_IDX.includes(i)) s += '<span class="cbadge cb-p" title="Пехота (комбо)">П</span>';
+            if (CAVALRY_IDX.includes(i)) s += '<span class="cbadge cb-k" title="Кавалерия (комбо)">К</span>';
+            if (RANGED_IDX.includes(i)) s += '<span class="cbadge cb-s" title="Стрелки (комбо)">С</span>';
+            return s;
+        }
 
         // Рендер таблицы юнитов
         function renderTable() {
@@ -191,93 +351,137 @@
             let html = '';
             const matrix = state.mode === 'Атака' ? ATK_MATRIX : DEF_MATRIX;
             const tIdx = TERRAINS.indexOf(state.terrain);
-            UNIT_NAMES.forEach((name, i) => {
-                const qt = state.qty[i];
-                const bo = state.baseBO[i];
-                let perkBonus = 0;
-                if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
-                if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
-                const terrainVal = matrix[tIdx][i];
-                const totalVal = bo + terrainVal + perkBonus;
-                const total = qt * totalVal;
-                html += '<tr>' +
-                    `<td class="name-col">${name}</td>` +
-                    `<td>${UNIT_SHORT[i]}</td>` +
-                    `<td><input type="text" inputmode="decimal" data-idx="${i}" value="${qt}" class="qty-inp"></td>` +
-                    `<td><input type="text" inputmode="decimal" data-uidx="${i}" value="${bo}" class="bo-inp"></td>` +
-                    `<td>${terrainVal.toFixed(2)}</td>` +
-                    `<td class="unit-total">${total.toFixed(1)}</td>` +
-                    '</tr>';
+            DISPLAY_GROUPS.forEach(g => {
+                html += `<tr class="group-row"><td colspan="6" style="border-left:4px solid ${g.color}">${g.title}</td></tr>`;
+                g.units.forEach(i => {
+                    const qt = state.qty[i];
+                    const bo = state.baseBO[i];
+                    let perkBonus = 0;
+                    if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
+                    if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
+                    const terrainVal = matrix[tIdx][i];
+                    const total = qt * (bo + terrainVal + perkBonus);
+                    const modCls = terrainVal > 0 ? 'mod-pos' : terrainVal < 0 ? 'mod-neg' : 'mod-zero';
+                    const modTxt = (terrainVal > 0 ? '+' : '') + terrainVal.toFixed(2);
+                    const perkHl = perkBonus > 0 ? ' perk-hl' : '';
+                    const perkMark = perkBonus > 0 ? '<span class="perk-mark" title="Бонус перка +0.1">★</span>' : '';
+                    html += `<tr data-row-idx="${i}" class="unit-row${perkHl}">` +
+                        `<td class="name-col">${UNIT_NAMES[i]}${comboBadges(i)}${perkMark}</td>` +
+                        `<td class="short-col">${UNIT_SHORT[i]}</td>` +
+                        `<td><span class="qty-stepper">` +
+                            `<button class="step-btn" data-step="-1" data-idx="${i}"${qt <= 0 ? ' disabled' : ''}>−</button>` +
+                            `<input type="text" inputmode="decimal" data-idx="${i}" value="${qt}" class="qty-inp">` +
+                            `<button class="step-btn" data-step="1" data-idx="${i}">+</button>` +
+                        `</span></td>` +
+                        `<td><input type="text" inputmode="decimal" data-uidx="${i}" value="${bo}" class="bo-inp"></td>` +
+                        `<td class="${modCls}">${modTxt}</td>` +
+                        `<td class="unit-total">${total.toFixed(1)}</td>` +
+                        '</tr>';
+                });
             });
             tbody.innerHTML = html;
+            bindTableInputs();
+            renderResult(r);
+        }
 
-            // Бинд инпутов кол-ва
+        function bindTableInputs() {
             tbody.querySelectorAll('.qty-inp').forEach(inp => {
                 inp.addEventListener('input', () => {
                     const idx = parseInt(inp.dataset.idx);
                     state.qty[idx] = Math.max(0, parseFloat(inp.value.replace(',', '.')) || 0);
                     updateResults();
                 });
+                inp.addEventListener('focus', () => inp.select());
             });
-            // Бинд инпутов БО базы
             tbody.querySelectorAll('.bo-inp').forEach(inp => {
                 inp.addEventListener('input', () => {
                     const idx = parseInt(inp.dataset.uidx);
                     state.baseBO[idx] = Math.max(0, parseFloat(inp.value.replace(',', '.')) || 0);
                     updateResults();
                 });
+                inp.addEventListener('focus', () => inp.select());
             });
-
-            renderResult(r);
+            tbody.querySelectorAll('.step-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    const step = parseInt(btn.dataset.step);
+                    state.qty[idx] = Math.max(0, (state.qty[idx] || 0) + step);
+                    const inp = tbody.querySelector(`.qty-inp[data-idx="${idx}"]`);
+                    if (inp) inp.value = state.qty[idx];
+                    updateResults();
+                });
+            });
         }
 
         function updateResults() {
             const r = calc();
-            for (let i = 0; i < r.unitBO.length; i++) {
-                const row = tbody.children[i];
-                if (row && row.cells[5]) {
-                    row.cells[5].textContent = r.unitBO[i].total.toFixed(1);
+            r.unitBO.forEach((u, i) => {
+                const row = tbody.querySelector(`tr[data-row-idx="${i}"]`);
+                if (row) {
+                    const totalCell = row.querySelector('.unit-total');
+                    if (totalCell) totalCell.textContent = u.total.toFixed(1);
                 }
-            }
+            });
+            // Блокировка минуса при нуле
+            tbody.querySelectorAll('.step-btn[data-step="-1"]').forEach(btn => {
+                const idx = parseInt(btn.dataset.idx);
+                btn.disabled = (state.qty[idx] || 0) <= 0;
+            });
             renderResult(r);
         }
 
+        // Одна шкала комбо-группы
+        function comboBar(label, count, pct, color) {
+            const ok = pct > 30;
+            const w = Math.min(100, pct);
+            return `<div class="combo-bar-row">` +
+                `<span class="cb-label">${label}</span>` +
+                `<span class="cb-track">` +
+                    `<span class="cb-fill" style="width:${w}%;background:${ok ? color : '#c9c9c9'}"></span>` +
+                    `<span class="cb-threshold"></span>` +
+                `</span>` +
+                `<span class="cb-val${ok ? ' ok' : ''}">${count} · ${pct}%</span>` +
+                `</div>`;
+        }
+
         function renderResult(r) {
+            const isAtk = state.mode === 'Атака';
+            const bonusCls = r.bonus > 0 ? 'val-pos' : r.bonus < 0 ? 'val-neg' : '';
+            const widthExceed = r.armySize > r.width;
             const comboText = r.comboActive
-                ? '<span class="combo-on">✓ активен (+15%)</span>'
-                : '<span class="combo-off">✗ неактивен</span>';
+                ? '<span class="combo-status on">✓ Комбо активно (+15%)</span>'
+                : '<span class="combo-status off">✗ Комбо неактивно (нужно > 30% каждой группы)</span>';
             resultCard.innerHTML = `
                 <div class="result-row">
-                    <div class="result-item ${state.mode === 'Атака' ? 'attack' : 'defense'}">
+                    <div class="result-item main ${isAtk ? 'attack' : 'defense'}">
                         <div class="val">${r.totalBO}</div>
-                        <div class="lbl">Итого БО (${state.mode.toLowerCase()})</div>
+                        <div class="lbl">Итого БО · ${state.mode.toLowerCase()}</div>
                     </div>
                     <div class="result-item">
                         <div class="val">${r.totalBase}</div>
                         <div class="lbl">База БО</div>
                     </div>
                     <div class="result-item">
-                        <div class="val">${r.bonus >= 0 ? '+' : ''}${r.bonus}%</div>
-                        <div class="lbl">Суммарный бонус</div>
+                        <div class="val ${bonusCls}">${r.bonus >= 0 ? '+' : ''}${r.bonus}%</div>
+                        <div class="lbl">Бонус</div>
                     </div>
                     <div class="result-item">
-                        <div class="val">${r.armySize}</div>
-                        <div class="lbl">Юнитов</div>
+                        <div class="val ${widthExceed ? 'val-neg' : ''}">${r.armySize}/${r.width}</div>
+                        <div class="lbl">Армия / ширина</div>
                     </div>
-                    <div class="result-item">
-                        <div class="val">${r.width}</div>
-                        <div class="lbl">Ширина</div>
-                    </div>
+                    ${r.fort > 0 ? `<div class="result-item">
+                        <div class="val val-pos">+${r.fort}</div>
+                        <div class="lbl">Форт</div>
+                    </div>` : ''}
                 </div>
-                <div class="result-row" style="margin-top:10px;font-size:13px;color:#555;">
-                    <span>Стрелки: ${r.totalRanged} (${r.pctRanged}%)</span>
-                    <span>Кавалерия: ${r.totalCavalry} (${r.pctCavalry}%)</span>
-                    <span>Пехота: ${r.totalInfantry} (${r.pctInfantry}%)</span>
-                    <span>Комбо: ${comboText}</span>
-                    ${r.fort > 0 ? `<span>Фортификации: +${r.fort}</span>` : ''}
+                <div class="combo-block">
+                    ${comboBar('Стрелки', r.totalRanged, r.pctRanged, '#5b8ec9')}
+                    ${comboBar('Кавалерия', r.totalCavalry, r.pctCavalry, '#c98a3d')}
+                    ${comboBar('Пехота', r.totalInfantry, r.pctInfantry, '#6d9e5f')}
+                    ${comboText}
                 </div>
                 <div style="margin-top:12px;text-align:center;">
-                    <button id="trace-toggle" style="background:none;border:1px solid #ccc;border-radius:4px;padding:4px 14px;cursor:pointer;font-size:13px;">📊 Детали расчёта</button>
+                    <button id="trace-toggle" class="trace-btn">📊 Детали расчёта</button>
                 </div>
                 <div id="trace-panel" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid #ddd;font-size:13px;"></div>
             `;
@@ -345,22 +549,33 @@
             panel.innerHTML = html;
         }
 
+        // Умная видимость настроек: десант/река — только атака,
+        // размер города — только «город», снабжение — только «пустыня» в атаке
+        function updateConditionalRows() {
+            document.getElementById('assault-row').style.display = state.mode === 'Атака' ? 'flex' : 'none';
+            document.getElementById('city-row').style.display = state.terrain === 'город' ? 'flex' : 'none';
+            document.getElementById('supply-row').style.display =
+                (state.terrain === 'пустыня' && state.mode === 'Атака') ? 'flex' : 'none';
+        }
+
         // Обработчики настроек
         modeGroup.addEventListener('click', e => {
-            const btn = e.target.closest('.btn-mode');
+            const btn = e.target.closest('.seg-btn');
             if (!btn) return;
-            modeGroup.querySelectorAll('.btn-mode').forEach(b => b.classList.remove('active'));
+            modeGroup.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             state.mode = btn.dataset.mode;
+            updateConditionalRows();
             renderTable();
         });
 
         terrainGroup.addEventListener('click', e => {
-            const btn = e.target.closest('.btn-terrain');
+            const btn = e.target.closest('.chip');
             if (!btn) return;
-            terrainGroup.querySelectorAll('.btn-terrain').forEach(b => b.classList.remove('active'));
+            terrainGroup.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             state.terrain = btn.dataset.terrain;
+            updateConditionalRows();
             renderTable();
         });
 
@@ -368,10 +583,11 @@
             state.skill = Math.max(0, parseInt(skillInp.value) || 0);
             updateResults();
         });
+        skillInp.addEventListener('focus', () => skillInp.select());
 
         perkSel.addEventListener('change', () => {
             state.perk = perkSel.value;
-            updateResults();
+            renderTable(); // перерисовка — подсветка строк с бонусом перка
         });
 
         assaultSel.addEventListener('change', () => {
@@ -383,18 +599,187 @@
             state.citySize = Math.max(0, parseInt(citySizeInp.value) || 0);
             updateResults();
         });
+        citySizeInp.addEventListener('focus', () => citySizeInp.select());
 
         widthBonusInp.addEventListener('input', () => {
             state.widthBonus = Math.max(0, parseInt(widthBonusInp.value) || 0);
             updateResults();
         });
+        widthBonusInp.addEventListener('focus', () => widthBonusInp.select());
 
         supplyExceededChk.addEventListener('change', () => {
             state.supplyExceeded = supplyExceededChk.checked;
             updateResults();
         });
 
+        // Сброс всех значений
+        document.getElementById('reset-all').addEventListener('click', () => {
+            if (!confirm('Сбросить все значения калькулятора?')) return;
+            state.qty = new Array(14).fill(0);
+            state.baseBO = new Array(14).fill(0);
+            state.terrain = 'равнина';
+            state.mode = 'Атака';
+            state.skill = 0;
+            state.perk = 'нет';
+            state.citySize = 0;
+            state.widthBonus = 0;
+            state.assault = 'нет';
+            state.supplyExceeded = false;
+            syncUIFromState();
+        });
+
+        updateConditionalRows();
         renderTable();
+        refreshPresetList();
+
+        // ── Пресеты ──
+        const STORAGE_PREFIX = 'bo_preset_';
+
+        function savePreset(name) {
+            const data = {
+                qty: state.qty,
+                baseBO: state.baseBO,
+                terrain: state.terrain,
+                mode: state.mode,
+                skill: state.skill,
+                perk: state.perk,
+                citySize: state.citySize,
+                widthBonus: state.widthBonus,
+                assault: state.assault,
+                supplyExceeded: state.supplyExceeded,
+            };
+            localStorage.setItem(STORAGE_PREFIX + name, JSON.stringify(data));
+            refreshPresetList();
+        }
+
+        function listPresets() {
+            const names = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith(STORAGE_PREFIX)) {
+                    names.push(key.slice(STORAGE_PREFIX.length));
+                }
+            }
+            return names;
+        }
+
+        function refreshPresetList() {
+            const sel = document.getElementById('preset-list');
+            const current = sel.value;
+            sel.innerHTML = '<option value="">— выберите пресет —</option>';
+            listPresets().forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                sel.appendChild(opt);
+            });
+            if (listPresets().includes(current)) sel.value = current;
+        }
+
+        function syncUIFromState() {
+            document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.seg-btn[data-mode="${state.mode}"]`)?.classList.add('active');
+            document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.chip[data-terrain="${state.terrain}"]`)?.classList.add('active');
+            skillInp.value = state.skill;
+            perkSel.value = state.perk;
+            assaultSel.value = state.assault;
+            citySizeInp.value = state.citySize;
+            widthBonusInp.value = state.widthBonus;
+            supplyExceededChk.checked = state.supplyExceeded;
+            updateConditionalRows();
+            renderTable();
+        }
+
+        function loadPreset(name) {
+            const raw = localStorage.getItem(STORAGE_PREFIX + name);
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            state.qty = data.qty;
+            state.baseBO = data.baseBO;
+            state.terrain = data.terrain;
+            state.mode = data.mode;
+            state.skill = data.skill;
+            state.perk = data.perk;
+            state.citySize = data.citySize;
+            state.widthBonus = data.widthBonus;
+            state.assault = data.assault;
+            state.supplyExceeded = data.supplyExceeded || false;
+            syncUIFromState();
+        }
+
+        function deletePreset(name) {
+            localStorage.removeItem(STORAGE_PREFIX + name);
+            refreshPresetList();
+        }
+
+        function exportPreset(name) {
+            const raw = localStorage.getItem(STORAGE_PREFIX + name);
+            if (!raw) return;
+            const blob = new Blob([raw], {type: 'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = name + '.json';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+
+        function importPreset(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!data.qty || !data.baseBO) { alert('Неверный формат файла'); return; }
+                    const name = file.name.replace(/\.json$/, '');
+                    localStorage.setItem(STORAGE_PREFIX + name, JSON.stringify(data));
+                    refreshPresetList();
+                    alert('Пресет "' + name + '" импортирован');
+                } catch(err) {
+                    alert('Ошибка при импорте: ' + err.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        document.getElementById('preset-save').addEventListener('click', () => {
+            const name = document.getElementById('preset-name').value.trim();
+            if (!name) { alert('Введите название пресета'); return; }
+            if (listPresets().includes(name) && !confirm('Пресет "' + name + '" уже существует. Перезаписать?')) return;
+            savePreset(name);
+            document.getElementById('preset-name').value = '';
+            alert('Пресет "' + name + '" сохранён');
+        });
+
+        document.getElementById('preset-load').addEventListener('click', () => {
+            const name = document.getElementById('preset-list').value;
+            if (!name) { alert('Выберите пресет'); return; }
+            loadPreset(name);
+        });
+
+        document.getElementById('preset-delete').addEventListener('click', () => {
+            const name = document.getElementById('preset-list').value;
+            if (!name) { alert('Выберите пресет'); return; }
+            if (confirm('Удалить пресет "' + name + '"?')) {
+                deletePreset(name);
+            }
+        });
+
+        document.getElementById('preset-export').addEventListener('click', () => {
+            const name = document.getElementById('preset-list').value;
+            if (!name) { alert('Выберите пресет для экспорта'); return; }
+            exportPreset(name);
+        });
+
+        document.getElementById('preset-import').addEventListener('click', () => {
+            document.getElementById('preset-import-file').click();
+        });
+
+        document.getElementById('preset-import-file').addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                importPreset(this.files[0]);
+            }
+            this.value = '';
+        });
     </script>
     <div id="terrain-modal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
