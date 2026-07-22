@@ -23,7 +23,7 @@
             border: 1px solid #bcbcbc;
             border-radius: 4px;
             background: white;
-            min-width: 140px;
+            min-width: 80px;
         }
         canvas {
             border: 1px solid #bcbcbc;
@@ -42,6 +42,53 @@
             margin-bottom: 10px;
             color: #2c3e50;
             font-size: 15px;
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 6px 10px;
+            font-size: 13px;
+            margin: 8px 0 10px;
+            max-width: 950px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 3px 6px;
+            border-radius: 4px;
+            transition: background .15s;
+            user-select: none;
+        }
+        .legend-item:hover {
+            background: #f0f0f0;
+        }
+        .legend-item.hidden {
+            opacity: 0.45;
+        }
+        .legend-color {
+            width: 22px;
+            height: 3px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        #tooltip {
+            position: absolute;
+            background: rgba(63, 65, 55, 0.95);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            pointer-events: none;
+            display: none;
+            z-index: 100;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+        .chart-wrapper {
+            position: relative;
+            display: inline-block;
         }
     </style>
 </head>
@@ -65,19 +112,23 @@
 
     <div class="chart-controls">
         <label>ТЦ: <select id="marketSelect"></select></label>
-        <label>Товар: <select id="goodSelect"></select></label>
     </div>
 
     <div id="chartTitle" class="chart-title"></div>
-    <canvas id="chart" width="900" height="500"></canvas>
+    <div id="legend" class="legend"></div>
+    <div class="chart-wrapper">
+        <canvas id="chart" width="950" height="500"></canvas>
+        <div id="tooltip"></div>
+    </div>
 
     <script src="trade-data.js"></script>
+    <script src="trade-charts.js"></script>
     <script>
         const canvas = document.getElementById('chart');
         const ctx = canvas.getContext('2d');
         const marketSelect = document.getElementById('marketSelect');
-        const goodSelect = document.getElementById('goodSelect');
         const chartTitle = document.getElementById('chartTitle');
+        const tooltip = document.getElementById('tooltip');
 
         const firstCountTurn = Object.keys(countData).map(Number).sort((a, b) => a - b)[0];
         const markets = countData[firstCountTurn].markets;
@@ -91,19 +142,19 @@
             marketSelect.appendChild(opt);
         });
 
-        goods.forEach(g => {
-            const opt = document.createElement('option');
-            opt.value = g;
-            opt.textContent = g;
-            goodSelect.appendChild(opt);
-        });
-        goodSelect.value = 'П/п';
+        // цвет закреплён за товаром, по умолчанию виден только П/п
+        const colors = goods.map((_, i) => TRADE_PALETTE[i % TRADE_PALETTE.length]);
+        const visible = goods.map(g => g === 'П/п');
+        let highlighted = -1;
 
-        function getDataPoints() {
-            const mi = parseInt(marketSelect.value);
-            const good = goodSelect.value;
+        const PAD = { top: 30, right: 30, bottom: 45, left: 55 };
+        const formatVal = v => v % 1 === 0 ? String(v) : v.toFixed(1);
+        const range = tradeBuildRangeFilter(document.querySelector('.chart-controls'), countTurns, draw);
+
+        function getPoints(good, mi) {
             const points = [];
             countTurns.forEach(turn => {
+                if (turn < range.from() || turn > range.to()) return;
                 const data = countData[turn];
                 if (!data) return;
                 const row = data.goods.find(r => r[0] === good);
@@ -116,112 +167,51 @@
             return points;
         }
 
-        function drawChart() {
+        let lastEntries = [];
+        let lastPlot = null;
+
+        function draw() {
             const mi = parseInt(marketSelect.value);
-            const market = markets[mi];
-            const good = goodSelect.value;
-            chartTitle.textContent = good + ' — ' + market;
-
-            const points = getDataPoints();
-            if (points.length === 0) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.font = '18px Times New Roman';
-                ctx.fillStyle = '#999';
-                ctx.textAlign = 'center';
-                ctx.fillText('Нет данных для выбранных параметров', canvas.width / 2, canvas.height / 2);
-                return;
-            }
-
-            const pad = { top: 30, right: 30, bottom: 45, left: 55 };
-            const w = canvas.width - pad.left - pad.right;
-            const h = canvas.height - pad.top - pad.bottom;
-
-            const minTurn = points[0].turn;
-            const maxTurn = points[points.length - 1].turn;
-            const values = points.map(p => p.val);
-            const minVal = Math.min(...values);
-            const maxVal = Math.max(...values);
-            const valRange = maxVal - minVal || 1;
-
-            function xPos(turn) {
-                return pad.left + (turn - minTurn) / (maxTurn - minTurn) * w;
-            }
-            function yPos(val) {
-                return pad.top + h - (val - minVal) / valRange * h;
-            }
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // grid lines
-            ctx.strokeStyle = '#eee';
-            ctx.lineWidth = 1;
-            const gridLines = 5;
-            for (let i = 0; i <= gridLines; i++) {
-                const y = pad.top + h * i / gridLines;
-                ctx.beginPath();
-                ctx.moveTo(pad.left, y);
-                ctx.lineTo(pad.left + w, y);
-                ctx.stroke();
-            }
-
-            // axes
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.moveTo(pad.left, pad.top);
-            ctx.lineTo(pad.left, pad.top + h);
-            ctx.lineTo(pad.left + w, pad.top + h);
-            ctx.stroke();
-
-            // X labels
-            ctx.fillStyle = '#333';
-            ctx.font = '13px Times New Roman';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            const xStep = Math.max(1, Math.floor((maxTurn - minTurn) / 10));
-            for (let t = minTurn; t <= maxTurn; t += xStep) {
-                const x = xPos(t);
-                ctx.fillText(String(t), x, pad.top + h + 5);
-            }
-
-            // Y labels
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            for (let i = 0; i <= gridLines; i++) {
-                const val = minVal + valRange * (1 - i / gridLines);
-                const y = pad.top + h * i / gridLines;
-                ctx.fillText(val % 1 === 0 ? String(val) : val.toFixed(1), pad.left - 8, y);
-            }
-
-            // line
-            ctx.strokeStyle = '#3F4137';
-            ctx.lineWidth = 2.5;
-            ctx.beginPath();
-            points.forEach((p, i) => {
-                const x = xPos(p.turn);
-                const y = yPos(p.val);
-                if (i === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            });
-            ctx.stroke();
-
-            // points
-            points.forEach(p => {
-                const x = xPos(p.turn);
-                const y = yPos(p.val);
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, Math.PI * 2);
-                ctx.fillStyle = '#FDA83D';
-                ctx.fill();
-                ctx.strokeStyle = '#3F4137';
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
+            chartTitle.textContent = markets[mi];
+            lastEntries = goods.map((g, i) => ({
+                name: g,
+                color: colors[i],
+                visible: visible[i],
+                highlighted: highlighted === i,
+                points: visible[i] ? getPoints(g, mi) : []
+            }));
+            lastPlot = tradeDrawLineChart(ctx, canvas, lastEntries, {
+                pad: PAD,
+                formatVal: formatVal
             });
         }
 
-        marketSelect.addEventListener('change', drawChart);
-        goodSelect.addEventListener('change', drawChart);
-        drawChart();
+        tradeBuildLegend(document.getElementById('legend'), goods, colors, visible, {
+            onToggle: draw,
+            onHighlight: i => { highlighted = i; draw(); },
+            onUnhighlight: () => { highlighted = -1; draw(); }
+        });
+
+        canvas.addEventListener('mousemove', e => {
+            if (!lastPlot) {
+                tradeShowTooltip(canvas, tooltip, null);
+                return;
+            }
+            const seriesList = lastEntries.map(en => ({
+                name: en.name,
+                points: en.points,
+                visible: en.visible,
+                xPos: lastPlot.xPos,
+                yPos: lastPlot.yPos
+            }));
+            const hit = tradeFindNearestPoint(canvas, e, seriesList);
+            tradeShowTooltip(canvas, tooltip, hit,
+                hit ? '<b>' + hit.series.name + '</b><br>Ход ' + hit.p.turn + ': ' + formatVal(hit.p.val) : '');
+        });
+        canvas.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+
+        marketSelect.addEventListener('change', draw);
+        draw();
     </script>
     <script src="analytics.js"></script>
 </body>

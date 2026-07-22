@@ -56,6 +56,14 @@
 ├── innovation.js           # Данные инноваций (mil, ekonom, social)
 ├── distance.html           # Считалка расстояний
 ├── distance.js             # Координаты городов + логика
+├── trade.html              # Торговля: таблицы цен/количества по ходам
+├── trade-data.js           # Данные торговли (costData, countData)
+├── trade-charts.js         # Общий модуль графиков торговли (оси, легенды, тултипы, фильтр диапазона)
+├── trade-price.html        # График цен (один ТЦ, сравнение товаров)
+├── trade-count.html        # График предложения (один ТЦ, сравнение товаров)
+├── trade-combined.html     # Комбинированный график (цена + количество)
+├── trade-all-tc-price.html # Цены по всем ТЦ
+├── trade-all-tc-count.html # Количество по всем ТЦ
 ├── links.html              # Ссылки
 ├── log.html                # Лог изменений
 ├── feedback.html           # Отзыв (закомментирован из меню)
