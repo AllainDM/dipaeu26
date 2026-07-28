@@ -757,111 +757,111 @@ naim.addEventListener("click",() => {
 stroitelstvo.addEventListener("click",() => {
     document.querySelector(".container").innerHTML = `
         <div id="stroitelstvo-content" style="font-size:15px; column-count:3; column-gap:20px;">
-            <p><strong>Амбар:</strong> инстр×2, медь×2</p>
-            <p><strong>Аптека:</strong> инстр×3</p>
-            <p><strong>Арена:</strong> инстр×10</p>
-            <p><strong>Базар:</strong> инстр×5</p>
-            <p><strong>Бани:</strong> инстр×3</p>
-            <p><strong>Банк:</strong> инстр×7</p>
-            <p><strong>Библиотека:</strong> инстр×5</p>
-            <p><strong>Бордель:</strong> инстр×5</p>
-            <p><strong>Боч/артель:</strong> инстр×3</p>
-            <p><strong>Бум/артель:</strong> инстр×3</p>
-            <p><strong>Верфь:</strong> инстр×15</p>
-            <p><strong>Винокурня:</strong> инстр×5, ткани×3</p>
-            <p><strong>Водопровод:</strong> инстр×5, свинец×5</p>
-            <p><strong>Гавань:</strong> инстр×5</p>
-            <p><strong>Гарем:</strong> инстр×5</p>
-            <p><strong>Глин/стена:</strong> инстр×5</p>
-            <p><strong>Гончарная:</strong> инстр×3</p>
-            <p><strong>Госпиталь:</strong> инстр×5</p>
+            <p><strong>Амбар:</strong> древ×2, камень×2</p>
+            <p><strong>Аптека:</strong> древ×3</p>
+            <p><strong>Арена:</strong> камень×10</p>
+            <p><strong>Базар:</strong> древ×5</p>
+            <p><strong>Бани:</strong> камень×3</p>
+            <p><strong>Банк:</strong> камень×7</p>
+            <p><strong>Библиотека:</strong> камень×5</p>
+            <p><strong>Бордель:</strong> древ×5</p>
+            <p><strong>Боч/артель:</strong> древ×3</p>
+            <p><strong>Бум/артель:</strong> камень×3</p>
+            <p><strong>Верфь:</strong> древ×15</p>
+            <p><strong>Винокурня:</strong> камень×5, медь×3</p>
+            <p><strong>Водопровод:</strong> свинец×5</p>
+            <p><strong>Гавань:</strong> камень×5</p>
+            <p><strong>Гарем:</strong> камень×5</p>
+            <p><strong>Глин/стена:</strong> древ×5</p>
+            <p><strong>Гончарная:</strong> древ×3</p>
+            <p><strong>Госпиталь:</strong> древ×5</p>
             <p><strong>Дворец:</strong> стекло×3, мрамор×10</p>
-            <p><strong>Дер/стена:</strong> инстр×8</p>
-            <p><strong>Дубильня:</strong> инстр×5</p>
-            <p><strong>Замок:</strong> инстр×5, железо×15</p>
-            <p><strong>Зверинец:</strong> инстр×3, железо×3</p>
-            <p><strong>Ипподром:</strong> инстр×10</p>
-            <p><strong>Казарма:</strong> инстр×5</p>
-            <p><strong>Кам/стена:</strong> инстр×20</p>
-            <p><strong>Камнеломня:</strong> инстр×3</p>
-            <p><strong>Канализация:</strong> инстр×5</p>
-            <p><strong>Канцелярия:</strong> инстр×5</p>
-            <p><strong>Капище:</strong> инстр×2</p>
-            <p><strong>Караван-сарай:</strong> инстр×3</p>
-            <p><strong>Ковер/двор:</strong> инстр×5</p>
-            <p><strong>Колб/цех:</strong> инстр×3</p>
-            <p><strong>Колодец:</strong> инстр×1</p>
-            <p><strong>Конюшня:</strong> инстр×5</p>
-            <p><strong>Коптильня:</strong> инстр×3</p>
-            <p><strong>Красильня:</strong> инстр×3</p>
-            <p><strong>Кузница:</strong> инстр×3, ткани×2</p>
-            <p><strong>Лаборатория:</strong> инстр×5</p>
-            <p><strong>Лавка:</strong> инстр×3</p>
-            <p><strong>Лагерь:</strong> инстр×4, ткани×2</p>
-            <p><strong>Лесорубка:</strong> инстр×1</p>
-            <p><strong>Литейная:</strong> инстр×10</p>
+            <p><strong>Дер/стена:</strong> древ×8</p>
+            <p><strong>Дубильня:</strong> древ×5</p>
+            <p><strong>Замок:</strong> древ×5, камень×15</p>
+            <p><strong>Зверинец:</strong> железо×3</p>
+            <p><strong>Ипподром:</strong> древ×10</p>
+            <p><strong>Казарма:</strong> древ×5</p>
+            <p><strong>Кам/стена:</strong> камень×20</p>
+            <p><strong>Каменоломня:</strong> древ×3</p>
+            <p><strong>Канализация:</strong> медь×5</p>
+            <p><strong>Канцелярия:</strong> камень×5</p>
+            <p><strong>Капище:</strong> древ×2</p>
+            <p><strong>Караван-сарай:</strong> древ×3</p>
+            <p><strong>Ковр/двор:</strong> древ×5</p>
+            <p><strong>Колб/цех:</strong> камень×3</p>
+            <p><strong>Колодец:</strong> древ×1</p>
+            <p><strong>Конюшня:</strong> древ×5</p>
+            <p><strong>Коптильня:</strong> древ×3</p>
+            <p><strong>Красильня:</strong> древ×3</p>
+            <p><strong>Кузница:</strong> древ×3, камень×2</p>
+            <p><strong>Лаборатория:</strong> камень×5</p>
+            <p><strong>Лавка:</strong> древ×3</p>
+            <p><strong>Лагерь:</strong> древ×4, ткани×2</p>
+            <p><strong>Лесорубка:</strong> древ×1</p>
+            <p><strong>Литейная:</strong> камень×10</p>
             <p><strong>Мавзолей:</strong> мрамор×15</p>
-            <p><strong>Мануфактура:</strong> инстр×5, ткани×5</p>
-            <p><strong>Маслобойня:</strong> инстр×5</p>
-            <p><strong>Мастерская:</strong> инстр×5</p>
-            <p><strong>Маяк:</strong> инстр×7, стекло×1</p>
-            <p><strong>Медресе:</strong> инстр×10, стекло×3, мрамор×3</p>
-            <p><strong>Мельница:</strong> инстр×3, ткани×1, медь×1</p>
-            <p><strong>Мечеть:</strong> инстр×5</p>
-            <p><strong>Монастырь:</strong> инстр×10</p>
-            <p><strong>Монет/двор:</strong> инстр×5</p>
-            <p><strong>Мощ/дорога:</strong> инстр×10</p>
-            <p><strong>Мыловарня:</strong> инстр×3</p>
-            <p><strong>Невол/рынок:</strong> инстр×1</p>
-            <p><strong>Обсерватория:</strong> инстр×7</p>
-            <p><strong>Обув/артель:</strong> инстр×3</p>
-            <p><strong>Огород:</strong> инстр×1</p>
-            <p><strong>Оружейная:</strong> инстр×4, ткани×2</p>
-            <p><strong>Пекарня:</strong> инстр×3, медь×3</p>
-            <p><strong>Перг/артель:</strong> инстр×3</p>
-            <p><strong>Пивоварня:</strong> инстр×3</p>
-            <p><strong>Плавильня:</strong> инстр×10</p>
-            <p><strong>Порох/артель:</strong> инстр×5</p>
-            <p><strong>Порт:</strong> инстр×5</p>
+            <p><strong>Мануфактура:</strong> древ×5, камень×5</p>
+            <p><strong>Маслобойня:</strong> камень×5</p>
+            <p><strong>Мастерская:</strong> древ×5</p>
+            <p><strong>Маяк:</strong> камень×7, стекло×1</p>
+            <p><strong>Медресе:</strong> камень×10, стекло×3, мрамор×3</p>
+            <p><strong>Мельница:</strong> древ×3, инстр×1, ткани×1</p>
+            <p><strong>Мечеть:</strong> камень×5</p>
+            <p><strong>Монастырь:</strong> камень×10</p>
+            <p><strong>Монет/двор:</strong> камень×5</p>
+            <p><strong>Мощ/дорога:</strong> камень×10</p>
+            <p><strong>Мыловарня:</strong> древ×3</p>
+            <p><strong>Невол/рынок:</strong> древ×1</p>
+            <p><strong>Обсерватория:</strong> камень×7</p>
+            <p><strong>Обув/артель:</strong> древ×3</p>
+            <p><strong>Огород:</strong> древ×1</p>
+            <p><strong>Оружейная:</strong> древ×4, камень×2</p>
+            <p><strong>Пекарня:</strong>  древ×3,камень×3</p>
+            <p><strong>Перг/артель:</strong> древ×3</p>
+            <p><strong>Пивоварня:</strong> древ×3</p>
+            <p><strong>Плавильня:</strong> камень×10</p>
+            <p><strong>Порох/артель:</strong> камень×5</p>
+            <p><strong>Порт:</strong> камень×5</p>
             <p><strong>Пристань:</strong> древ×5</p>
-            <p><strong>Прядильня:</strong> инстр×3</p>
-            <p><strong>Пуш/двор:</strong> инстр×5</p>
-            <p><strong>Ристалище:</strong> инстр×7</p>
-<p><strong>Рудник:</strong> древ×5</p>
-            <p><strong>Рынок:</strong> инстр×5</p>
-            <p><strong>Сад:</strong> инстр×2</p>
-            <p><strong>Свеч/артель:</strong> инстр×3</p>
-            <p><strong>Свинарник:</strong> инстр×5</p>
-            <p><strong>Святилище:</strong> инстр×5</p>
-            <p><strong>Селитряница:</strong> инстр×1</p>
-            <p><strong>Скрипторий:</strong> инстр×5</p>
-            <p><strong>Смолокурня:</strong> инстр×1</p>
-            <p><strong>Соловарня:</strong> инстр×1</p>
-            <p><strong>Стек/артель:</strong> инстр×3</p>
-            <p><strong>Суд:</strong> инстр×5</p>
-            <p><strong>Сукновальня:</strong> инстр×5</p>
-            <p><strong>Сыроварня:</strong> инстр×3</p>
-            <p><strong>Таверна:</strong> инстр×5</p>
-            <p><strong>Таможня:</strong> инстр×5</p>
-            <p><strong>Театр:</strong> инстр×7, мрамор×5</p>
-            <p><strong>Типография:</strong> инстр×5</p>
-            <p><strong>Ткач/артель:</strong> инстр×3</p>
-            <p><strong>Торжище:</strong> инстр×3</p>
-            <p><strong>Тюрьма:</strong> инстр×10</p>
-            <p><strong>Углежогня:</strong> инстр×1</p>
-            <p><strong>Университет:</strong> инстр×10, стекло×3, мрамор×3</p>
-            <p><strong>Фактория:</strong> инстр×5</p>
-            <p><strong>Фарф/артель:</strong> инстр×3</p>
-            <p><strong>Ферма:</strong> инстр×5</p>
+            <p><strong>Прядильня:</strong> древ×3</p>
+            <p><strong>Пуш/двор:</strong> камень×5</p>
+            <p><strong>Ристалище:</strong> древ×7</p>
+            <p><strong>Рудник:</strong> древ×5</p>
+            <p><strong>Рынок:</strong> древ×5</p>
+            <p><strong>Сад:</strong> древ×2</p>
+            <p><strong>Свеч/артель:</strong> древ×3</p>
+            <p><strong>Свинарник:</strong> древ×5</p>
+            <p><strong>Святилище:</strong> камень×5</p>
+            <p><strong>Селитряница:</strong> древ×1</p>
+            <p><strong>Скрипторий:</strong> камень×5</p>
+            <p><strong>Смолокурня:</strong> древ×1</p>
+            <p><strong>Солеварня:</strong> древ×1</p>
+            <p><strong>Стек/артель:</strong> камень×3</p>
+            <p><strong>Суд:</strong> камень×5</p>
+            <p><strong>Сукновальня:</strong> древ×5</p>
+            <p><strong>Сыроварня:</strong> древ×3</p>
+            <p><strong>Таверна:</strong> древ×5</p>
+            <p><strong>Таможня:</strong> камень×5</p>
+            <p><strong>Театр:</strong> камень×7, мрамор×5</p>
+            <p><strong>Типография:</strong> камень×5</p>
+            <p><strong>Ткац/артель:</strong> древ×3</p>
+            <p><strong>Торжище:</strong> древ×3</p>
+            <p><strong>Тюрьма:</strong> камень×10</p>
+            <p><strong>Углежогня:</strong> камень×1</p>
+            <p><strong>Университет:</strong> камень×10, стекло×3, мрамор×3</p>
+            <p><strong>Фактория:</strong> древ×5</p>
+            <p><strong>Фарф/артель:</strong> камень×3</p>
+            <p><strong>Ферма:</strong> древ×5</p>
             <p><strong>Храм:</strong> стекло×2, мрамор×10</p>
-            <p><strong>Церковь:</strong> инстр×5</p>
-            <p><strong>Чайхана:</strong> инстр×3</p>
-            <p><strong>Частокол:</strong> инстр×4</p>
-            <p><strong>Чертог:</strong> инстр×5</p>
+            <p><strong>Церковь:</strong> древ×5</p>
+            <p><strong>Чайхана:</strong> камень×3</p>
+            <p><strong>Частокол:</strong> древ×4</p>
+            <p><strong>Чертог:</strong> древ×5</p>
             <p><strong>Шахта:</strong> древ×5</p>
-            <p><strong>Швей/артель:</strong> инстр×3</p>
-            <p><strong>Шор/артель:</strong> инстр×3</p>
-            <p><strong>Юв/артель:</strong> инстр×3</p>
+            <p><strong>Швей/артель:</strong> древ×3</p>
+            <p><strong>Шор/артель:</strong> древ×3</p>
+            <p><strong>Юв/артель:</strong> древ×3</p>
         </div>`;
     containerBelow()
     img.src="tables/stroitelstvo.png"
