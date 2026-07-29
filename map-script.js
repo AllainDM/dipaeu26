@@ -1,4 +1,4 @@
-const LATEST_POLIT_MAP = 32
+const LATEST_POLIT_MAP = 34
 
 console.log("Скрипт странички с картами успешно загружен")
 
