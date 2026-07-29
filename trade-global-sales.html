@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Мировые продажи</title>
+    <style>
+        .chart-controls {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .chart-controls label {
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .chart-controls select {
+            padding: 4px 8px;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
+            border: 1px solid #bcbcbc;
+            border-radius: 4px;
+            background: white;
+            min-width: 80px;
+        }
+        canvas {
+            border: 1px solid #bcbcbc;
+            background: #fff;
+            max-width: 100%;
+            height: auto;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3F4137;
+            margin: 10px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 6px 10px;
+            font-size: 13px;
+            margin: 8px 0 10px;
+            max-width: 950px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 3px 6px;
+            border-radius: 4px;
+            transition: background .15s;
+            user-select: none;
+        }
+        .legend-item:hover {
+            background: #f0f0f0;
+        }
+        .legend-item.hidden {
+            opacity: 0.45;
+        }
+        .legend-color {
+            width: 22px;
+            height: 3px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        #tooltip {
+            position: absolute;
+            background: rgba(63, 65, 55, 0.95);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            pointer-events: none;
+            display: none;
+            z-index: 100;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+        .chart-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul class="mainmenu">
+            <li><a href="rules/contents.html">Правила</a></li>
+            <li><a href="turns.html">Ходы</a></li>
+            <li><a href="maps.html">Карты</a></li>
+            <li><a href="tables.html">Таблицы</a></li>
+            <li><a href="trade.html">Торговля</a></li>
+            <li><a href="links.html">Ссылки</a></li>
+            <li><a href="log.html">Лог</a></li>
+        </ul>
+    </header>
+
+    <p style="background:#fff3cd;border-left:4px solid #ffc107;padding:10px 16px;margin:12px 0;font-size:15px;">⚠ График является экспериментальным, рисуется на непроверенных данных и может содержать ошибки.</p>
+
+    <a href="trade.html" class="back-link">← Назад к торговле</a>
+    <h2>Мировые продажи</h2>
+
+    <div class="chart-controls"></div>
+
+    <div id="chartTitle" class="chart-title"></div>
+    <div id="legend" class="legend"></div>
+    <div class="chart-wrapper">
+        <canvas id="chart" width="950" height="500"></canvas>
+        <div id="tooltip"></div>
+    </div>
+
+    <script src="trade-global-sales.js"></script>
+    <script src="trade-charts.js"></script>
+    <script>
+        const canvas = document.getElementById('chart');
+        const ctx = canvas.getContext('2d');
+        const chartTitle = document.getElementById('chartTitle');
+        const tooltip = document.getElementById('tooltip');
+
+        const goods = Object.keys(globalSalesData[20]);
+        const salesTurns = Object.keys(globalSalesData).map(Number).sort((a, b) => a - b);
+
+        // цвет закреплён за товаром, по умолчанию видна только Древесина
+        const colors = goods.map((_, i) => TRADE_PALETTE[i % TRADE_PALETTE.length]);
+        const visible = goods.map(g => g === 'Древесина');
+        let highlighted = -1;
+
+        const PAD = { top: 30, right: 30, bottom: 45, left: 55 };
+        const range = tradeBuildRangeFilter(document.querySelector('.chart-controls'), salesTurns, draw);
+
+        function getPoints(good) {
+            const points = [];
+            salesTurns.forEach(turn => {
+                if (turn < range.from() || turn > range.to()) return;
+                const data = globalSalesData[turn];
+                if (!data) return;
+                const val = data[good];
+                if (val !== undefined && val !== null) {
+                    points.push({ turn, val });
+                }
+            });
+            return points;
+        }
+
+        let lastEntries = [];
+        let lastPlot = null;
+
+        function draw() {
+            chartTitle.textContent = 'Мировые продажи товаров';
+            lastEntries = goods.map((g, i) => ({
+                name: g,
+                color: colors[i],
+                visible: visible[i],
+                highlighted: highlighted === i,
+                points: visible[i] ? getPoints(g) : []
+            }));
+            lastPlot = tradeDrawLineChart(ctx, canvas, lastEntries, {
+                pad: PAD,
+                formatVal: v => v % 1 === 0 ? String(v) : v.toFixed(1)
+            });
+        }
+
+        tradeBuildLegend(document.getElementById('legend'), goods, colors, visible, {
+            onToggle: draw,
+            onHighlight: i => { highlighted = i; draw(); },
+            onUnhighlight: () => { highlighted = -1; draw(); }
+        });
+
+        canvas.addEventListener('mousemove', e => {
+            if (!lastPlot) {
+                tradeShowTooltip(canvas, tooltip, null);
+                return;
+            }
+            const seriesList = lastEntries.map(en => ({
+                name: en.name,
+                points: en.points,
+                visible: en.visible,
+                xPos: lastPlot.xPos,
+                yPos: lastPlot.yPos
+            }));
+            const hit = tradeFindNearestPoint(canvas, e, seriesList);
+            tradeShowTooltip(canvas, tooltip, hit,
+                hit ? '<b>' + hit.series.name + '</b><br>Ход ' + hit.p.turn + ': ' + hit.p.val : '');
+        });
+        canvas.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+
+        draw();
+    </script>
+    <script src="analytics.js"></script>
+</body>
+</html>
