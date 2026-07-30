@@ -12,9 +12,11 @@ const BUILDINGS = [
     "input": "",
     "base": "3 п/п +1(Тёплый/Умеренный) +2(Зерно) +1(Равнина) -1(Холодный/Экватор) -1(Леса) +5(Миср, Саид, Месопотамия)",
     "bonuses": "«Пойменное земледелие», «Тяжёлый плуг», «Трёхполье», «Подсевное земледелие», «Оброк», «Феллахи», «Хомут», «Коса»",
+    "notes": "",
     "cost": {
       "numeric": 17.5,
-      "display": "17.5"
+      "display": "17.5",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -34,9 +36,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Волокно +1(Леса)",
     "bonuses": "«Трёхполье», «Лён-долгунец», «Аренда земли», «Хомут», «Феллахи», «Коса»",
+    "notes": "",
     "cost": {
       "numeric": 17.5,
-      "display": "17.5"
+      "display": "17.5",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -56,9 +60,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 п/п +1(Овцы) +2(Лесные) +3(Скот) +1(Степь/Холмы) -1(Джунгли/Леса)",
     "bonuses": "дом Пастыри, Селенция, Аренда земли, Отгонное скотоводство",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -78,9 +84,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Кони +1(Степь)",
     "bonuses": "дом Пастыри, Селенция, Аренда земли, Коневодство",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -100,9 +108,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Волокно +1(Степь/Холмы) -1(Джунгли/Леса)",
     "bonuses": "дом Пастыри, Селенция, Меринос, Огораживание, Аренда земли, Трёхполье, Стойловое содержание",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -122,9 +132,11 @@ const BUILDINGS = [
     "input": "1 Инструмент",
     "base": "3 п/п",
     "bonuses": "«Трёхполье», «Стойловое содержание», «Заготовка сена»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×5"
     },
     "income": {
       "base": 5.0,
@@ -144,9 +156,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 п/п +1(Река/Озеро/Колодец) +1(Овощи)",
     "bonuses": "«Мелиорация», «Кяризы», «Аренда земли», «Феллахи»",
+    "notes": "",
     "cost": {
       "numeric": 5.0,
-      "display": "5"
+      "display": "5",
+      "resources": "древ×1"
     },
     "income": {
       "base": 0.0,
@@ -166,9 +180,11 @@ const BUILDINGS = [
     "input": "",
     "base": "4 п/п",
     "bonuses": "«Селекция», «Заготовка сена»",
+    "notes": "",
     "cost": {
       "numeric": 25.0,
-      "display": "25"
+      "display": "25",
+      "resources": "древ×5"
     },
     "income": {
       "base": 0.0,
@@ -188,9 +204,11 @@ const BUILDINGS = [
     "input": "",
     "base": "2 п/п + 1(Море)",
     "bonuses": "Удобрения, Наемный труд, Кяризы, Аренда земли",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×2"
     },
     "income": {
       "base": 2.0,
@@ -210,9 +228,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 п/п + 1 (Фрукты/Овощи), х2 (Ирригация)",
     "bonuses": "Удобрения, Мелиорация, Кяризы, Феллахи",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -232,9 +252,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 п/п + 1 (Леса), 1 Сахар, 1 Алко",
     "bonuses": "«Пчеловодство», «Мёдоварение»",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -254,9 +276,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 п/п + 1 (Холмы), 1 Алко + 1 (Гончарная) + 1 (Монастырь) + 1 (Холмы)",
     "bonuses": "Пресс для вина, Винная бутылка, Виноделие, Ферментация вин",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": null
     },
     "income": {
       "base": 5.0,
@@ -276,9 +300,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 п/п («Водяное колесо» + Река) + 1 («Ветряные мельницы»)",
     "bonuses": "«Водяное колесо», «Ветряные мельницы», «Механизация труда»",
+    "notes": "",
     "cost": {
       "numeric": 25.0,
-      "display": "25"
+      "display": "25",
+      "resources": "древ×3, инстр×1, ткани×1"
     },
     "income": {
       "base": 2.0,
@@ -298,9 +324,11 @@ const BUILDINGS = [
     "input": "1 Инструмент",
     "base": "4 п/п",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "камень×5"
     },
     "income": {
       "base": 3.0,
@@ -320,9 +348,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Кони",
     "bonuses": "«Коневодство», «Селекция»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×5"
     },
     "income": {
       "base": 2.0,
@@ -342,9 +372,11 @@ const BUILDINGS = [
     "input": "1 Рабы",
     "base": "3 Благовония +1(Холмы + «Террасное земледелие»)",
     "bonuses": "«Террасное земледелие»",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -364,9 +396,11 @@ const BUILDINGS = [
     "input": "1 Рабы",
     "base": "1 Пряности +1(Холмы + «Террасное земледелие») +1(Прованс)",
     "bonuses": "«Террасное земледелие»",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -386,9 +420,11 @@ const BUILDINGS = [
     "input": "1 Рабы",
     "base": "4 п/п + 1 (Холмы + «Террасное земледелие»)",
     "bonuses": "«Террасное земледелие»",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -408,9 +444,11 @@ const BUILDINGS = [
     "input": "1 Рабы",
     "base": "2 Сахар +1(Холмы + «Террасное земледелие»), х2 (Ирригация)",
     "bonuses": "Сахарная мельница, Террасное земледелие",
+    "notes": "+1 к пр-ву только на о.Кипр (21-й ход)",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -430,9 +468,11 @@ const BUILDINGS = [
     "input": "1 Рабы",
     "base": "4 Волокно * 2 (Ирригация)",
     "bonuses": "Прялка",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -452,9 +492,11 @@ const BUILDINGS = [
     "input": "",
     "base": "",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 26.0,
-      "display": "26"
+      "display": "26",
+      "resources": "древ×3"
     },
     "income": {
       "base": null,
@@ -474,9 +516,11 @@ const BUILDINGS = [
     "input": "1 Краски",
     "base": "2 Шёлк",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 26.0,
-      "display": "26"
+      "display": "26",
+      "resources": "древ×3"
     },
     "income": {
       "base": null,
@@ -496,9 +540,11 @@ const BUILDINGS = [
     "input": "",
     "base": "2 Волокно",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 26.0,
-      "display": "26"
+      "display": "26",
+      "resources": "древ×3"
     },
     "income": {
       "base": null,
@@ -518,9 +564,11 @@ const BUILDINGS = [
     "input": "1 Х/о + 1 Алко",
     "base": "2 о/пр; 1 БО Локации",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 25.0,
-      "display": "25"
+      "display": "25",
+      "resources": "древ×5"
     },
     "income": {
       "base": 0.0,
@@ -540,9 +588,11 @@ const BUILDINGS = [
     "input": "1 Бумага",
     "base": "-1% к Коррупции",
     "bonuses": "«Кровная месть», «Судебная система», «Прокуратура», «Инквизиция»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "камень×5"
     },
     "income": {
       "base": -1.0,
@@ -562,9 +612,11 @@ const BUILDINGS = [
     "input": "1 Бумага",
     "base": "+10% к сбору налогов",
     "bonuses": "«Чернила», «Гос. служба», «Архивное дело», «Логофеты»",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": "камень×5"
     },
     "income": {
       "base": -3.0,
@@ -584,9 +636,11 @@ const BUILDINGS = [
     "input": "1 Железо",
     "base": "-1% к Преступности",
     "bonuses": "«Орудия пыток»",
+    "notes": "",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "камень×10"
     },
     "income": {
       "base": -2.0,
@@ -606,9 +660,11 @@ const BUILDINGS = [
     "input": "1 Бумага",
     "base": "+5% к таможенному сбору",
     "bonuses": "Царина, Монополия на экспорт",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "камень×5"
     },
     "income": {
       "base": -1.0,
@@ -628,9 +684,11 @@ const BUILDINGS = [
     "input": "1 Золото или 1 Серебро или 1 Медь",
     "base": "возможность проводить эмиссию",
     "bonuses": "Государственная казна",
+    "notes": "",
     "cost": {
       "numeric": 40.0,
-      "display": "40"
+      "display": "40",
+      "resources": "камень×5"
     },
     "income": {
       "base": 0.0,
@@ -650,9 +708,11 @@ const BUILDINGS = [
     "input": "1 Украшения",
     "base": "+2% к Лояльности (за каждый Дворец), +1 к лимиту Управления (за 1 Дворец)",
     "bonuses": "«Фонтаны»",
+    "notes": "",
     "cost": {
       "numeric": 100.0,
-      "display": "100"
+      "display": "100",
+      "resources": "стекло×3, мрамор×10"
     },
     "income": {
       "base": -5.0,
@@ -672,14 +732,16 @@ const BUILDINGS = [
     "input": "1 Инструмент",
     "base": "2 Золото",
     "bonuses": "«Маркшейдеры», «Амальгамация», «Горное дело», «Тяга», «Водяные насосы»",
+    "notes": "",
     "cost": {
-      "numeric": null,
-      "display": ""
+      "numeric": 25.0,
+      "display": "25",
+      "resources": "древ×5"
     },
     "income": {
-      "base": null,
-      "max": null,
-      "display": ""
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1 + 1 (Дорога)"
     }
   },
   {
@@ -694,14 +756,16 @@ const BUILDINGS = [
     "input": "1 Инструмент",
     "base": "2 Серебро",
     "bonuses": "«Маркшейдеры», «Амальгамация», «Горное дело», «Тяга», «Водяные насосы»",
+    "notes": "",
     "cost": {
-      "numeric": null,
-      "display": ""
+      "numeric": 25.0,
+      "display": "25",
+      "resources": "древ×5"
     },
     "income": {
-      "base": null,
-      "max": null,
-      "display": ""
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1 + 1 (Дорога)"
     }
   },
   {
@@ -716,14 +780,16 @@ const BUILDINGS = [
     "input": "1 Инструмент",
     "base": "4 Жел/руда +1(Железо) -2(Болото)",
     "bonuses": "«Маркшейдеры», «Амальгамация», «Горное дело», «Тяга», «Водяные насосы»",
+    "notes": "",
     "cost": {
-      "numeric": null,
-      "display": ""
+      "numeric": 25.0,
+      "display": "25",
+      "resources": "древ×5"
     },
     "income": {
-      "base": null,
-      "max": null,
-      "display": ""
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1 + 1 (Дорога)"
     }
   },
   {
@@ -738,14 +804,16 @@ const BUILDINGS = [
     "input": "1 Инструмент",
     "base": "3 Мед/руда",
     "bonuses": "«Маркшейдеры», «Амальгамация», «Горное дело», «Тяга», «Водяные насосы»",
+    "notes": "",
     "cost": {
-      "numeric": null,
-      "display": ""
+      "numeric": 25.0,
+      "display": "25",
+      "resources": "древ×5"
     },
     "income": {
-      "base": null,
-      "max": null,
-      "display": ""
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1 + 1 (Дорога)"
     }
   },
   {
@@ -760,14 +828,16 @@ const BUILDINGS = [
     "input": "1 Инструмент",
     "base": "1 Др/камни",
     "bonuses": "«Маркшейдеры», «Амальгамация», «Горное дело», «Тяга», «Водяные насосы»",
+    "notes": "",
     "cost": {
-      "numeric": null,
-      "display": ""
+      "numeric": 25.0,
+      "display": "25",
+      "resources": "древ×5"
     },
     "income": {
-      "base": null,
-      "max": null,
-      "display": ""
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1 + 1 (Дорога)"
     }
   },
   {
@@ -782,14 +852,16 @@ const BUILDINGS = [
     "input": "1 Инструмент",
     "base": "2 Свинец",
     "bonuses": "«Маркшейдеры», «Амальгамация», «Горное дело», «Тяга», «Водяные насосы»",
+    "notes": "",
     "cost": {
-      "numeric": null,
-      "display": ""
+      "numeric": 25.0,
+      "display": "25",
+      "resources": "древ×5"
     },
     "income": {
-      "base": null,
-      "max": null,
-      "display": ""
+      "base": 1.0,
+      "max": 2.0,
+      "display": "1 + 1 (Дорога)"
     }
   },
   {
@@ -804,9 +876,11 @@ const BUILDINGS = [
     "input": "1 Рабы/1 Инструмент",
     "base": "",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×5"
     },
     "income": {
       "base": 1.0,
@@ -826,9 +900,11 @@ const BUILDINGS = [
     "input": "1 Рабы/1 Инструмент",
     "base": "3 Соль",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×5"
     },
     "income": {
       "base": 1.0,
@@ -848,9 +924,11 @@ const BUILDINGS = [
     "input": "1 Рабы/1 Инструмент",
     "base": "3 Селитра",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×5"
     },
     "income": {
       "base": 1.0,
@@ -870,9 +948,11 @@ const BUILDINGS = [
     "input": "1 Рабы/1 Инструмент",
     "base": "4,5 Уголь",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×5"
     },
     "income": {
       "base": 1.0,
@@ -892,9 +972,11 @@ const BUILDINGS = [
     "input": "",
     "base": "6 древесина -2 (Джунгли) -4 (иной ландшафт)",
     "bonuses": "«Пила»",
+    "notes": "",
     "cost": {
       "numeric": 5.0,
-      "display": "5"
+      "display": "5",
+      "resources": "древ×1"
     },
     "income": {
       "base": 0.0,
@@ -914,9 +996,11 @@ const BUILDINGS = [
     "input": "3 Древесина",
     "base": "2 Уголь - 1 (Джунгли)",
     "bonuses": "«Угольная печь», «Чугун»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "камень×1"
     },
     "income": {
       "base": 0.0,
@@ -936,9 +1020,11 @@ const BUILDINGS = [
     "input": "1 Древесина",
     "base": "1 Смола",
     "bonuses": "—",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "древ×1"
     },
     "income": {
       "base": 1.0,
@@ -958,9 +1044,11 @@ const BUILDINGS = [
     "input": "1 Рабы (Свобода<0) / 1 Инструмент (Свобода>0)",
     "base": "4 Камень — 1 (Пустыня) — 2 (иной ландшафт)",
     "bonuses": "Горное дело",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.5,
@@ -980,9 +1068,11 @@ const BUILDINGS = [
     "input": "1 Рабы (Свобода<0) / 1 Инструмент (Свобода>0)",
     "base": "2 Мрамор",
     "bonuses": "Горное дело",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.5,
@@ -1002,9 +1092,11 @@ const BUILDINGS = [
     "input": "2 Древесина",
     "base": "1 Соль",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×1"
     },
     "income": {
       "base": 1.0,
@@ -1024,9 +1116,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Селитра",
     "bonuses": "Порох",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "древ×1"
     },
     "income": {
       "base": 0.0,
@@ -1046,9 +1140,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Звери + 1 ТНП (Слоны)",
     "bonuses": "Травля зверей",
+    "notes": "",
     "cost": {
       "numeric": 5.0,
-      "display": "5"
+      "display": "5",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -1068,9 +1164,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Кони, 1 Волокно",
     "bonuses": "Травля зверей",
+    "notes": "",
     "cost": {
       "numeric": 5.0,
-      "display": "5"
+      "display": "5",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -1090,9 +1188,11 @@ const BUILDINGS = [
     "input": "",
     "base": "2 п/п * 2 (Дичь)",
     "bonuses": "Охота, Травля зверей, Огнестрельное оружие",
+    "notes": "",
     "cost": {
       "numeric": 7.5,
-      "display": "7.5"
+      "display": "7.5",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -1112,9 +1212,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Меха + 1 (Финно-угры)",
     "bonuses": "Охота, Травля зверей, Огнестрельное оружие",
+    "notes": "",
     "cost": {
       "numeric": 7.5,
-      "display": "7.5"
+      "display": "7.5",
+      "resources": null
     },
     "income": {
       "base": 1.0,
@@ -1134,9 +1236,11 @@ const BUILDINGS = [
     "input": "1 Древесина",
     "base": "2 ТНП, 2 Камень",
     "bonuses": "«Кирпич», «Глазурь», «Фаянс»",
+    "notes": "",
     "cost": {
       "numeric": 12.5,
-      "display": "12.5"
+      "display": "12.5",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.0,
@@ -1156,9 +1260,11 @@ const BUILDINGS = [
     "input": "",
     "base": "0 Краски +2 (Краситель)",
     "bonuses": "«Шафран», «Киноварь», «Охра»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 3.0,
@@ -1178,9 +1284,11 @@ const BUILDINGS = [
     "input": "1 древесина, 1 сахар",
     "base": "3 п/п + 2 (Сахар*)",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3, камень×3"
     },
     "income": {
       "base": 1.0,
@@ -1200,9 +1308,11 @@ const BUILDINGS = [
     "input": "",
     "base": "2 Алко + 1 (инн «Эль» + Леса)",
     "bonuses": "Хмель",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 2.0,
@@ -1222,9 +1332,11 @@ const BUILDINGS = [
     "input": "2 Сахар + Стекло",
     "base": "5 Алко",
     "bonuses": "«Водка», «Ракия»",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": "камень×5, медь×3"
     },
     "income": {
       "base": 3.0,
@@ -1244,9 +1356,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 Благовония",
     "bonuses": "«Гильдии»",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.0,
@@ -1266,9 +1380,11 @@ const BUILDINGS = [
     "input": "4 Волокно",
     "base": "3 Бумага",
     "bonuses": "«Гербовая бумага», «Водяное колесо», «Механизация труда», «Гильдии»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "камень×3"
     },
     "income": {
       "base": 3.0,
@@ -1288,9 +1404,11 @@ const BUILDINGS = [
     "input": "1 Кожа",
     "base": "1 Бумага",
     "bonuses": "«Золение», «Велен»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×3"
     },
     "income": {
       "base": 2.0,
@@ -1310,9 +1428,11 @@ const BUILDINGS = [
     "input": "1 Соль",
     "base": "3 Кожа",
     "bonuses": "«Сафьян», «Юфть», «Замша»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×5"
     },
     "income": {
       "base": 0.0,
@@ -1332,9 +1452,11 @@ const BUILDINGS = [
     "input": "1 Волокно, 1 Смола",
     "base": "1 КОР + 1 (Смола*) + 1 (Пуш/двор) [показывает, сколько ед. кораблей — ТОР, ЛС, ТС — может быть построено за 1 ход)",
     "bonuses": "«Сухой док», «Клинкер», «Адмиралтейство», «Ветряная пилорама»",
+    "notes": "",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "древ×15"
     },
     "income": {
       "base": 1.0,
@@ -1354,9 +1476,11 @@ const BUILDINGS = [
     "input": "2 Волокно",
     "base": "1 Ткани",
     "bonuses": "«Ткацкий станок», «Гильдии», «Муслин», «Тартан», «Вадмаль», «Свитер»",
+    "notes": "",
     "cost": {
       "numeric": 12.5,
-      "display": "12.5"
+      "display": "12.5",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.0,
@@ -1376,9 +1500,11 @@ const BUILDINGS = [
     "input": "3 Волокно + 1 Краски",
     "base": "6 Ткани",
     "bonuses": "«Экономика», «Разделение труда», «Цеховые привилегии»",
+    "notes": "",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "древ×5, камень×5"
     },
     "income": {
       "base": 2.0,
@@ -1398,9 +1524,11 @@ const BUILDINGS = [
     "input": "2 Волокно",
     "base": "2 ТНП",
     "bonuses": "«Валенки», «Водяное колесо», «Войлок»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×5"
     },
     "income": {
       "base": 2.0,
@@ -1420,9 +1548,11 @@ const BUILDINGS = [
     "input": "3 Волокно + 1 Краски",
     "base": "1 Украшения",
     "bonuses": "«Арабеска»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×5"
     },
     "income": {
       "base": 3.0,
@@ -1442,9 +1572,11 @@ const BUILDINGS = [
     "input": "Соль + 1 Древесина",
     "base": "4 п/п + 1 (Боч/артель)",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 3.0,
@@ -1464,9 +1596,11 @@ const BUILDINGS = [
     "input": "1 Соль + 1 Пряности",
     "base": "7 п/п",
     "bonuses": "«Кровяная колбаса»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "камень×3"
     },
     "income": {
       "base": 5.0,
@@ -1486,9 +1620,11 @@ const BUILDINGS = [
     "input": "1 Соль",
     "base": "3 п/п",
     "bonuses": "«Элитное сыроварение»",
+    "notes": "",
     "cost": {
       "numeric": 17.5,
-      "display": "17.5"
+      "display": "17.5",
+      "resources": "древ×3"
     },
     "income": {
       "base": 4.0,
@@ -1508,9 +1644,11 @@ const BUILDINGS = [
     "input": "1 Золото / 1 Серебро / 1 Др.камни",
     "base": "1 Украшения (Серебро*) + 1 (Золото*) + 2 (Др/камни*)",
     "bonuses": "«Бусы», «Гильдии», «Огранка»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×3"
     },
     "income": {
       "base": 4.0,
@@ -1530,9 +1668,11 @@ const BUILDINGS = [
     "input": "1 Древесина + 1 Кожа",
     "base": "2 ТНП",
     "bonuses": "«Гильдии», «Дилижансы», «Производство сбруи», «Коя»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.0,
@@ -1552,9 +1692,11 @@ const BUILDINGS = [
     "input": "1 Соль + 1 Уголь",
     "base": "2 Стекло",
     "bonuses": "«Хрусталь», «Гильдии», «Оптика»",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": "камень×3"
     },
     "income": {
       "base": 2.0,
@@ -1574,9 +1716,11 @@ const BUILDINGS = [
     "input": "1 Благовония",
     "base": "3 ТНП",
     "bonuses": "«Твёрдое мыло», «Гигиена»",
+    "notes": "",
     "cost": {
       "numeric": 25.0,
-      "display": "25"
+      "display": "25",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.5,
@@ -1596,9 +1740,11 @@ const BUILDINGS = [
     "input": "1 Кожа",
     "base": "2 ТНП",
     "bonuses": "«Гильдии», «Пулены», «Бабуши», «Башмаки», Сапоги",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.0,
@@ -1618,9 +1764,11 @@ const BUILDINGS = [
     "input": "2 Ткани + 1 Кожа",
     "base": "4 ТНП",
     "bonuses": "«Гильдии», «Кафтан», «Феска», «Шешия», «Пуговица», «Бернус», «Кулах», «Сарафан», «Шаровары», «Ферязь», «Дублет», «Дивитисий», «Тюбетейка», «Свитер»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×3"
     },
     "income": {
       "base": 2.0,
@@ -1640,9 +1788,11 @@ const BUILDINGS = [
     "input": "1 Древесина",
     "base": "1 ТНП",
     "bonuses": "«Гильдии», «Бордоские бочки»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.0,
@@ -1662,9 +1812,11 @@ const BUILDINGS = [
     "input": "3 Медь + 2 Уголь",
     "base": "2 Пуш",
     "bonuses": "«Топчу», «Эргастерии», «Серпантина»",
+    "notes": "",
     "cost": {
       "numeric": 45.0,
-      "display": "45"
+      "display": "45",
+      "resources": "камень×5"
     },
     "income": {
       "base": 2.5,
@@ -1684,9 +1836,11 @@ const BUILDINGS = [
     "input": "2 Селитра + 1 Уголь",
     "base": "4 Порох",
     "bonuses": "«Химия», «Баллистика», «Гильдии», «Зернистый порох», «Эргастерии»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "камень×5"
     },
     "income": {
       "base": 1.0,
@@ -1706,9 +1860,11 @@ const BUILDINGS = [
     "input": "1 Древесина + 1 Железо",
     "base": "3 Инструмент",
     "bonuses": "«Токарный станок», «Механизация труда»",
+    "notes": "",
     "cost": {
       "numeric": 27.5,
-      "display": "27.5"
+      "display": "27.5",
+      "resources": "древ×5"
     },
     "income": {
       "base": 1.0,
@@ -1728,9 +1884,11 @@ const BUILDINGS = [
     "input": "1 Древесина + 1 Железо",
     "base": "2 Х/о",
     "bonuses": "«Горн», «Вагранка», «Сыродутная печь», «Булатная сталь», «Подкова»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3, камень×2"
     },
     "income": {
       "base": 2.0,
@@ -1750,9 +1908,11 @@ const BUILDINGS = [
     "input": "2 Ж/руда + 2 Уголь",
     "base": "4 Железо",
     "bonuses": "«Чугун», «Доменная печь», «Тигельная сталь»",
+    "notes": "",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "камень×10"
     },
     "income": {
       "base": 2.0,
@@ -1772,9 +1932,11 @@ const BUILDINGS = [
     "input": "2 М/руда + 2 Уголь",
     "base": "3 Медь",
     "bonuses": "«Латунь», «Колокола»",
+    "notes": "",
     "cost": {
       "numeric": 40.0,
-      "display": "40"
+      "display": "40",
+      "resources": "камень×10"
     },
     "income": {
       "base": 2.0,
@@ -1794,9 +1956,11 @@ const BUILDINGS = [
     "input": "1 Медь",
     "base": "2 ТНП",
     "bonuses": "«Чеканка», «Басма»",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.0,
@@ -1816,9 +1980,11 @@ const BUILDINGS = [
     "input": "1 Медь + 1 Инструмент",
     "base": "1 Х/о",
     "bonuses": "«Огнестрельное оружие», «Эргастерии»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×4, камень×2"
     },
     "income": {
       "base": 4.0,
@@ -1838,9 +2004,11 @@ const BUILDINGS = [
     "input": "2 Свинец + 1 Инструмент",
     "base": "2 О/о",
     "bonuses": "«Огнестрельное оружие», «Эргастерии»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "древ×4, камень×2"
     },
     "income": {
       "base": 4.0,
@@ -1860,9 +2028,11 @@ const BUILDINGS = [
     "input": "1 Ткани + 1 Сахар + 1 Пряности + 1 Благовония",
     "base": "+10% ЭТ",
     "bonuses": "Трад. «Торговая хватка», «Ярмарки», «Скоморохи»",
+    "notes": "+1 ТНП и +3 п/п к потребности (24-й ход)",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×5"
     },
     "income": {
       "base": 3.0,
@@ -1882,9 +2052,11 @@ const BUILDINGS = [
     "input": "1 Ткани + 1 Меха + 1 Чай + 1 Табак (после 1500 г.)",
     "base": "+10% ЭТ",
     "bonuses": "Трад. «Торговая хватка», «Меркантилизм», «Безистан»",
+    "notes": "+1 ТНП и +3 п/п к потребности (24-й ход)",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×5"
     },
     "income": {
       "base": 3.0,
@@ -1904,9 +2076,11 @@ const BUILDINGS = [
     "input": "",
     "base": "+7% ЭТ",
     "bonuses": "«Торговые караваны», «Фундуки», «Хан», «Охрана караванов», трад. «Гостеприимство»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 3.0,
@@ -1926,9 +2100,11 @@ const BUILDINGS = [
     "input": "1 Свинец",
     "base": "1 Лекарства, -1% к шансу Эпидемии, +1% к Благочестию (если спрос на Лекарства есть и он обеспечен)",
     "bonuses": "«Табакокурение», «Дёготь», «Ятрохимия», «Токсикология», «Эликсиры», «Парфюмерия»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×3"
     },
     "income": {
       "base": 1.0,
@@ -1948,9 +2124,11 @@ const BUILDINGS = [
     "input": "",
     "base": "-2% к РВ в локации, +2% к шансу Эпидемии",
     "bonuses": "Секс-рабство, Куртизанки, трад. «Проституция»",
+    "notes": "",
     "cost": {
       "numeric": 5.0,
-      "display": "5"
+      "display": "5",
+      "resources": "древ×5"
     },
     "income": {
       "base": 5.0,
@@ -1970,9 +2148,11 @@ const BUILDINGS = [
     "input": "1 Алко",
     "base": "+1 Шпион",
     "bonuses": "трад. «Пьянство», трад. «Гостеприимство», «Трактир», «Водка»",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "древ×5"
     },
     "income": {
       "base": 7.0,
@@ -1992,9 +2172,11 @@ const BUILDINGS = [
     "input": "",
     "base": "+5% ЭТ у принимающей страны",
     "bonuses": "«Колониализм»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×5"
     },
     "income": {
       "base": 3.0,
@@ -2014,9 +2196,11 @@ const BUILDINGS = [
     "input": "",
     "base": "2 Раба +1 (Рабы), -3 тыс.чел. убыль населения",
     "bonuses": "«Ясырь», трад. «Раболепие», «Мухтасибы»",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "древ×1"
     },
     "income": {
       "base": 1.0,
@@ -2036,9 +2220,11 @@ const BUILDINGS = [
     "input": "1 Кони",
     "base": "-10% к РВ в локации",
     "bonuses": "«Скачки»",
+    "notes": "",
     "cost": {
       "numeric": 40.0,
-      "display": "40"
+      "display": "40",
+      "resources": "древ×10"
     },
     "income": {
       "base": 5.0,
@@ -2058,9 +2244,11 @@ const BUILDINGS = [
     "input": "1 Чай",
     "base": "1 кт/о",
     "bonuses": "«Кальян», «Восточные сладости», «Кофейни»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "камень×3"
     },
     "income": {
       "base": 4.0,
@@ -2080,9 +2268,11 @@ const BUILDINGS = [
     "input": "1 Книги (если нет Богемы)",
     "base": "+3 кт/о +1 (богема-Артист), +1 (богема-Музыкант), +1 (богема-Поэт)",
     "bonuses": "«Романтизм», «Комедия дель Арте», «Опера», «Клавесин»",
+    "notes": "",
     "cost": {
       "numeric": 80.0,
-      "display": "80"
+      "display": "80",
+      "resources": "камень×7, мрамор×5"
     },
     "income": {
       "base": 3.5,
@@ -2102,9 +2292,11 @@ const BUILDINGS = [
     "input": "1 Свинец",
     "base": "+1 н/о, +1 Золото (ученый-Алхимик)",
     "bonuses": "«Метафизика», «Химия»",
+    "notes": "",
     "cost": {
       "numeric": 33.0,
-      "display": "33"
+      "display": "33",
+      "resources": "камень×5"
     },
     "income": {
       "base": -2.0,
@@ -2124,9 +2316,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 кт/о",
     "bonuses": "«Литература»",
+    "notes": "",
     "cost": {
       "numeric": 65.0,
-      "display": "65"
+      "display": "65",
+      "resources": "камень×5"
     },
     "income": {
       "base": -1.0,
@@ -2146,9 +2340,11 @@ const BUILDINGS = [
     "input": "1 Книги (если нет Учёного)",
     "base": "+3 н/о +1 (ученый-Юрист) +1 (ученый-Историк), +1 (ученый-Философ) +1 (Храм) +1 (Госпиталь)",
     "bonuses": "Трад. «Романтизм», «Микроскоп»",
+    "notes": "",
     "cost": {
       "numeric": 90.0,
-      "display": "90"
+      "display": "90",
+      "resources": "камень×10, стекло×3, мрамор×3"
     },
     "income": {
       "base": -3.0,
@@ -2168,9 +2364,11 @@ const BUILDINGS = [
     "input": "1 Стекло",
     "base": "2 н/о +1 (ученый-Астроном)",
     "bonuses": "«Астрономия», «Гороскопы»",
+    "notes": "",
     "cost": {
       "numeric": 100.0,
-      "display": "100"
+      "display": "100",
+      "resources": "камень×7"
     },
     "income": {
       "base": -3.0,
@@ -2190,9 +2388,11 @@ const BUILDINGS = [
     "input": "1 Книги (если нет Священника/Учёного)",
     "base": "2 н/о +1 (ученый-Медик) +1 (ученый-Богослов) +1 (ученый-Философ) +1 (ученый-Мечеть)",
     "bonuses": "«Мюриды», «Улемы», «Микроскоп»",
+    "notes": "",
     "cost": {
       "numeric": 75.0,
-      "display": "75"
+      "display": "75",
+      "resources": "камень×10, стекло×3, мрамор×3"
     },
     "income": {
       "base": -2.0,
@@ -2212,9 +2412,11 @@ const BUILDINGS = [
     "input": "1 Бумага",
     "base": "1 Книги",
     "bonuses": "«Каллиграфия»",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": "камень×5"
     },
     "income": {
       "base": 0.0,
@@ -2234,9 +2436,11 @@ const BUILDINGS = [
     "input": "2 Бумага + 1 Инструмент",
     "base": "2 Книги",
     "bonuses": "«Пресса», «Цензура», «Газета», «Подвижные литеры»",
+    "notes": "",
     "cost": {
       "numeric": 30.0,
-      "display": "30"
+      "display": "30",
+      "resources": "камень×5"
     },
     "income": {
       "base": 3.0,
@@ -2256,9 +2460,11 @@ const BUILDINGS = [
     "input": "1 Украшения",
     "base": "+1 о/пр + 1 (если правитель женат)",
     "bonuses": "«Евнухи», «Наложницы»",
+    "notes": "",
     "cost": {
       "numeric": 55.0,
-      "display": "55"
+      "display": "55",
+      "resources": "камень×5"
     },
     "income": {
       "base": -1.0,
@@ -2278,9 +2484,11 @@ const BUILDINGS = [
     "input": "1 Х/о",
     "base": "-7,5% к РВ в локации",
     "bonuses": "Трад. «Состязание», трад. «Травля зверей», «Бои животных», «Коррида»",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": "камень×10"
     },
     "income": {
       "base": 5.0,
@@ -2300,9 +2508,11 @@ const BUILDINGS = [
     "input": "1 Звери",
     "base": "-5% к РВ в локации",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "железо×3"
     },
     "income": {
       "base": 3.0,
@@ -2322,9 +2532,11 @@ const BUILDINGS = [
     "input": "",
     "base": "+3% к эфф-сти Управления, +1 к макс. размеру локации",
     "bonuses": "«Ямская служба», «Торговые караваны», «Гонцы»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -2344,9 +2556,11 @@ const BUILDINGS = [
     "input": "1-3 Кони [зависит от числа Мощ/дорог в стране]",
     "base": "до +20% к эфф-сти Управления, +1 к макс. размеру локации, «Мостовая»",
     "bonuses": "«Мостовая»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "камень×10"
     },
     "income": {
       "base": -1.0,
@@ -2366,9 +2580,11 @@ const BUILDINGS = [
     "input": "2 Рабы",
     "base": "х2 пр-ва Бахчи, Плантации с Хлопком и Сахаром, +2 к макс. размеру локации, «Нория»",
     "bonuses": "«Нория»",
+    "notes": "",
     "cost": {
       "numeric": 100.0,
-      "display": "100"
+      "display": "100",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -2388,9 +2604,11 @@ const BUILDINGS = [
     "input": "",
     "base": "+2 к макс. размеру локации, +0,5 тыс.чел. прирост населения в локации",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 5.0,
-      "display": "5"
+      "display": "5",
+      "resources": "древ×1"
     },
     "income": {
       "base": 0.0,
@@ -2410,9 +2628,11 @@ const BUILDINGS = [
     "input": "",
     "base": "+2 к макс. размеру локации, +15% к приросту населения в Городе",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "свинец×5"
     },
     "income": {
       "base": -2.0,
@@ -2432,9 +2652,11 @@ const BUILDINGS = [
     "input": "",
     "base": "+2 к макс. размеру локации, -5% к шансу Эпидемии в Городе",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": "медь×5"
     },
     "income": {
       "base": -3.0,
@@ -2454,9 +2676,11 @@ const BUILDINGS = [
     "input": "",
     "base": "+2 к макс. размеру локации, -1% к шансу Эпидемии в Городе",
     "bonuses": "Хамам",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "камень×3"
     },
     "income": {
       "base": 1.5,
@@ -2476,9 +2700,11 @@ const BUILDINGS = [
     "input": "1 Лекарство",
     "base": "нет ивентов «Трущобы», -3% к шансу Эпидемии, уменьшение боевых потерь (общий гос эффект складывается от кол-ва Госпиталей)",
     "bonuses": "«Хирургия», «Анатомия», «Богадельни»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×5"
     },
     "income": {
       "base": -2.0,
@@ -2495,12 +2721,14 @@ const BUILDINGS = [
     "climate": "все",
     "terrain": "все",
     "conditions": "",
-    "input": "1 Ткани",
+    "input": "1 ТНП",
     "base": "-1-2 п/п к потребности Города, +2 к лимиту хранения товаров на нац.складе",
     "bonuses": "«Фортификация», «Нория», «Фундуки»",
+    "notes": "26 мая 2026 Мельхиор выпустил патч, изменена потребность Амбаров с Тканей на ТНП",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×2, камень×2"
     },
     "income": {
       "base": 1.0,
@@ -2520,9 +2748,11 @@ const BUILDINGS = [
     "input": "1 Золото, 1 Серебро",
     "base": "+1,5% х кэш (Серебро*) + 3% х кэш (Золото*), + к сумме внутр. Займа в размере дохода Банка, +10 д к лимиту переводов",
     "bonuses": "«Депозит», «Банковские чеки», «Ломбард»",
+    "notes": "",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "камень×7"
     },
     "income": {
       "base": null,
@@ -2542,9 +2772,11 @@ const BUILDINGS = [
     "input": "1 Волокно",
     "base": "2 п/п +1(Моржи) +1(Рыба) +1 ТНП",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "древ×5"
     },
     "income": {
       "base": 0.0,
@@ -2564,9 +2796,11 @@ const BUILDINGS = [
     "input": "1 Волокно",
     "base": "1 Др/камни",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": "древ×5"
     },
     "income": {
       "base": 0.0,
@@ -2586,9 +2820,11 @@ const BUILDINGS = [
     "input": "",
     "base": "-25% затрат на логистику, до +25% эфф-сть Торговли",
     "bonuses": "«Топчаковые краны»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "камень×5"
     },
     "income": {
       "base": 1.0,
@@ -2608,9 +2844,11 @@ const BUILDINGS = [
     "input": "",
     "base": "-30% к затратам на содержание Флота, +0,5 тыс.чел. прирост населения, +10 к лимиту хранения товаров на нац.складе",
     "bonuses": "«Торговые флотилии»",
+    "notes": "",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "камень×5"
     },
     "income": {
       "base": 1.0,
@@ -2630,9 +2868,11 @@ const BUILDINGS = [
     "input": "1 Древесина",
     "base": "+1 к дальности размещения ТОР в м/з от локации с Маяком",
     "bonuses": "«Оптика», «Лоцманы»",
+    "notes": "",
     "cost": {
       "numeric": 25.0,
-      "display": "25"
+      "display": "25",
+      "resources": "камень×7, стекло×1"
     },
     "income": {
       "base": 0.0,
@@ -2652,9 +2892,11 @@ const BUILDINGS = [
     "input": "",
     "base": "-3% к РВ в локации, +1 о/в",
     "bonuses": "Догмат «Жертвоприношения»",
+    "notes": "",
     "cost": {
       "numeric": 5.0,
-      "display": "5"
+      "display": "5",
+      "resources": "древ×2"
     },
     "income": {
       "base": 0.0,
@@ -2674,9 +2916,11 @@ const BUILDINGS = [
     "input": "1 Благовоние (без — минус 50% эфф-сть)",
     "base": "-5% к РВ в локации, +1 о/в",
     "bonuses": "Простота ритуала, Богослужение на родном языке, Сусальное золото, Запрет латыни",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×5"
     },
     "income": {
       "base": -1.0,
@@ -2693,12 +2937,14 @@ const BUILDINGS = [
     "climate": "все",
     "terrain": "все",
     "conditions": "доступно странам с Католичеством/Православием/Миафизитством/Иудаизмом",
-    "input": "1 Алко (если нет Священника)",
+    "input": "1 Благовоние (без — минус 50% эфф-сть)",
     "base": "-10% к РВ в локации, +3 о/в",
     "bonuses": "«Акустика», «Простота ритуала», «Богослужение на родном языке», «Запрет латыни», «Хоровое пение», «Колокола»",
+    "notes": "−10% к стоимости стабильности; не суммируется (30-й ход)",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "стекло×2, мрамор×10"
     },
     "income": {
       "base": -2.0,
@@ -2718,9 +2964,11 @@ const BUILDINGS = [
     "input": "1 Алко (если нет Священника)",
     "base": "2 кт/о + 1 (Монах), +1% Благочестие в ход",
     "bonuses": "«Бенефиций»",
+    "notes": "",
     "cost": {
       "numeric": 45.0,
-      "display": "45"
+      "display": "45",
+      "resources": "камень×10"
     },
     "income": {
       "base": -2.0,
@@ -2740,9 +2988,11 @@ const BUILDINGS = [
     "input": "",
     "base": "-7% к РВ в локации, +1,5 о/в",
     "bonuses": "«Богослужение на родном языке», «Арабеска», «Чётки», «Имамы»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "камень×5"
     },
     "income": {
       "base": -2.0,
@@ -2762,9 +3012,11 @@ const BUILDINGS = [
     "input": "1 Благовоние (без — минус 50% эфф-сть)",
     "base": "-5% к РВ в локации, +1,5 о/в",
     "bonuses": "«Богослужение на родном языке»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "камень×5"
     },
     "income": {
       "base": -1.0,
@@ -2784,9 +3036,11 @@ const BUILDINGS = [
     "input": "",
     "base": "5 о/в",
     "bonuses": "«Гробницы»",
+    "notes": "",
     "cost": {
       "numeric": 100.0,
-      "display": "100"
+      "display": "100",
+      "resources": "мрамор×15"
     },
     "income": {
       "base": 0.0,
@@ -2806,9 +3060,11 @@ const BUILDINGS = [
     "input": "",
     "base": "0,5 в/о",
     "bonuses": "«Поминовение усопших»",
+    "notes": "",
     "cost": {
       "numeric": 10.0,
-      "display": "10"
+      "display": "10",
+      "resources": null
     },
     "income": {
       "base": 0.0,
@@ -2828,9 +3084,11 @@ const BUILDINGS = [
     "input": "",
     "base": "1 БО локации",
     "bonuses": "«Засечная черта», «Городища»",
+    "notes": "",
     "cost": {
       "numeric": 5.0,
-      "display": "5"
+      "display": "5",
+      "resources": "древ×4"
     },
     "income": {
       "base": -0.5,
@@ -2850,9 +3108,11 @@ const BUILDINGS = [
     "input": "",
     "base": "3 БО локации",
     "bonuses": "«Фортификация», «Городища»",
+    "notes": "",
     "cost": {
       "numeric": 15.0,
-      "display": "15"
+      "display": "15",
+      "resources": "древ×8"
     },
     "income": {
       "base": -1.0,
@@ -2872,9 +3132,11 @@ const BUILDINGS = [
     "input": "",
     "base": "4,5 БО локации",
     "bonuses": "«Рибат», «Бойницы»",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×5"
     },
     "income": {
       "base": -1.0,
@@ -2894,9 +3156,11 @@ const BUILDINGS = [
     "input": "",
     "base": "6 БО локации",
     "bonuses": "«Фортификация», «Ров», «Бойницы», «Жидкий огонь», «Бастионы»",
+    "notes": "",
     "cost": {
       "numeric": 50.0,
-      "display": "50"
+      "display": "50",
+      "resources": "камень×20"
     },
     "income": {
       "base": -2.0,
@@ -2916,9 +3180,11 @@ const BUILDINGS = [
     "input": "",
     "base": "4 БО локации +2 (Остров)",
     "bonuses": "Трад. «Хранители замков», «Мотт», «Донжон», «Ров»",
+    "notes": "",
     "cost": {
       "numeric": 40.0,
-      "display": "40"
+      "display": "40",
+      "resources": "древ×5, камень×15"
     },
     "income": {
       "base": -3.0,
@@ -2938,9 +3204,11 @@ const BUILDINGS = [
     "input": "1 Доспехи",
     "base": "+0,5 к силе ТК, +0,5 в/о, открытие решения «Провести рыц. турнир»",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 35.0,
-      "display": "35"
+      "display": "35",
+      "resources": "древ×7"
     },
     "income": {
       "base": -1.0,
@@ -2960,9 +3228,11 @@ const BUILDINGS = [
     "input": "3 п/п",
     "base": "2 БО локации, 1 в/о, +3 к снабжению",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×4, ткани×2"
     },
     "income": {
       "base": -2.0,
@@ -2982,9 +3252,11 @@ const BUILDINGS = [
     "input": "2 Алко",
     "base": "-100% к снижению затрат на содержание Армии, 2 в/о",
     "bonuses": "",
+    "notes": "",
     "cost": {
       "numeric": 20.0,
-      "display": "20"
+      "display": "20",
+      "resources": "древ×5"
     },
     "income": {
       "base": 0.0,
@@ -3020,6 +3292,7 @@ const COLUMNS = [
     { key: 'input',     label: 'Усл. работы', sortable: true },
     { key: 'base',      label: 'База',      sortable: true },
     { key: 'bonuses',   label: 'Инновации/традиции', sortable: true },
+    { key: 'notes',     label: 'Прим.',     sortable: false },
 ];
 
 let activeCategories = new Set(Object.keys(CATEGORIES));
@@ -3030,18 +3303,30 @@ let sortAsc = true;
 // ── helpers ──
 
 function cellVal(b, key) {
-    if (key === 'catEmoji') return (CATEGORIES[b.category]?.emoji || '') + ' ' + b.category;
+    if (key === 'catEmoji') return CATEGORIES[b.category]?.emoji || '';
     if (key === 'name') return b.name;
-    if (key === 'cost') return b.cost.display || '—';
+    if (key === 'cost') {
+        let s = b.cost.display || '—';
+        if (b.cost.resources) {
+            s += ' + ' + b.cost.resources;
+        }
+        return s;
+    }
     if (key === 'income') {
         const d = b.income.display;
         return d || '—';
     }
+    if (key === 'notes') return b.notes || '—';
     return b[key] || '—';
 }
 
+function cellTitle(b, key) {
+    if (key === 'catEmoji') return CATEGORIES[b.category]?.label || b.category;
+    return cellVal(b, key);
+}
+
 function htmlAttr(s) {
-    return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&/g, '&amp;');
+    return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function incomeColor(b) {
@@ -3065,11 +3350,13 @@ function costColor(b) {
 function cellClass(b, key) {
     if (key === 'catEmoji') return 'cat-emoji-cell';
     if (key === 'name') return 'name-cell';
-    if (key === 'cost') return 'num-nowrap cell-cost ' + costColor(b);
-    if (key === 'income') return 'num-nowrap cell-income ' + incomeColor(b);
-    if (key === 'resource') return 'cell-resource';
-    if (key === 'conditions') return 'cell-conditions';
-    if (key === 'bonuses') return 'cell-bonuses';
+    if (key === 'cost') return 'cell-cost ' + costColor(b);
+    if (key === 'income') return 'cell-income ' + incomeColor(b);
+    if (key === 'resource') return 'cell-resource cell-clamp';
+    if (key === 'conditions') return 'cell-conditions cell-clamp';
+    if (key === 'bonuses') return 'cell-bonuses cell-clamp';
+    if (key === 'notes') return 'cell-notes cell-clamp';
+    if (['climate', 'terrain', 'input', 'base'].includes(key)) return 'cell-clamp';
     return '';
 }
 
@@ -3152,29 +3439,37 @@ function render() {
     if (cur) groups.push(cur);
 
     let rows = '';
+    let groupIdx = 0;
     for (const grp of groups) {
         const size = grp.length;
         const isGrp = size > 1 && grp[0].group;
+        const zebraClass = groupIdx % 2 === 1 ? ' group-zebra' : '';
 
         for (let i = 0; i < size; i++) {
             const b = grp[i];
-            rows += '<tr>';
+            rows += `<tr${zebraClass}>`;
             for (const col of COLUMNS) {
                 if (isGrp && COMMON_COLS.has(col.key)) {
                     if (i === 0) {
+                        const title = cellTitle(b, col.key);
                         const val = cellVal(b, col.key);
-                        const cls = cellClass(b, col.key);
-                        rows += `<td class="${cls}" rowspan="${size}" title="${htmlAttr(val)}">${val}</td>`;
+                        const isEmpty = val === '—' || val === '';
+                        let cls = cellClass(b, col.key) + (isEmpty ? ' val-empty' : '');
+                        const content = cls.includes('cell-clamp') ? `<div class="clamp-inner">${htmlAttr(val)}</div>` : val;
+                        rows += `<td class="${cls}" rowspan="${size}" title="${htmlAttr(title)}">${content}</td>`;
                     }
-                    // остальные строки — пропускаем ячейку
                 } else {
+                    const title = cellTitle(b, col.key);
                     const val = cellVal(b, col.key);
-                    const cls = cellClass(b, col.key);
-                    rows += `<td class="${cls}" title="${htmlAttr(val)}">${val}</td>`;
+                    const isEmpty = val === '—' || val === '';
+                    let cls = cellClass(b, col.key) + (isEmpty ? ' val-empty' : '');
+                    const content = cls.includes('cell-clamp') ? `<div class="clamp-inner">${htmlAttr(val)}</div>` : val;
+                    rows += `<td class="${cls}" title="${htmlAttr(title)}">${content}</td>`;
                 }
             }
             rows += '</tr>';
         }
+        groupIdx++;
     }
     tbody.innerHTML = rows;
 
@@ -3233,7 +3528,7 @@ function setupSort() {
 
 function setupCellClick() {
     document.getElementById('buildings-tbody').addEventListener('click', e => {
-        const td = e.target.closest('td.num-nowrap');
+        const td = e.target.closest('td.cell-clamp');
         if (td) {
             td.classList.toggle('expanded');
         }

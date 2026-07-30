@@ -46,6 +46,23 @@ def parse_income(val: str):
     return base, max_val
 
 
+def parse_resources(val: str):
+    """Парсит строку ресурсов на постройку вида '5 Древесины, 3 Камня'.
+    Возвращает {'display': val, 'items': [...]} или None."""
+    if val is None or val.strip() in ('', '—', '–', '-', '−'):
+        return None
+    s = val.strip()
+    parts = [p.strip() for p in s.split(',')]
+    items = []
+    for part in parts:
+        m = re.match(r'(\d+(?:\.\d+)?)\s+(.+)', part)
+        if m:
+            items.append({'count': float(m.group(1)), 'resource': m.group(2).strip()})
+    if not items:
+        return {'display': s, 'items': []}
+    return {'display': s, 'items': items}
+
+
 def to_display(val):
     if val is None:
         return ''
@@ -61,7 +78,7 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
     # Столбцы xlsx:
     # 0: Группа, 1: Категория, 2: Постройка, 3: Локация, 4: Ресурс локации,
     # 5: Климат, 6: Рельеф/Геогр. условия, 7: Доп. условия, 8: Входные ресурсы,
-    # 9: База пр-ва, 10: Бонусы, 11: Доход, 12: Цена
+    # 9: База пр-ва, 10: Бонусы, 11: Доход, 12: Цена, 13: Примечания, 14: Ресурсы на постройку
 
     buildings = []
     first_of_group = {}
@@ -74,6 +91,8 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
     COL_BONUSES = 10
     COL_INCOME = 11
     COL_COST = 12
+    COL_NOTES = 13
+    COL_RESOURCES = 14
 
     for row in rows:
         raw = [to_display(c) for c in row]
@@ -90,9 +109,12 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
 
         income_raw = raw[COL_INCOME]
         cost_raw = raw[COL_COST]
+        notes_raw = raw[COL_NOTES] if len(raw) > COL_NOTES else ''
+        resources_raw = raw[COL_RESOURCES] if len(raw) > COL_RESOURCES else ''
 
         income_base, income_max = parse_income(income_raw)
         cost_num, _ = parse_income(cost_raw)
+        resources_obj = parse_resources(resources_raw)
 
         # Наследование общих полей от первой строки группы
         if group:
@@ -103,6 +125,8 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
                     'bonuses': raw[COL_BONUSES],
                     'income': {'base': income_base, 'max': income_max, 'display': income_raw},
                     'cost': {'numeric': cost_num, 'display': cost_raw},
+                    'notes': notes_raw,
+                    'resources': resources_obj,
                 }
                 inherit_from = None
             else:
@@ -135,9 +159,19 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
             final_cost = inherit_from['cost']['display']
             cost_num = inherit_from['cost']['numeric']
 
+        final_notes = notes_raw
+        if inherit_from and (not notes_raw or notes_raw in ('', '—')):
+            final_notes = inherit_from.get('notes', '')
+
+        final_resources = resources_obj
+        if inherit_from and resources_obj is None:
+            final_resources = inherit_from.get('resources')
+
         final_bonuses = pick(raw[COL_BONUSES], inherit_from['bonuses'] if inherit_from else None)
         final_location = pick(raw[3], inherit_from['location'] if inherit_from else None)
         final_input = pick(raw[COL_INPUT], inherit_from['input'] if inherit_from else None)
+
+        cost_resources = final_resources['display'] if final_resources else None
 
         obj = {
             'name': name,
@@ -151,7 +185,12 @@ def xlsx_to_js(xlsx_path: str, js_path: str):
             'input': final_input,
             'base': raw[COL_BASE],
             'bonuses': final_bonuses,
-            'cost': {'numeric': cost_num, 'display': final_cost},
+            'notes': final_notes,
+            'cost': {
+                'numeric': cost_num,
+                'display': final_cost,
+                'resources': cost_resources,
+            },
             'income': {'base': income_base, 'max': income_max, 'display': final_income},
         }
         buildings.append(obj)
@@ -196,6 +235,7 @@ const COLUMNS = [
     { key: 'input',     label: 'Усл. работы', sortable: true },
     { key: 'base',      label: 'База',      sortable: true },
     { key: 'bonuses',   label: 'Инновации/традиции', sortable: true },
+    { key: 'notes',     label: 'Прим.',     sortable: false },
 ];
 
 let activeCategories = new Set(Object.keys(CATEGORIES));
@@ -206,18 +246,30 @@ let sortAsc = true;
 // ── helpers ──
 
 function cellVal(b, key) {
-    if (key === 'catEmoji') return (CATEGORIES[b.category]?.emoji || '') + ' ' + b.category;
+    if (key === 'catEmoji') return CATEGORIES[b.category]?.emoji || '';
     if (key === 'name') return b.name;
-    if (key === 'cost') return b.cost.display || '—';
+    if (key === 'cost') {
+        let s = b.cost.display || '—';
+        if (b.cost.resources) {
+            s += ' + ' + b.cost.resources;
+        }
+        return s;
+    }
     if (key === 'income') {
         const d = b.income.display;
         return d || '—';
     }
+    if (key === 'notes') return b.notes || '—';
     return b[key] || '—';
 }
 
+function cellTitle(b, key) {
+    if (key === 'catEmoji') return CATEGORIES[b.category]?.label || b.category;
+    return cellVal(b, key);
+}
+
 function htmlAttr(s) {
-    return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&/g, '&amp;');
+    return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function incomeColor(b) {
@@ -241,11 +293,13 @@ function costColor(b) {
 function cellClass(b, key) {
     if (key === 'catEmoji') return 'cat-emoji-cell';
     if (key === 'name') return 'name-cell';
-    if (key === 'cost') return 'num-nowrap cell-cost ' + costColor(b);
-    if (key === 'income') return 'num-nowrap cell-income ' + incomeColor(b);
-    if (key === 'resource') return 'cell-resource';
-    if (key === 'conditions') return 'cell-conditions';
-    if (key === 'bonuses') return 'cell-bonuses';
+    if (key === 'cost') return 'cell-cost ' + costColor(b);
+    if (key === 'income') return 'cell-income ' + incomeColor(b);
+    if (key === 'resource') return 'cell-resource cell-clamp';
+    if (key === 'conditions') return 'cell-conditions cell-clamp';
+    if (key === 'bonuses') return 'cell-bonuses cell-clamp';
+    if (key === 'notes') return 'cell-notes cell-clamp';
+    if (['climate', 'terrain', 'input', 'base'].includes(key)) return 'cell-clamp';
     return '';
 }
 
@@ -328,29 +382,37 @@ function render() {
     if (cur) groups.push(cur);
 
     let rows = '';
+    let groupIdx = 0;
     for (const grp of groups) {
         const size = grp.length;
         const isGrp = size > 1 && grp[0].group;
+        const zebraClass = groupIdx % 2 === 1 ? ' group-zebra' : '';
 
         for (let i = 0; i < size; i++) {
             const b = grp[i];
-            rows += '<tr>';
+            rows += `<tr${zebraClass}>`;
             for (const col of COLUMNS) {
                 if (isGrp && COMMON_COLS.has(col.key)) {
                     if (i === 0) {
+                        const title = cellTitle(b, col.key);
                         const val = cellVal(b, col.key);
-                        const cls = cellClass(b, col.key);
-                        rows += `<td class="${cls}" rowspan="${size}" title="${htmlAttr(val)}">${val}</td>`;
+                        const isEmpty = val === '—' || val === '';
+                        let cls = cellClass(b, col.key) + (isEmpty ? ' val-empty' : '');
+                        const content = cls.includes('cell-clamp') ? `<div class="clamp-inner">${htmlAttr(val)}</div>` : val;
+                        rows += `<td class="${cls}" rowspan="${size}" title="${htmlAttr(title)}">${content}</td>`;
                     }
-                    // остальные строки — пропускаем ячейку
                 } else {
+                    const title = cellTitle(b, col.key);
                     const val = cellVal(b, col.key);
-                    const cls = cellClass(b, col.key);
-                    rows += `<td class="${cls}" title="${htmlAttr(val)}">${val}</td>`;
+                    const isEmpty = val === '—' || val === '';
+                    let cls = cellClass(b, col.key) + (isEmpty ? ' val-empty' : '');
+                    const content = cls.includes('cell-clamp') ? `<div class="clamp-inner">${htmlAttr(val)}</div>` : val;
+                    rows += `<td class="${cls}" title="${htmlAttr(title)}">${content}</td>`;
                 }
             }
             rows += '</tr>';
         }
+        groupIdx++;
     }
     tbody.innerHTML = rows;
 
@@ -409,7 +471,7 @@ function setupSort() {
 
 function setupCellClick() {
     document.getElementById('buildings-tbody').addEventListener('click', e => {
-        const td = e.target.closest('td.num-nowrap');
+        const td = e.target.closest('td.cell-clamp');
         if (td) {
             td.classList.toggle('expanded');
         }
