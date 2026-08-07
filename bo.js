@@ -62,6 +62,8 @@ const INFANTRY_IDX = [4, 5, 6];
 const PERK_P_IDX = [4, 5, 6]; // Мечник, Копейщик, Латник
 // Индексы юнитов, получающих бонус от перка "К"
 const PERK_K_IDX = [2, 7, 8, 9, 10]; // Драгун, Верблюдерия, Конный лучник, Лёгкий конник, Тяжелый конник
+// Индекс юнита, получающего бонус от перка "А" (Артиллерист)
+const PERK_PUSH_IDX = [12]; // Пушка
 
 let state = {
     comp: 'регулярная',  // 'регулярная' | 'наёмники'
@@ -72,7 +74,7 @@ let state = {
     terrain: 'равнина',
     mode: 'Атака',       // 'Атака' | 'Оборона'
     skill: 0,
-    perk: 'нет',         // 'П' | 'К' | 'Т' | 'А' | 'З' | 'нет'
+    perk: 'нет',         // 'П'|'Ф'|'К'|'Т'|'Н'|'Л'|'У'|'З'|'Г'|'А'|'И'|'С'|'нет'
     citySize: 0,
     widthBonus: 0,
     assault: 'нет',      // 'через реку' | 'десант' | 'нет'
@@ -100,6 +102,7 @@ function calc(compKeys) {
         let perkBonus = 0;
         if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
         if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
+        if (state.perk === 'А' && PERK_PUSH_IDX.includes(i)) perkBonus = 0.4;
         const terrainVal = matrix[tIdx][i];
         const parts = keys.map(c => {
             const a = state.armies[c];
@@ -152,13 +155,13 @@ function calc(compKeys) {
     const skillPct = state.skill * 5;
     traces.push({ label: 'Скилл', formula: `${state.skill} × 5%`, pct: skillPct });
 
-    // перк А/З
+    // перк У/З
     let perkPct = 0;
-    if (isAtk && state.perk === 'А') { perkPct = 10;
-        traces.push({ label: 'Перк «А»', formula: '', pct: 10, note: 'атака +10%' });
+    if (isAtk && state.perk === 'У') { perkPct = 10;
+        traces.push({ label: 'Перк «У»', formula: '', pct: 10, note: 'мастер удара: атака +10%' });
     }
     if (!isAtk && state.perk === 'З') { perkPct = 10;
-        traces.push({ label: 'Перк «З»', formula: '', pct: 10, note: 'оборона +10%' });
+        traces.push({ label: 'Перк «З»', formula: '', pct: 10, note: 'мастер защиты: оборона +10%' });
     }
 
     // ширина
@@ -205,6 +208,8 @@ function calc(compKeys) {
         else if (state.terrain === 'болота') fort = 1.5;
         else if (state.terrain === 'леса') fort = 1;
         else if (state.terrain === 'пустыня' || state.terrain === 'тундра') fort = 0.5;
+        // перк «И» Военный инженер: +1 к силе укреплений
+        if (state.perk === 'И') fort += 1;
     }
 
     const totalBO = totalBase * (1 + bonus) + fort;

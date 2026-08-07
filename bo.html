@@ -252,11 +252,18 @@
                     <label>Перк:</label>
                     <select id="perk-sel">
                         <option value="нет">нет</option>
-                        <option value="П">П — пехота (+0.1 бонуса)</option>
-                        <option value="К">К — кавалерия (+0.1 бонуса)</option>
-                        <option value="Т">Т — +1 к ширине</option>
-                        <option value="А">А — +10% в атаке</option>
-                        <option value="З">З — +10% в обороне</option>
+                        <option value="П">П — Командир пехоты (+0,1 к силе пехоты)</option>
+                        <option value="Ф">Ф — Флотоводец (флот, не влияет на БО)</option>
+                        <option value="К">К — Кавалерист (+0,1 к силе кавалерии)</option>
+                        <option value="Т">Т — Тактик (+1 к ширине фронта)</option>
+                        <option value="Н">Н — Наёмник (−10% к содержанию, не влияет на БО)</option>
+                        <option value="Л">Л — Логист (+3 к снабжению, не влияет на БО)</option>
+                        <option value="У">У — Мастер удара (+10% в атаке)</option>
+                        <option value="З">З — Мастер защиты (+10% в обороне)</option>
+                        <option value="Г">Г — Грабитель (грабёж/набеги, не влияет на БО)</option>
+                        <option value="А">А — Артиллерист (+0,4 к силе Пуш)</option>
+                        <option value="И">И — Военный инженер (+1 к силе укреплений)</option>
+                        <option value="С">С — Стратег (−10% к силе армии врага)</option>
                     </select>
                 </div>
             </div>
@@ -366,15 +373,17 @@
                     let perkBonus = 0;
                     if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
                     if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
+                    if (state.perk === 'А' && PERK_PUSH_IDX.includes(i)) perkBonus = 0.4;
                     const terrainVal = matrix[tIdx][i];
                     const total = qt * (bo + terrainVal + perkBonus);
                     const modCls = terrainVal > 0 ? 'mod-pos' : terrainVal < 0 ? 'mod-neg' : 'mod-zero';
                     const modTxt = (terrainVal > 0 ? '+' : '') + terrainVal.toFixed(2);
                     const perkHl = perkBonus > 0 ? ' perk-hl' : '';
-                    const perkMark = perkBonus > 0 ? '<span class="perk-mark" title="Бонус перка +0.1">★</span>' : '';
+                    const perkMark = perkBonus > 0 ? `<span class="perk-mark" title="Бонус перка +${perkBonus}">★</span>` : '';
+                    const shortTxt = state.comp === 'наёмники' ? UNIT_SHORT[i] + '*' : UNIT_SHORT[i];
                     html += `<tr data-row-idx="${i}" class="unit-row${perkHl}">` +
                         `<td class="name-col">${UNIT_NAMES[i]}${comboBadges(i)}${perkMark}</td>` +
-                        `<td class="short-col">${UNIT_SHORT[i]}</td>` +
+                        `<td class="short-col">${shortTxt}</td>` +
                         `<td><span class="qty-stepper">` +
                             `<button class="step-btn" data-step="-1" data-idx="${i}"${qt <= 0 ? ' disabled' : ''}>−</button>` +
                             `<input type="text" inputmode="decimal" data-idx="${i}" value="${qt}" class="qty-inp">` +
@@ -701,6 +710,7 @@
                 widthBonus: state.widthBonus,
                 assault: state.assault,
                 supplyExceeded: state.supplyExceeded,
+                perkVersion: 2,
             };
             localStorage.setItem(STORAGE_PREFIX + name, JSON.stringify(data));
             refreshPresetList();
@@ -774,6 +784,9 @@
             preset.mode = data.mode || 'Атака';
             preset.skill = data.skill || 0;
             preset.perk = data.perk || 'нет';
+            // Миграция: до версии perkVersion 2 перк «А» означал мастера удара (+10% в атаке),
+            // теперь «А» — артиллерист, мастер удара — «У».
+            if (data.perkVersion !== 2 && preset.perk === 'А') preset.perk = 'У';
             preset.citySize = data.citySize || 0;
             preset.widthBonus = data.widthBonus || 0;
             preset.assault = data.assault || 'нет';
