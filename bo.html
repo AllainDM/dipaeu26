@@ -206,6 +206,10 @@
 
     <div class="bo-grid bo-ui">
         <div class="bo-table-wrap">
+            <div class="seg-control" id="comp-group" style="margin-bottom:12px;max-width:420px;">
+                <button class="seg-btn active" data-comp="регулярная">⚔ Регулярная армия</button>
+                <button class="seg-btn" data-comp="наёмники">💰 Наёмники</button>
+            </div>
             <div class="table-scroll">
                 <table class="bo-table">
                     <thead>
@@ -320,6 +324,7 @@
         const supplyExceededChk = document.getElementById('supply-exceeded-chk');
         const modeGroup = document.getElementById('mode-group');
         const terrainGroup = document.getElementById('terrain-group');
+        const compGroup = document.getElementById('comp-group');
 
         // Группы юнитов для отображения (индексы соответствуют матрицам bo.js)
         const DISPLAY_GROUPS = [
@@ -350,15 +355,14 @@
 
         // Рендер таблицы юнитов
         function renderTable() {
-            const r = calc();
             let html = '';
             const matrix = state.mode === 'Атака' ? ATK_MATRIX : DEF_MATRIX;
             const tIdx = TERRAINS.indexOf(state.terrain);
             DISPLAY_GROUPS.forEach(g => {
                 html += `<tr class="group-row"><td colspan="6" style="border-left:4px solid ${g.color}">${g.title}</td></tr>`;
                 g.units.forEach(i => {
-                    const qt = state.qty[i];
-                    const bo = state.baseBO[i];
+                    const qt = cur().qty[i];
+                    const bo = cur().baseBO[i];
                     let perkBonus = 0;
                     if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
                     if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
@@ -384,14 +388,14 @@
             });
             tbody.innerHTML = html;
             bindTableInputs();
-            renderResult(r);
+            renderResult(calc(COMP_KEYS));
         }
 
         function bindTableInputs() {
             tbody.querySelectorAll('.qty-inp').forEach(inp => {
                 inp.addEventListener('input', () => {
                     const idx = parseInt(inp.dataset.idx);
-                    state.qty[idx] = Math.max(0, parseFloat(inp.value.replace(',', '.')) || 0);
+                    cur().qty[idx] = Math.max(0, parseFloat(inp.value.replace(',', '.')) || 0);
                     updateResults();
                 });
                 inp.addEventListener('focus', () => inp.select());
@@ -399,7 +403,7 @@
             tbody.querySelectorAll('.bo-inp').forEach(inp => {
                 inp.addEventListener('input', () => {
                     const idx = parseInt(inp.dataset.uidx);
-                    state.baseBO[idx] = Math.max(0, parseFloat(inp.value.replace(',', '.')) || 0);
+                    cur().baseBO[idx] = Math.max(0, parseFloat(inp.value.replace(',', '.')) || 0);
                     updateResults();
                 });
                 inp.addEventListener('focus', () => inp.select());
@@ -408,9 +412,9 @@
                 btn.addEventListener('click', () => {
                     const idx = parseInt(btn.dataset.idx);
                     const step = parseInt(btn.dataset.step);
-                    state.qty[idx] = Math.max(0, (state.qty[idx] || 0) + step);
+                    cur().qty[idx] = Math.max(0, (cur().qty[idx] || 0) + step);
                     const inp = tbody.querySelector(`.qty-inp[data-idx="${idx}"]`);
-                    if (inp) inp.value = state.qty[idx];
+                    if (inp) inp.value = cur().qty[idx];
                     updateResults();
                 });
             });
@@ -428,9 +432,9 @@
             // Блокировка минуса при нуле
             tbody.querySelectorAll('.step-btn[data-step="-1"]').forEach(btn => {
                 const idx = parseInt(btn.dataset.idx);
-                btn.disabled = (state.qty[idx] || 0) <= 0;
+                btn.disabled = (cur().qty[idx] || 0) <= 0;
             });
-            renderResult(r);
+            renderResult(calc(COMP_KEYS));
         }
 
         // Одна шкала комбо-группы
@@ -451,6 +455,8 @@
             const isAtk = state.mode === 'Атака';
             const bonusCls = r.bonus > 0 ? 'val-pos' : r.bonus < 0 ? 'val-neg' : '';
             const widthExceed = r.armySize > r.width;
+            const regBase = r.compTotals['регулярная'] ?? 0;
+            const merBase = r.compTotals['наёмники'] ?? 0;
             const comboText = r.comboActive
                 ? '<span class="combo-status on">✓ Комбо активно (+15%)</span>'
                 : '<span class="combo-status off">✗ Комбо неактивно (нужно > 30% каждой группы)</span>';
@@ -461,8 +467,12 @@
                         <div class="lbl">Итого БО · ${state.mode.toLowerCase()}</div>
                     </div>
                     <div class="result-item">
-                        <div class="val">${r.totalBase}</div>
-                        <div class="lbl">База БО</div>
+                        <div class="val">${regBase.toFixed(1)}</div>
+                        <div class="lbl">Регулярная · база</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="val">${merBase.toFixed(1)}</div>
+                        <div class="lbl">Наёмники · база</div>
                     </div>
                     <div class="result-item">
                         <div class="val ${bonusCls}">${r.bonus >= 0 ? '+' : ''}${r.bonus}%</div>
@@ -501,23 +511,48 @@
         function renderTrace(r) {
             const panel = document.getElementById('trace-panel');
 
+            // ── Покомпонентная сводка ──
+            const regBase = r.compTotals['регулярная'] ?? 0;
+            const merBase = r.compTotals['наёмники'] ?? 0;
+            let compBlock = '<div style="margin-bottom:14px"><b>Состав армии:</b>' +
+                '<table style="width:100%;border-collapse:collapse;margin-top:6px;font-size:12px;">' +
+                '<tr style="background:#f0f0f0"><th>Состав</th><th>База БО</th><th>Доля</th></tr>';
+            const parts4 = [
+                { label: 'Регулярная армия', v: regBase },
+                { label: 'Наёмники', v: merBase },
+            ];
+            for (const p of parts4) {
+                const pct = r.totalBase > 0 ? (p.v / r.totalBase * 100).toFixed(0) : '0';
+                compBlock += '<tr>' +
+                    `<td>${p.label}</td>` +
+                    `<td style="text-align:right">${p.v.toFixed(1)}</td>` +
+                    `<td style="text-align:right">${pct}%</td>` +
+                    '</tr>';
+            }
+            compBlock += `<tr style="font-weight:bold;border-top:2px solid #3F4137"><td>Итого база</td><td style="text-align:right">${r.totalBase}</td><td></td></tr>` +
+                '</table></div>';
+
             // ── Поюнитовая таблица ──
             let unitRows = '';
             for (const u of r.unitBO) {
-                if (u.qty === 0 && u.baseBO === 0) continue;
+                if (u.qty === 0) continue;
+                const activeParts = u.parts.filter(p => p.qty > 0);
+                const qtySplit = activeParts.map(p => p.qty).join('+');
+                const baseSplit = activeParts.map(p => p.baseBO.toFixed(1)).join('/');
                 unitRows += '<tr>' +
                     `<td>${u.name}</td>` +
-                    `<td style="text-align:center">${u.qty}</td>` +
-                    `<td style="text-align:center">${u.baseBO.toFixed(1)}</td>` +
+                    `<td style="text-align:center">${qtySplit}</td>` +
+                    `<td style="text-align:center">${baseSplit}</td>` +
                     `<td style="text-align:center">${u.terrainVal.toFixed(2)}</td>` +
                     `<td style="text-align:center">${u.perkBonus > 0 ? '+' + u.perkBonus.toFixed(1) : '0'}</td>` +
                     `<td style="text-align:center">${u.val.toFixed(2)}</td>` +
                     `<td style="text-align:right"><b>${u.total.toFixed(1)}</b></td>` +
                     '</tr>';
             }
-            let html = '<div style="margin-bottom:14px"><b>Поюнитовая раскладка:</b>' +
+            let html = compBlock;
+            html += '<div style="margin-bottom:14px"><b>Поюнитовая раскладка:</b>' +
                 '<table style="width:100%;border-collapse:collapse;margin-top:6px;font-size:12px;">' +
-                '<tr style="background:#f0f0f0"><th>Юнит</th><th>Кол-во</th><th>БО база</th><th>Местн.</th><th>Перк</th><th>Знач.</th><th>БО</th></tr>' +
+                '<tr style="background:#f0f0f0"><th>Юнит</th><th>Кол-во<br>рег+наём</th><th>БО база<br>рег/наём</th><th>Местн.</th><th>Перк</th><th>Знач.</th><th>БО</th></tr>' +
                 unitRows +
                 `<tr style="font-weight:bold;border-top:2px solid #3F4137"><td colspan="6" style="text-align:right">База БО:</td><td style="text-align:right">${r.totalBase}</td></tr>` +
                 '</table></div>';
@@ -582,6 +617,17 @@
             renderTable();
         });
 
+        // Переключение состава: регулярная армия / наёмники
+        document.getElementById('comp-group').addEventListener('click', e => {
+            const btn = e.target.closest('.seg-btn');
+            if (!btn) return;
+            if (btn.dataset.comp === state.comp) return;
+            compGroup.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.comp = btn.dataset.comp;
+            renderTable();
+        });
+
         skillInp.addEventListener('input', () => {
             state.skill = Math.max(0, parseInt(skillInp.value) || 0);
             updateResults();
@@ -618,8 +664,10 @@
         // Сброс всех значений
         document.getElementById('reset-all').addEventListener('click', () => {
             if (!confirm('Сбросить все значения калькулятора?')) return;
-            state.qty = new Array(14).fill(0);
-            state.baseBO = new Array(14).fill(0);
+            state.armies['регулярная'].qty = new Array(14).fill(0);
+            state.armies['регулярная'].baseBO = new Array(14).fill(0);
+            state.armies['наёмники'].qty = new Array(14).fill(0);
+            state.armies['наёмники'].baseBO = new Array(14).fill(0);
             state.terrain = 'равнина';
             state.mode = 'Атака';
             state.skill = 0;
@@ -640,8 +688,11 @@
 
         function savePreset(name) {
             const data = {
-                qty: state.qty,
-                baseBO: state.baseBO,
+                armies: {
+                    'регулярная': { qty: state.armies['регулярная'].qty.slice(), baseBO: state.armies['регулярная'].baseBO.slice() },
+                    'наёмники':   { qty: state.armies['наёмники'].qty.slice(),   baseBO: state.armies['наёмники'].baseBO.slice() },
+                },
+                comp: state.comp,
                 terrain: state.terrain,
                 mode: state.mode,
                 skill: state.skill,
@@ -682,6 +733,8 @@
         function syncUIFromState() {
             document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
             document.querySelector(`.seg-btn[data-mode="${state.mode}"]`)?.classList.add('active');
+            compGroup.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+            compGroup.querySelector(`.seg-btn[data-comp="${state.comp}"]`)?.classList.add('active');
             document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
             document.querySelector(`.chip[data-terrain="${state.terrain}"]`)?.classList.add('active');
             skillInp.value = state.skill;
@@ -694,6 +747,40 @@
             renderTable();
         }
 
+        // Приводит произвольные данные пресета к единому формату (новому, с armies).
+        // Старый формат (плоские qty/baseBO) переносится в «регулярную армию».
+        function normalizePreset(data) {
+            if (!data || typeof data !== 'object') return null;
+            const arr14 = a => Array.isArray(a) && a.length === 14 ? a.map(Number) : new Array(14).fill(0);
+            const preset = { armies: {} };
+            if (data.armies) {
+                preset.armies['регулярная'] = {
+                    qty: arr14(data.armies['регулярная'] && data.armies['регулярная'].qty),
+                    baseBO: arr14(data.armies['регулярная'] && data.armies['регулярная'].baseBO),
+                };
+                preset.armies['наёмники'] = {
+                    qty: arr14(data.armies['наёмники'] && data.armies['наёмники'].qty),
+                    baseBO: arr14(data.armies['наёмники'] && data.armies['наёмники'].baseBO),
+                };
+            } else if (Array.isArray(data.qty) && data.qty.length === 14 &&
+                       Array.isArray(data.baseBO) && data.baseBO.length === 14) {
+                preset.armies['регулярная'] = { qty: data.qty.map(Number), baseBO: data.baseBO.map(Number) };
+                preset.armies['наёмники'] = { qty: new Array(14).fill(0), baseBO: new Array(14).fill(0) };
+            } else {
+                return null;
+            }
+            preset.comp = data.comp && COMP_KEYS.includes(data.comp) ? data.comp : 'регулярная';
+            preset.terrain = data.terrain || 'равнина';
+            preset.mode = data.mode || 'Атака';
+            preset.skill = data.skill || 0;
+            preset.perk = data.perk || 'нет';
+            preset.citySize = data.citySize || 0;
+            preset.widthBonus = data.widthBonus || 0;
+            preset.assault = data.assault || 'нет';
+            preset.supplyExceeded = !!data.supplyExceeded;
+            return preset;
+        }
+
         function loadPreset(name) {
             const raw = localStorage.getItem(STORAGE_PREFIX + name);
             if (!raw) return;
@@ -704,16 +791,24 @@
                 alert('Пресет "' + name + '" повреждён: ' + e.message);
                 return;
             }
-            state.qty = Array.isArray(data.qty) && data.qty.length === 14 ? data.qty : new Array(14).fill(0);
-            state.baseBO = Array.isArray(data.baseBO) && data.baseBO.length === 14 ? data.baseBO : new Array(14).fill(0);
-            state.terrain = data.terrain || 'равнина';
-            state.mode = data.mode || 'Атака';
-            state.skill = data.skill || 0;
-            state.perk = data.perk || 'нет';
-            state.citySize = data.citySize || 0;
-            state.widthBonus = data.widthBonus || 0;
-            state.assault = data.assault || 'нет';
-            state.supplyExceeded = !!data.supplyExceeded;
+            const preset = normalizePreset(data);
+            if (!preset) {
+                alert('Пресет "' + name + '" повреждён: неверный формат данных');
+                return;
+            }
+            state.armies['регулярная'].qty = preset.armies['регулярная'].qty.slice();
+            state.armies['регулярная'].baseBO = preset.armies['регулярная'].baseBO.slice();
+            state.armies['наёмники'].qty = preset.armies['наёмники'].qty.slice();
+            state.armies['наёмники'].baseBO = preset.armies['наёмники'].baseBO.slice();
+            state.comp = preset.comp;
+            state.terrain = preset.terrain;
+            state.mode = preset.mode;
+            state.skill = preset.skill;
+            state.perk = preset.perk;
+            state.citySize = preset.citySize;
+            state.widthBonus = preset.widthBonus;
+            state.assault = preset.assault;
+            state.supplyExceeded = preset.supplyExceeded;
             syncUIFromState();
         }
 
@@ -738,15 +833,17 @@
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
-                    if (!Array.isArray(data.qty) || data.qty.length !== 14 ||
-                        !Array.isArray(data.baseBO) || data.baseBO.length !== 14) {
-                        alert('Неверный формат файла: ожидаются массивы qty и baseBO длиной 14');
+                    const preset = normalizePreset(data);
+                    if (!preset) {
+                        alert('Неверный формат файла: ожидаются данные состава армии (qty/baseBO длиной 14 или armies)');
                         return;
                     }
                     const name = file.name.replace(/\.json$/, '');
-                    localStorage.setItem(STORAGE_PREFIX + name, JSON.stringify(data));
+                    localStorage.setItem(STORAGE_PREFIX + name, JSON.stringify(preset));
                     refreshPresetList();
+                    document.getElementById('preset-list').value = name;
                     alert('Пресет "' + name + '" импортирован');
+                    loadPreset(name);
                 } catch(err) {
                     alert('Ошибка при импорте: ' + err.message);
                 }

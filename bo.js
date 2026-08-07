@@ -51,8 +51,8 @@ const WIDTH_BY_TERRAIN = [10, 10, 6, 6, 5, 5, 4, 8, 0];
 
 // Индексы юнитов для групп (для комбо-бонуса)
 // БС(0) не даёт БО, но входит в комбо
-// ranged: Стр(1), Др(2), Луч(3), Клуч(8), Арб(11), Пуш(12), ММ(13)
-const RANGED_IDX = [1, 2, 3, 8, 11, 12, 13];
+// ranged: Стр(1), Др(2), Луч(3), Клуч(8), Арб(11); осадные (Пуш, ММ) не относятся к стрелкам
+const RANGED_IDX = [1, 2, 3, 8, 11];
 // cavalry: БС(0), Др(2), ВБ(7), Клуч(8), КВ(9), ТК(10)
 const CAVALRY_IDX = [0, 2, 7, 8, 9, 10];
 // infantry: ЛВ(4), СВ(5), ТВ(6)
@@ -64,8 +64,11 @@ const PERK_P_IDX = [4, 5, 6]; // Мечник, Копейщик, Латник
 const PERK_K_IDX = [2, 7, 8, 9, 10]; // Драгун, Верблюдерия, Конный лучник, Лёгкий конник, Тяжелый конник
 
 let state = {
-    qty: new Array(14).fill(0),
-    baseBO: new Array(14).fill(0),
+    comp: 'регулярная',  // 'регулярная' | 'наёмники'
+    armies: {
+        'регулярная': { qty: new Array(14).fill(0), baseBO: new Array(14).fill(0) },
+        'наёмники':   { qty: new Array(14).fill(0), baseBO: new Array(14).fill(0) },
+    },
     terrain: 'равнина',
     mode: 'Атака',       // 'Атака' | 'Оборона'
     skill: 0,
@@ -76,27 +79,47 @@ let state = {
     supplyExceeded: false,
 };
 
-function calc() {
-    const q = state.qty;
+// Активный состав (вкладка «Регулярная армия» / «Наёмники»)
+function cur() {
+    return state.armies[state.comp];
+}
+
+// Все составы для объединённой сводки
+const COMP_KEYS = ['регулярная', 'наёмники'];
+
+// Расчёт БО. По умолчанию — активный состав; при compKeys=['регулярная','наёмники']
+// получаем объединённый результат (юниты обоих составов суммируются, бонусы применяются один раз).
+function calc(compKeys) {
+    const keys = (compKeys && compKeys.length) ? compKeys : [state.comp];
     const tIdx = TERRAINS.indexOf(state.terrain);
     const isAtk = state.mode === 'Атака';
     const matrix = isAtk ? ATK_MATRIX : DEF_MATRIX;
 
-    // ── 1. БО по каждому юниту ──
-    const unitBO = q.map((qt, i) => {
+    // ── 1. БО по каждому юниту (сумма по составам) ──
+    const unitBO = UNIT_NAMES.map((name, i) => {
         let perkBonus = 0;
         if (state.perk === 'П' && PERK_P_IDX.includes(i)) perkBonus = 0.1;
         if (state.perk === 'К' && PERK_K_IDX.includes(i)) perkBonus = 0.1;
-        const baseVal = state.baseBO[i] + matrix[tIdx][i] + perkBonus;
+        const terrainVal = matrix[tIdx][i];
+        const parts = keys.map(c => {
+            const a = state.armies[c];
+            const qty = a.qty[i];
+            const baseBO = a.baseBO[i];
+            return { comp: c, qty, baseBO, val: qty * (baseBO + terrainVal + perkBonus) };
+        });
+        const qty = parts.reduce((s, p) => s + p.qty, 0);
+        const total = parts.reduce((s, p) => s + p.val, 0);
+        const weightedBase = parts.reduce((s, p) => s + p.qty * p.baseBO, 0);
         return {
-            name: UNIT_NAMES[i],
+            name,
             short: UNIT_SHORT[i],
-            qty: qt,
-            baseBO: state.baseBO[i],
-            terrainVal: matrix[tIdx][i],
+            qty,
+            baseBO: qty > 0 ? weightedBase / qty : 0,
+            terrainVal,
             perkBonus,
-            val: baseVal,
-            total: qt * baseVal,
+            val: qty > 0 ? total / qty : 0,
+            total,
+            parts,
         };
     });
 
@@ -104,7 +127,7 @@ function calc() {
     const totalBase = unitBO.reduce((s, u) => s + u.total, 0);
 
     // ── 3. Размер армии ──
-    const armySize = q.reduce((s, v) => s + v, 0);
+    const armySize = unitBO.reduce((s, u) => s + u.qty, 0);
 
     // ── 4. Ширина ──
     let width;
@@ -118,22 +141,16 @@ function calc() {
     const widthExcess = armySize > width ? armySize - width : 0;
 
     // ── 5. Состав групп ──
-    const totalRanged   = RANGED_IDX.reduce((s, i) => s + q[i], 0);
-    const totalCavalry  = CAVALRY_IDX.reduce((s, i) => s + q[i], 0);
-    const totalInfantry = INFANTRY_IDX.reduce((s, i) => s + q[i], 0);
+    const totalRanged   = RANGED_IDX.reduce((s, i) => s + unitBO[i].qty, 0);
+    const totalCavalry  = CAVALRY_IDX.reduce((s, i) => s + unitBO[i].qty, 0);
+    const totalInfantry = INFANTRY_IDX.reduce((s, i) => s + unitBO[i].qty, 0);
 
     // ── 6. Трассировка бонусов ──
     const traces = [];
 
     // скилл
-    let skillPct;
-    if (state.skill === 0) {
-        skillPct = -5;
-        traces.push({ label: 'Скилл (0)', formula: '0 × 5%', pct: -5, note: 'скилл 0 = −5%' });
-    } else {
-        skillPct = state.skill * 5;
-        traces.push({ label: 'Скилл', formula: `${state.skill} × 5%`, pct: skillPct });
-    }
+    const skillPct = state.skill * 5;
+    traces.push({ label: 'Скилл', formula: `${state.skill} × 5%`, pct: skillPct });
 
     // перк А/З
     let perkPct = 0;
@@ -192,6 +209,11 @@ function calc() {
 
     const totalBO = totalBase * (1 + bonus) + fort;
 
+    // ── 8. Покомпонентная база (для сводки) ──
+    const compTotals = {};
+    keys.forEach(c => { compTotals[c] = 0; });
+    unitBO.forEach(u => u.parts.forEach(p => { compTotals[p.comp] += p.val; }));
+
     return {
         unitBO,
         totalBase: +totalBase.toFixed(2),
@@ -214,6 +236,9 @@ function calc() {
         assault: state.assault,
         terrain: state.terrain,
         mode: state.mode,
+        comp: state.comp,
+        compKeys: keys,
+        compTotals,
     };
 }
 
