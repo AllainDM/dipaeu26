@@ -631,12 +631,12 @@
             syncUIFromState();
         });
 
+        // ── Пресеты ──
+        const STORAGE_PREFIX = 'bo_preset_';
+
         updateConditionalRows();
         renderTable();
         refreshPresetList();
-
-        // ── Пресеты ──
-        const STORAGE_PREFIX = 'bo_preset_';
 
         function savePreset(name) {
             const data = {
@@ -697,17 +697,23 @@
         function loadPreset(name) {
             const raw = localStorage.getItem(STORAGE_PREFIX + name);
             if (!raw) return;
-            const data = JSON.parse(raw);
-            state.qty = data.qty;
-            state.baseBO = data.baseBO;
-            state.terrain = data.terrain;
-            state.mode = data.mode;
-            state.skill = data.skill;
-            state.perk = data.perk;
-            state.citySize = data.citySize;
-            state.widthBonus = data.widthBonus;
-            state.assault = data.assault;
-            state.supplyExceeded = data.supplyExceeded || false;
+            let data;
+            try {
+                data = JSON.parse(raw);
+            } catch (e) {
+                alert('Пресет "' + name + '" повреждён: ' + e.message);
+                return;
+            }
+            state.qty = Array.isArray(data.qty) && data.qty.length === 14 ? data.qty : new Array(14).fill(0);
+            state.baseBO = Array.isArray(data.baseBO) && data.baseBO.length === 14 ? data.baseBO : new Array(14).fill(0);
+            state.terrain = data.terrain || 'равнина';
+            state.mode = data.mode || 'Атака';
+            state.skill = data.skill || 0;
+            state.perk = data.perk || 'нет';
+            state.citySize = data.citySize || 0;
+            state.widthBonus = data.widthBonus || 0;
+            state.assault = data.assault || 'нет';
+            state.supplyExceeded = !!data.supplyExceeded;
             syncUIFromState();
         }
 
@@ -732,7 +738,11 @@
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
-                    if (!data.qty || !data.baseBO) { alert('Неверный формат файла'); return; }
+                    if (!Array.isArray(data.qty) || data.qty.length !== 14 ||
+                        !Array.isArray(data.baseBO) || data.baseBO.length !== 14) {
+                        alert('Неверный формат файла: ожидаются массивы qty и baseBO длиной 14');
+                        return;
+                    }
                     const name = file.name.replace(/\.json$/, '');
                     localStorage.setItem(STORAGE_PREFIX + name, JSON.stringify(data));
                     refreshPresetList();
